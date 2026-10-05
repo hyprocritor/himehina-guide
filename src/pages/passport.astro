@@ -215,7 +215,7 @@ import Ref from '../components/Ref.astro';
     position: relative;
     height: 36px;
     border-radius: 10px;
-    background: #f1ecf7;
+    background: var(--surface-3);
     overflow: hidden;
   }
 
@@ -234,7 +234,7 @@ import Ref from '../components/Ref.astro';
   }
 
   .bar i.b3 {
-    background: repeating-linear-gradient(45deg, #d9d1e6 0 6px, #ece6f4 6px 12px);
+    background: repeating-linear-gradient(45deg, var(--line-2) 0 6px, var(--surface-3) 6px 12px);
   }
 
   .bar b {
@@ -265,7 +265,7 @@ import Ref from '../components/Ref.astro';
   .tier {
     padding: 18px 20px;
     border-radius: var(--radius);
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--line);
     border-left-width: 6px;
   }
@@ -295,8 +295,8 @@ import Ref from '../components/Ref.astro';
 
   .datapage {
     border-radius: 18px;
-    background: linear-gradient(135deg, #fdf6ff, #eaf7ff);
-    border: 1px solid #e0d6ee;
+    background: var(--grad-soft);
+    border: 1px solid var(--line-2);
     padding: 16px;
     box-shadow: var(--shadow-lg);
     font-family: var(--font-display), var(--font-cn);
@@ -320,7 +320,7 @@ import Ref from '../components/Ref.astro';
 
   .dp-photo {
     border-radius: 8px;
-    background: #f3eef9;
+    background: var(--surface-2);
     padding: 8px 8px 0;
     align-self: start;
   }

@@ -26,7 +26,8 @@ const cur = sections.find((s) => s.slug === current);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#ff3ac0" />
+    <meta name="theme-color" content="#fcfaff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#120e1a" media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
@@ -34,6 +35,11 @@ const cur = sections.find((s) => s.slug === current);
       // Hide the upgrade banner before first paint if the visitor dismissed it.
       try {
         if (localStorage.getItem('hh-upgrade-banner') === 'v1') document.documentElement.dataset.upgradeHidden = '1';
+      } catch (e) {}
+      // Apply the saved theme before first paint (auto = follow the system).
+      try {
+        var t = localStorage.getItem('hh-theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
       } catch (e) {}
     </script>
     <ClientRouter />
@@ -59,6 +65,12 @@ const cur = sections.find((s) => s.slug === current);
 
         <div class="bar-right">
           <span class="bar-date num" aria-label="演出日期">2027.07.13</span>
+          <button class="theme-btn" type="button" data-theme-btn aria-label="切换深色／浅色模式" title="切换深色／浅色模式">
+            <svg class="ti ti-auto" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"></circle><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"></path></svg>
+            <svg class="ti ti-light" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+            <svg class="ti ti-dark" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="currentColor"></path></svg>
+            <span class="theme-label" data-theme-label>自动</span>
+          </button>
           <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-btn>
             <span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>
             目录
@@ -118,24 +130,50 @@ const cur = sections.find((s) => s.slug === current);
     </main>
 
     <footer class="site-footer">
+      <div class="foot-glow" aria-hidden="true"></div>
       <div class="wrap foot">
-        <div>
-          <p class="foot-brand"><span class="grad-text">HIMEHINA</span> 武道馆赴日观演攻略</p>
-          <p class="small muted">
-            这是粉丝整理的攻略，不是主办方的官网。资料整理于 {EVENT.checked}，签证、票务、交通的规定可能会变，出发前请再看一眼<a
-              href="/sources/">官方来源</a
-            >。
+        <div class="foot-main">
+          <a class="foot-brand" href="/">
+            <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
+            <span>
+              <b class="grad-text">HIMEHINA</b>
+              <small>武道馆 2027 · 首次赴日观演攻略</small>
+            </span>
+          </a>
+          <p class="foot-desc">
+            由粉丝整理的非官方攻略，和主办方、Lawson、使领馆、旅行社都没有关系。资料整理于 {EVENT.checked}，规定可能会变，出发前请再看一眼<a href="/sources/">官方来源</a>。
           </p>
         </div>
-        <ul class="foot-links small">
-          {
-            sections.map((s) => (
-              <li>
-                <a href={`/${s.slug}/`}>{s.title}</a>
-              </li>
-            ))
-          }
-        </ul>
+
+        <nav class="foot-nav" aria-label="页脚章节导航">
+          <p class="foot-h">章节</p>
+          <ul>
+            {
+              sections.map((s) => (
+                <li>
+                  <a href={`/${s.slug}/`}>
+                    <span class="num">{s.no}</span>
+                    {s.title}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+
+      <div class="wrap foot-bottom">
+        <p class="foot-author">
+          编写：<b>HIMEHINA 远征部</b>
+        </p>
+        <p class="foot-license">
+          <a class="cc" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank" rel="license noopener" aria-label="CC BY-NC-SA 4.0 许可协议">
+            <span class="cc-badge" aria-hidden="true"><b>cc</b><i>BY</i><i>NC</i><i>SA</i></span>
+          </a>
+          <span>
+            <b class="lic-1">本站内容采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank" rel="license noopener">CC BY-NC-SA 4.0</a> 许可</b>
+          </span>
+        </p>
       </div>
     </footer>
 
@@ -176,6 +214,36 @@ const cur = sections.find((s) => s.slug === current);
         document.addEventListener('keydown', (e) => {
           if (e.key === 'Escape') openMenu(false);
         });
+        // Theme switch: auto → dark → light → auto
+        const themeBtn = document.querySelector<HTMLButtonElement>('[data-theme-btn]');
+        const labels: Record<string, string> = { auto: '自动', dark: '深色', light: '浅色' };
+        const getTheme = () => {
+          try {
+            const t = localStorage.getItem('hh-theme');
+            return t === 'light' || t === 'dark' ? t : 'auto';
+          } catch {
+            return 'auto';
+          }
+        };
+        const showTheme = (t: string) => {
+          if (!themeBtn) return;
+          themeBtn.dataset.mode = t;
+          const l = themeBtn.querySelector('[data-theme-label]');
+          if (l) l.textContent = labels[t];
+          themeBtn.setAttribute('aria-label', `主题：${labels[t]}（点击切换）`);
+        };
+        showTheme(getTheme());
+        themeBtn?.addEventListener('click', () => {
+          const next = { auto: 'dark', dark: 'light', light: 'auto' }[getTheme()]!;
+          try {
+            if (next === 'auto') localStorage.removeItem('hh-theme');
+            else localStorage.setItem('hh-theme', next);
+          } catch {}
+          if (next === 'auto') delete document.documentElement.dataset.theme;
+          else document.documentElement.dataset.theme = next;
+          showTheme(next);
+        });
+
         const bar = document.querySelector<HTMLElement>('[data-progress]');
         const onScroll = () => {
           const max = document.documentElement.scrollHeight - innerHeight;
@@ -243,6 +311,8 @@ const cur = sections.find((s) => s.slug === current);
       document.addEventListener('astro:after-swap', () => {
         try {
           if (localStorage.getItem('hh-upgrade-banner') === 'v1') document.documentElement.dataset.upgradeHidden = '1';
+          const t = localStorage.getItem('hh-theme');
+          if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
         } catch {}
       });
     </script>
@@ -254,7 +324,7 @@ const cur = sections.find((s) => s.slug === current);
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgb(252 250 255 / 0.95);
+    background: var(--header-bg);
     backdrop-filter: saturate(1.6) blur(14px);
     -webkit-backdrop-filter: saturate(1.6) blur(14px);
     border-bottom: 1px solid var(--line);
@@ -288,6 +358,17 @@ const cur = sections.find((s) => s.slug === current);
     height: 22px;
     border-radius: 50%;
     mix-blend-mode: multiply;
+  }
+
+  /* multiply turns the overlap black on dark backgrounds */
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .brand-mark i {
+      mix-blend-mode: screen;
+    }
+  }
+
+  :global(:root[data-theme='dark']) .brand-mark i {
+    mix-blend-mode: screen;
   }
 
   .brand-mark i:first-child {
@@ -325,7 +406,7 @@ const cur = sections.find((s) => s.slug === current);
     gap: 6px;
     padding: 5px 12px;
     border-radius: 999px;
-    background: var(--ink);
+    background: var(--inverse);
     color: #fff;
     text-decoration: none;
     font-weight: 700;
@@ -369,6 +450,51 @@ const cur = sections.find((s) => s.slug === current);
     }
   }
 
+  .theme-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 38px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    font: inherit;
+    font-weight: 700;
+    font-size: 0.82rem;
+    cursor: pointer;
+    flex: none;
+  }
+
+  .theme-btn:hover {
+    border-color: var(--pink);
+  }
+
+  .theme-btn .ti {
+    width: 18px;
+    height: 18px;
+    display: none;
+  }
+
+  .theme-btn[data-mode='auto'] .ti-auto,
+  .theme-btn[data-mode='light'] .ti-light,
+  .theme-btn[data-mode='dark'] .ti-dark,
+  .theme-btn:not([data-mode]) .ti-auto {
+    display: block;
+  }
+
+  @media (max-width: 520px) {
+    .theme-label {
+      display: none;
+    }
+    .theme-btn {
+      width: 38px;
+      padding: 0;
+      justify-content: center;
+    }
+  }
+
   .menu-btn {
     display: inline-flex;
     align-items: center;
@@ -376,7 +502,7 @@ const cur = sections.find((s) => s.slug === current);
     padding: 8px 14px;
     border-radius: 999px;
     border: 1px solid var(--line);
-    background: #fff;
+    background: var(--surface);
     font: inherit;
     font-weight: 700;
     font-size: 0.9rem;
@@ -393,9 +519,9 @@ const cur = sections.find((s) => s.slug === current);
   }
 
   .menu-btn[aria-expanded='true'] {
-    background: var(--ink);
+    background: var(--inverse);
     color: #fff;
-    border-color: var(--ink);
+    border-color: var(--inverse);
   }
 
   .burger {
@@ -483,7 +609,7 @@ const cur = sections.find((s) => s.slug === current);
     max-height: calc(100dvh - 90px);
     overflow-y: auto;
     overscroll-behavior: contain;
-    background: #fff;
+    background: var(--surface);
     border-radius: var(--radius);
     border: 1px solid var(--line);
     box-shadow: var(--shadow-lg);
@@ -516,7 +642,7 @@ const cur = sections.find((s) => s.slug === current);
     height: 34px;
     border-radius: 50%;
     border: 1px solid var(--line);
-    background: #fff;
+    background: var(--surface);
     cursor: pointer;
     font-size: 0.9rem;
   }
@@ -548,8 +674,8 @@ const cur = sections.find((s) => s.slug === current);
   }
 
   .mi[aria-current='page'] {
-    background: var(--ink);
-    border-color: var(--ink);
+    background: var(--inverse);
+    border-color: var(--inverse);
     color: #fff;
   }
 
@@ -656,7 +782,7 @@ const cur = sections.find((s) => s.slug === current);
     width: 9px;
     height: 9px;
     border-radius: 50%;
-    background: #fff;
+    background: var(--surface);
     animation: ub-ping 1.6s infinite;
   }
 
@@ -698,43 +824,170 @@ const cur = sections.find((s) => s.slug === current);
 
   /* ── Footer ── */
   .site-footer {
-    margin-top: 64px;
+    position: relative;
+    overflow: hidden;
+    margin-top: 72px;
     border-top: 1px solid var(--line);
-    background: #fff;
-    padding-block: 36px 48px;
+    background: var(--surface);
+  }
+
+  .foot-glow {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: var(--grad);
   }
 
   .foot {
     display: grid;
-    gap: 24px;
+    gap: 32px;
+    padding-block: 40px 28px;
   }
 
-  @media (min-width: 800px) {
+  @media (min-width: 860px) {
     .foot {
-      grid-template-columns: 1.4fr 1fr;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 56px;
     }
   }
 
   .foot-brand {
-    font-weight: 800;
-    font-size: 1.05rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--ink);
   }
 
-  .foot-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px 12px;
+  .foot-brand b {
+    display: block;
+    font: 900 1.4rem/1.1 var(--font-display);
+    letter-spacing: 0.06em;
   }
 
-  .foot-links a {
+  .foot-brand small {
+    color: var(--ink-3);
+    font-size: 0.82rem;
+  }
+
+  .foot-desc {
+    margin: 14px 0 10px;
+    font-size: 0.88rem;
     color: var(--ink-2);
+    max-width: 52ch;
+  }
+
+
+  .foot-h {
+    margin: 0 0 10px;
+    font: 800 0.74rem var(--font-display);
+    letter-spacing: 0.16em;
+    color: var(--ink-3);
+  }
+
+  .foot-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px 16px;
+  }
+
+  @media (min-width: 560px) {
+    .foot-nav ul {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .foot-nav a {
+    display: inline-flex;
+    gap: 8px;
+    align-items: baseline;
+    padding: 4px 0;
+    font-size: 0.88rem;
+    color: var(--ink-2);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .foot-nav a .num {
+    font-size: 0.7rem;
+    color: var(--ink-3);
+  }
+
+  .foot-nav a:hover {
+    color: var(--pink-ink);
+  }
+
+  .foot-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+    padding-block: 18px 32px;
+    border-top: 1px solid var(--line);
+    font-size: 0.82rem;
+    color: var(--ink-3);
+  }
+
+  .foot-bottom p {
+    margin: 0;
+  }
+
+  .foot-author b {
+    color: var(--ink);
+  }
+
+  .foot-license {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 640px;
+  }
+
+  .foot-license > span {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .lic-1 {
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+
+
+  .foot-license a {
+    color: var(--ink-2);
+  }
+
+  .cc {
+    flex: none;
     text-decoration: none;
   }
 
-  .foot-links a:hover {
-    color: var(--pink-ink);
+  .cc-badge {
+    display: inline-flex;
+    align-items: stretch;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--line-2);
+    font: 800 0.7rem/1 var(--font-display);
+  }
+
+  .cc-badge b {
+    padding: 5px 7px;
+    background: var(--inverse);
+    color: #fff;
+  }
+
+  .cc-badge i {
+    font-style: normal;
+    padding: 5px 6px;
+    color: var(--ink);
+    background: var(--surface-2);
+    border-left: 1px solid var(--line-2);
   }
 </style>

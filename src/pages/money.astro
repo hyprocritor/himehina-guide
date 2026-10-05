@@ -242,7 +242,7 @@ const nets = [
     align-content: start;
     padding: 18px;
     border-radius: var(--radius);
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--line);
   }
 
@@ -286,7 +286,7 @@ const nets = [
     align-items: center;
     text-align: center;
     padding: 16px 10px;
-    background: #fff;
+    background: var(--surface);
     border-radius: 16px;
   }
 
@@ -314,17 +314,17 @@ const nets = [
   .yen-art {
     display: grid;
     place-items: center;
-    background: #e6f7ef;
+    background: var(--ok-soft);
     color: var(--ok);
     font: 900 1.6rem var(--font-display);
-    border: 2px solid #bfe8d4;
+    border: 2px solid var(--ok-line);
   }
 
   .phone-art {
     width: 30px;
     height: 48px;
     border-radius: 7px;
-    background: var(--ink);
+    background: var(--inverse);
     box-shadow: inset 0 0 0 3px var(--ink), inset 0 0 0 20px var(--blue);
   }
 
@@ -337,12 +337,12 @@ const nets = [
     width: 280px;
     padding: 18px;
     border-radius: 24px 24px 12px 12px;
-    background: linear-gradient(180deg, #f6f3fa, #e3dcef);
+    background: linear-gradient(180deg, var(--surface-2), var(--surface-3));
     box-shadow: var(--shadow-lg);
   }
 
   .atm-screen {
-    background: var(--ink);
+    background: var(--inverse);
     border-radius: 12px;
     padding: 12px;
     color: #fff;
@@ -391,7 +391,7 @@ const nets = [
     text-align: center;
     padding: 10px 0 6px;
     border-radius: 8px;
-    background: #fff;
+    background: var(--surface);
     border-top: 5px solid var(--ink-2);
   }
 
@@ -400,7 +400,7 @@ const nets = [
   }
 
   .dcc {
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 20px;
@@ -456,7 +456,7 @@ const nets = [
     flex-direction: column;
     padding: 18px;
     border-radius: var(--radius);
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--line);
   }
 
@@ -529,7 +529,7 @@ const nets = [
     padding: 18px 20px;
     border-radius: var(--radius);
     background: var(--warn-soft);
-    border: 2px solid #ffc9a3;
+    border: 2px solid var(--warn-line);
   }
 
   .roam-ic {
@@ -550,14 +550,14 @@ const nets = [
     position: absolute;
     width: 56px;
     height: 4px;
-    background: #fff;
+    background: var(--surface);
     transform: rotate(-45deg);
     border-radius: 2px;
   }
 
   .roam strong {
     display: block;
-    color: #8a3205;
+    color: var(--warn-ink);
     font-size: 1.05rem;
     margin-bottom: 4px;
   }
@@ -592,7 +592,7 @@ const nets = [
     flex-direction: column;
     padding: 16px;
     border-radius: var(--radius-sm);
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--line);
   }
 

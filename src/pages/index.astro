@@ -204,8 +204,8 @@ const docs = [
 <style>
   .home-hero {
     background:
-      radial-gradient(60% 80% at 0% 0%, #ffe0f4 0%, transparent 60%),
-      radial-gradient(60% 80% at 100% 10%, #dcf3ff 0%, transparent 60%), var(--bg);
+      radial-gradient(60% 80% at 0% 0%, var(--hero-glow-1) 0%, transparent 60%),
+      radial-gradient(60% 80% at 100% 10%, var(--hero-glow-2) 0%, transparent 60%), var(--bg);
     padding-block: 40px 24px;
   }
 
@@ -248,7 +248,7 @@ const docs = [
   }
 
   .facts div {
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 14px;
     padding: 10px 12px;
@@ -314,7 +314,7 @@ const docs = [
     gap: 8px;
     padding: 20px;
     border-radius: var(--radius);
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--line);
     text-decoration: none;
     color: var(--ink);
@@ -350,7 +350,7 @@ const docs = [
     top: 10px;
     font-size: 2rem;
     font-weight: 800;
-    color: #f1ebf8;
+    color: var(--surface-3);
   }
 
   .docs {
@@ -415,7 +415,7 @@ const docs = [
     align-items: start;
     padding: 18px 20px;
     border-radius: var(--radius);
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--line);
     text-decoration: none;
     color: var(--ink);
@@ -501,7 +501,7 @@ const docs = [
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    background: #fff;
+    background: var(--surface);
     border: 3px solid var(--blue);
   }
 
@@ -528,7 +528,7 @@ const docs = [
     margin-top: 32px;
     padding: 22px;
     border-radius: var(--radius);
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--line);
     box-shadow: var(--shadow);
   }

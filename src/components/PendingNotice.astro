@@ -37,8 +37,8 @@ const { title, items, note, refs } = Astro.props;
     display: grid;
     border-radius: var(--radius);
     overflow: hidden;
-    border: 2px dashed #c9bfdc;
-    background: #fbf9fe;
+    border: 2px dashed var(--line-2);
+    background: var(--surface-2);
     margin: 0 0 20px;
   }
 
@@ -55,7 +55,7 @@ const { title, items, note, refs } = Astro.props;
     justify-content: center;
     gap: 4px;
     padding: 18px 10px;
-    background: repeating-linear-gradient(-45deg, #f1ecf7 0 10px, #e9e2f3 10px 20px);
+    background: repeating-linear-gradient(-45deg, var(--surface-3) 0 10px, var(--surface-2) 10px 20px);
     text-align: center;
   }
 
@@ -68,7 +68,7 @@ const { title, items, note, refs } = Astro.props;
   .pn-badge small {
     padding: 1px 10px;
     border-radius: 999px;
-    background: var(--ink);
+    background: var(--inverse);
     color: #fff;
     font-weight: 700;
   }

@@ -47,7 +47,7 @@ import Ref from './Ref.astro';
     overflow: hidden;
     border: 2px solid transparent;
     background:
-      linear-gradient(#fff, #fff) padding-box,
+      linear-gradient(var(--surface), var(--surface)) padding-box,
       var(--grad) border-box;
     box-shadow: var(--shadow-lg);
   }
@@ -87,7 +87,7 @@ import Ref from './Ref.astro';
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: #fff;
+    background: var(--surface);
     animation: up-ping 1.6s infinite;
   }
 
