@@ -1,0 +1,457 @@
+---
+import Guide from '../layouts/Guide.astro';
+import Sec from '../components/Sec.astro';
+import Ref from '../components/Ref.astro';
+import ETicketAlert from '../components/ETicketAlert.astro';
+import ETicketEntry from '../components/ETicketEntry.astro';
+
+const day = [
+  { t: '上午', d: '好好吃早饭、休息。要买周边的话，按官方公布的时间去，不用天不亮就去排队。', k: 'sun' },
+  { t: '12:00–14:00', d: '吃午饭，检查一下门票、护照、手机电量。大行李放在酒店。', k: 'food' },
+  { t: '15:30 左右', d: '没有别的事的话，到会场附近和朋友会合，看看从哪个门进。', k: 'walk' },
+  { t: '16:30', d: '开始入场（暂定）。跟着队伍验票进场。', k: 'door', hot: true, r: '01' },
+  { t: '17:00 前后', d: '最好已经坐下、上过洗手间、把东西放好。', k: 'seat' },
+  { t: '17:30', d: '开演（暂定）。', k: 'star', hot: true, r: '01' },
+  { t: '终演后', d: '听工作人员安排，一区一区慢慢退场，然后回酒店休息。', k: 'moon' },
+];
+
+const seatWords = [
+  { jp: 'アリーナ', cn: 'Arena 场地区', d: '场地中间的平地区域（这场有没有，看座位图）' },
+  { jp: '1階', cn: '一层看台', d: '离舞台比较近的看台' },
+  { jp: '2階', cn: '二层看台', d: '上面一层，高一些、远一些' },
+  { jp: '〇〇列', cn: '第几排', d: '' },
+  { jp: '〇〇番', cn: '第几号', d: '' },
+  { jp: '〇〇扉／ゲート', cn: '门／入口', d: '从哪个门进' },
+];
+---
+
+<Guide
+  slug="show-day"
+  lead="除了开场和开演时间是官方公布的，其他时间都只是建议。要买周边的话，早点出门。"
+  toc={[
+    { id: 'timeline', label: '当天时间线' },
+    { id: 'entry', label: '进场前检查' },
+    { id: 'seat', label: '看懂座位' },
+    { id: 'access', label: '无障碍与特殊需要' },
+  ]}
+>
+  <Sec id="timeline" idx="01" title="演出当天：按这条时间线走">
+    <ol class="day">
+      {
+        day.map((d) => (
+          <li class={`reveal ${d.hot ? 'hot' : ''}`}>
+            <span class="day-t num">{d.t}</span>
+            <span class={`day-ic ic-${d.k}`} aria-hidden="true" />
+            <p>
+              {d.d}
+              {d.r && <Ref n={d.r} />}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+    <div class="callout warn reveal">
+      <strong>散场以后</strong>
+      跟着工作人员的指示，按区域慢慢出场，别在通道里停下来拍照。提前和朋友约好“走散了就在哪里等”，比在人群里打电话管用。几点结束还不知道，晚饭别订得太早。
+    </div>
+  </Sec>
+
+  <Sec id="entry" idx="02" title="进场前最后检查">
+    <div class="grid grid-2">
+      <div class="entry paper reveal">
+        <div class="entry-art">
+          <div class="pticket"><span>TICKET</span><i></i></div>
+        </div>
+        <h3>纸票</h3>
+        <ul class="mini-list check">
+          <li>纸票已经在罗森的 <b>Loppi 取出来了</b></li>
+          <li>带上<b>纸票本身</b>，还有护照</li>
+          <li><b>不要提前撕副券</b></li>
+          <li>付款截图和邮件都不能当票用</li>
+        </ul>
+      </div>
+      <div class="entry e reveal">
+        <div class="entry-art">
+          <div class="eticket"><span>電子チケット</span><i></i></div>
+        </div>
+        <h3>电子票（日本国内渠道）</h3>
+        <ul class="mini-list check">
+          <li>显示 App 里的「入場チェック画面」，<b>不要用截图</b></li>
+          <li><b>工作人员指示前不要自己滑动</b>，滑过就算已入场（もぎり済み）</li>
+          <li>手机充满电；一起进场的朋友，先在入口外面集合</li>
+        </ul>
+      </div>
+    </div>
+    <p class="small muted reveal">手机出问题了，就去旁边的咨询处找人帮忙，别堵在入口一直试。<Ref n="06" /></p>
+    <ETicketEntry />
+    <ETicketAlert />
+    <div class="callout reveal">
+      <strong>包放哪里？出去还能回来吗？</strong>
+      包放在自己脚边，别占旁边的座位和过道。能不能带饮料、相机、多大的包，中途出去还能不能回来，这些都还没公布，等官方通知。演出开始前把要买的东西买好。
+    </div>
+  </Sec>
+
+  <Sec id="seat" idx="03" title="看懂座位：读不懂就给工作人员看">
+    <div class="split">
+      <div class="seatmap reveal">
+        <div class="sm-wrap">
+          <div class="sm-blur" aria-hidden="true"><svg viewBox="0 0 360 360" role="img" aria-label="武道馆座位层次示意图（非本场座席图）">
+          <defs>
+            <linearGradient id="sm-g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#ff3ac0"></stop><stop offset="1" stop-color="#3fb9ef"></stop>
+            </linearGradient>
+          </defs>
+          <polygon points="105,10 255,10 350,105 350,255 255,350 105,350 10,255 10,105" fill="#e2f5fd" stroke="#3fb9ef" stroke-width="2"></polygon>
+          <polygon points="122,52 238,52 308,122 308,238 238,308 122,308 52,238 52,122" fill="#ffe6f6" stroke="#ff3ac0" stroke-width="2"></polygon>
+          <polygon points="140,95 220,95 265,140 265,220 220,265 140,265 95,220 95,140" fill="#fff" stroke="#d6cce4" stroke-width="2"></polygon>
+          <rect x="130" y="100" width="100" height="34" rx="6" fill="url(#sm-g)"></rect>
+          <text x="180" y="122" text-anchor="middle" font-size="14" font-weight="800" fill="#fff">STAGE</text>
+          <g fill="#d6cce4">
+            {Array.from({ length: 5 }, (_, r) => Array.from({ length: 7 }, (_, c) => <rect x={128 + c * 15} y={150 + r * 18} width="10" height="10" rx="2" />))}
+          </g>
+          <text x="180" y="252" text-anchor="middle" font-size="12" font-weight="700" fill="#7a7190">アリーナ</text>
+          <text x="180" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="#c0158c">1階</text>
+          <text x="180" y="36" text-anchor="middle" font-size="12" font-weight="700" fill="#0a76a8">2階</text>
+        </svg></div>
+          <div class="sm-over">
+            <span class="sm-dot" aria-hidden="true"></span>
+            <b>座席图 COMING SOON</b>
+            <small>官方公布后更新</small>
+          </div>
+        </div>
+        <p class="small muted" style="text-align:center">本场的座席图（舞台位置、看台分区）还没公布，公布后以官方座席图和票面为准</p>
+      </div>
+      <div class="sw">
+        {
+          seatWords.map((w) => (
+            <div class="sw-i reveal">
+              <b lang="ja">{w.jp}</b>
+              <span>{w.cn}</span>
+              {w.d && <small>{w.d}</small>}
+            </div>
+          ))
+        }
+        <div class="callout tip reveal" style="grid-column:1/-1">
+          <strong>全席指定</strong>
+          每个人的座位都是定好的，早去排队也换不到前排。能不能站着看，听现场的安排。
+        </div>
+      </div>
+    </div>
+  </Sec>
+
+  <Sec id="access" idx="04" title="坐轮椅或有特殊需要：提前联系">
+    <div class="split">
+      <div class="callout reveal">
+        <strong>轮椅区域</strong>
+        买到票之后要提前申请，位置有限。一般可以带 1 位陪同，陪同的人也要有票，两人一起进场。轮椅区不能升级座位。需要帮助的话，通过特设站联系主办方 Disk Garage，别等到当天。<Ref n="02" />
+      </div>
+      <div class="callout warn reveal">
+        <strong>其他特殊需要</strong>
+        带小孩的、需要一直坐着看的、怕闪光或者大声音的，买票前先问问主办方能不能安排。身体不舒服就别硬撑，去阴凉的地方找工作人员；紧急情况打 <b>119</b>。<Ref n="37" />
+      </div>
+    </div>
+  </Sec>
+</Guide>
+
+<style>
+  .day {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+    display: grid;
+    gap: 0;
+  }
+
+  .day li {
+    display: grid;
+    grid-template-columns: 96px 44px 1fr;
+    gap: 12px;
+    align-items: start;
+    position: relative;
+    padding-bottom: 18px;
+  }
+
+  .day li::before {
+    content: '';
+    position: absolute;
+    left: calc(96px + 12px + 20px);
+    top: 44px;
+    bottom: 0;
+    width: 3px;
+    background: var(--line);
+  }
+
+  .day li:last-child::before {
+    display: none;
+  }
+
+  .day-t {
+    font-weight: 800;
+    text-align: right;
+    padding-top: 10px;
+    font-size: 0.95rem;
+  }
+
+  .day li.hot .day-t {
+    color: var(--pink-ink);
+    font-size: 1.25rem;
+    padding-top: 6px;
+  }
+
+  .day p {
+    margin: 0;
+    padding: 10px 14px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    color: var(--ink-2);
+    font-size: 0.94rem;
+  }
+
+  .day li.hot p {
+    background: var(--grad);
+    color: #fff;
+    border: 0;
+    font-weight: 700;
+  }
+
+  .day li.hot p :global(.ref) {
+    color: #fff;
+  }
+
+  .day-ic {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid var(--blue);
+    position: relative;
+    z-index: 1;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 22px;
+  }
+
+  .day li.hot .day-ic {
+    border-color: var(--pink);
+    background-color: var(--pink-soft);
+  }
+
+  .ic-sun {
+    background-image: radial-gradient(circle, #ffd36b 7px, transparent 8px);
+    background-size: 100%;
+  }
+
+  .ic-food {
+    background-image: linear-gradient(#3fb9ef, #3fb9ef);
+    background-size: 18px 4px;
+  }
+
+  .ic-walk,
+  .ic-seat,
+  .ic-door,
+  .ic-star,
+  .ic-moon {
+    background-size: 100%;
+  }
+
+  .ic-walk {
+    background-image: radial-gradient(circle at 40% 50%, #3fb9ef 4px, transparent 5px), radial-gradient(circle at 62% 50%, #3fb9ef 4px, transparent 5px);
+  }
+
+  .ic-door {
+    background-image: linear-gradient(#ff3ac0, #ff3ac0);
+    background-size: 14px 20px;
+  }
+
+  .ic-seat {
+    background-image: linear-gradient(#3fb9ef, #3fb9ef);
+    background-size: 18px 12px;
+  }
+
+  .ic-star {
+    background-image: radial-gradient(circle, #ff3ac0 8px, transparent 9px);
+  }
+
+  .ic-moon {
+    background-image: radial-gradient(circle at 44% 50%, #7a7190 8px, transparent 9px);
+  }
+
+  @media (max-width: 560px) {
+    .day li {
+      grid-template-columns: 70px 36px 1fr;
+      gap: 8px;
+    }
+    .day li::before {
+      left: calc(70px + 8px + 16px);
+      top: 36px;
+    }
+    .day-ic {
+      width: 36px;
+      height: 36px;
+    }
+    .day-t {
+      font-size: 0.8rem;
+    }
+    .day li.hot .day-t {
+      font-size: 1rem;
+    }
+  }
+
+  .entry {
+    padding: 20px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+
+  .entry-art {
+    height: 110px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: var(--grad-soft);
+    margin-bottom: 14px;
+  }
+
+  .pticket {
+    position: relative;
+    width: 170px;
+    height: 70px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #ff7fd2, #e0209f);
+    color: #fff;
+    font: 800 0.9rem var(--font-display);
+    letter-spacing: 0.2em;
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+    transform: rotate(-4deg);
+  }
+
+  .pticket i {
+    position: absolute;
+    right: 40px;
+    top: 0;
+    bottom: 0;
+    border-left: 2px dashed rgb(255 255 255 / 0.8);
+  }
+
+  .eticket {
+    position: relative;
+    width: 64px;
+    height: 100px;
+    border-radius: 12px;
+    background: var(--ink);
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: #fff;
+    font-size: 0.5rem;
+    text-align: center;
+  }
+
+  .eticket::before {
+    content: '';
+    position: absolute;
+    inset: 6px 6px 22px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #8fdcff, #3fb9ef);
+  }
+
+  .eticket span {
+    position: relative;
+  }
+
+  .seatmap {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px;
+  }
+
+  .sm-wrap {
+    position: relative;
+    max-width: 340px;
+    margin-inline: auto;
+  }
+
+  .sm-blur {
+    filter: blur(7px) grayscale(0.6);
+    opacity: 0.55;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .sm-over {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+  }
+
+  .sm-over b {
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: #fff;
+    font: 800 0.95rem var(--font-display);
+    letter-spacing: 0.06em;
+  }
+
+  .sm-over small {
+    color: var(--ink-2);
+    font-weight: 700;
+  }
+
+  .sm-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--pink);
+    box-shadow: 0 0 0 6px rgb(255 58 192 / 0.2);
+  }
+
+  .seatmap svg {
+    max-width: 340px;
+    margin-inline: auto;
+    font-family: var(--font-jp);
+  }
+
+  .sw {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    align-content: start;
+  }
+
+  .sw-i {
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: #fff;
+    border: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sw-i b {
+    font-size: 1.15rem;
+  }
+
+  .sw-i span {
+    color: var(--pink-ink);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .sw-i small {
+    color: var(--ink-3);
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+</style>

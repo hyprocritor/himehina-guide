@@ -1,0 +1,740 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+import '../styles/islands.css';
+import Icon from '../components/Icon.astro';
+import { sections, EVENT } from '../data/sections';
+
+interface Props {
+  title: string;
+  description?: string;
+  current?: string;
+}
+const {
+  title,
+  description = 'HIMEHINA 2027 日本武道馆公演·中国大陆观众首次赴日观演攻略：抽票、护照、签证、机酒、交通、支付、物贩与演出当天。',
+  current,
+} = Astro.props;
+const fullTitle = current ? `${title}｜HIMEHINA 武道馆赴日攻略` : title;
+const cur = sections.find((s) => s.slug === current);
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ff3ac0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <script is:inline>
+      // Hide the upgrade banner before first paint if the visitor dismissed it.
+      try {
+        if (localStorage.getItem('hh-upgrade-banner') === 'v1') document.documentElement.dataset.upgradeHidden = '1';
+      } catch (e) {}
+    </script>
+    <ClientRouter />
+  </head>
+  <body>
+    <a class="sr-only" href="#main">跳到正文</a>
+    <header class="site-header" transition:persist="site-header">
+      <div class="wrap bar">
+        <a class="brand" href="/" aria-label="返回首页">
+          <span class="brand-mark" aria-hidden="true">
+            <i></i><i></i>
+          </span>
+          <span class="brand-text">
+            <b>HIMEHINA</b>
+            <small>武道馆赴日攻略</small>
+          </span>
+        </a>
+
+        <a class="here" href={cur ? `/${cur.slug}/` : '/'} data-here hidden={!cur}>
+          <span class="num" data-here-no>{cur?.no}</span>
+          <span data-here-title>{cur?.title}</span>
+        </a>
+
+        <div class="bar-right">
+          <span class="bar-date num" aria-label="演出日期">2027.07.13</span>
+          <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-btn>
+            <span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>
+            目录
+          </button>
+        </div>
+      </div>
+      <div class="progress" aria-hidden="true"><i data-progress></i></div>
+
+      <div class="menu" id="site-menu" data-menu hidden>
+        <div class="menu-scrim" data-menu-close></div>
+        <nav class="menu-panel" aria-label="全部章节">
+          <div class="menu-head">
+            <b>全部章节</b>
+            <button type="button" class="menu-x" aria-label="关闭目录" data-menu-close>✕</button>
+          </div>
+          <div class="menu-grid">
+            <a href="/" data-slug="" class="mi home">
+              <span class="mi-ic"><Icon name="stage" size={30} /></span>
+              <span class="mi-t"><small class="num">HOME</small><b>首页</b></span>
+            </a>
+            {
+              sections.map((s) => (
+                <a href={`/${s.slug}/`} data-slug={s.slug} class="mi">
+                  <span class="mi-ic">
+                    <Icon name={s.icon} size={30} />
+                  </span>
+                  <span class="mi-t">
+                    <small class="num">
+                      {s.no} · {s.en}
+                    </small>
+                    <b>{s.title}</b>
+                  </span>
+                </a>
+              ))
+            }
+          </div>
+          <a class="menu-up" href="/tickets/#upgrade">
+            <span class="chip">待公布</span> 升级席会后续开放，细节还没公布 →
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="upgrade-bar" data-upgrade-bar>
+      <div class="wrap ub-inner">
+        <span class="ub-dot" aria-hidden="true"></span>
+        <p>
+          <b>升级席（アップグレード）将后续开放</b><span class="ub-more">：价格、内容和申请方式都还没公布。</span>
+          <a href="/tickets/#upgrade">查看说明 →</a>
+        </p>
+        <button type="button" class="ub-x" aria-label="不再显示此通知" data-upgrade-close>✕</button>
+      </div>
+    </div>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap foot">
+        <div>
+          <p class="foot-brand"><span class="grad-text">HIMEHINA</span> 武道馆赴日观演攻略</p>
+          <p class="small muted">
+            这是粉丝整理的攻略，不是主办方的官网。资料整理于 {EVENT.checked}，签证、票务、交通的规定可能会变，出发前请再看一眼<a
+              href="/sources/">官方来源</a
+            >。
+          </p>
+        </div>
+        <ul class="foot-links small">
+          {
+            sections.map((s) => (
+              <li>
+                <a href={`/${s.slug}/`}>{s.title}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </footer>
+
+    <script>
+      import { sections } from '../data/sections';
+
+      const menu = () => document.querySelector<HTMLElement>('[data-menu]');
+      const btn = () => document.querySelector<HTMLButtonElement>('[data-menu-btn]');
+
+      function openMenu(open: boolean) {
+        const m = menu();
+        const b = btn();
+        if (!m || !b) return;
+        b.setAttribute('aria-expanded', String(open));
+        document.documentElement.classList.toggle('menu-open', open);
+        if (open) {
+          m.hidden = false;
+          requestAnimationFrame(() => m.classList.add('show'));
+          m.querySelector<HTMLElement>('a[aria-current]')?.focus({ preventScroll: true });
+        } else {
+          m.classList.remove('show');
+          setTimeout(() => {
+            if (!m.classList.contains('show')) m.hidden = true;
+          }, 250);
+        }
+      }
+
+      // The header is persisted across view transitions, so wire its listeners only once.
+      let wired = false;
+      function wireHeader() {
+        if (wired) return;
+        wired = true;
+        btn()?.addEventListener('click', () => openMenu(btn()?.getAttribute('aria-expanded') !== 'true'));
+        document.querySelectorAll('[data-menu-close]').forEach((el) => el.addEventListener('click', () => openMenu(false)));
+        menu()?.addEventListener('click', (e) => {
+          if ((e.target as HTMLElement).closest('a')) openMenu(false);
+        });
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') openMenu(false);
+        });
+        const bar = document.querySelector<HTMLElement>('[data-progress]');
+        const onScroll = () => {
+          const max = document.documentElement.scrollHeight - innerHeight;
+          if (bar) bar.style.transform = `scaleX(${max > 0 ? Math.min(1, scrollY / max) : 0})`;
+        };
+        addEventListener('scroll', onScroll, { passive: true });
+        document.addEventListener('astro:page-load', onScroll);
+      }
+
+      function setup() {
+        wireHeader();
+        openMenu(false);
+
+        // Current chapter in the persisted header.
+        const slug = location.pathname.split('/').filter(Boolean)[0] ?? '';
+        const cur = sections.find((s) => s.slug === slug);
+        const here = document.querySelector<HTMLAnchorElement>('[data-here]');
+        if (here) {
+          here.hidden = !cur;
+          if (cur) {
+            here.href = `/${cur.slug}/`;
+            here.querySelector('[data-here-no]')!.textContent = cur.no;
+            here.querySelector('[data-here-title]')!.textContent = cur.title;
+          }
+        }
+        document.querySelectorAll<HTMLAnchorElement>('.menu-grid a').forEach((a) => {
+          if (a.dataset.slug === slug) a.setAttribute('aria-current', 'page');
+          else a.removeAttribute('aria-current');
+        });
+
+        // Upgrade banner dismissal (the banner is re-rendered on every page).
+        let hidden = false;
+        try {
+          hidden = localStorage.getItem('hh-upgrade-banner') === 'v1';
+        } catch {}
+        if (hidden) document.documentElement.dataset.upgradeHidden = '1';
+        document.querySelector('[data-upgrade-close]')?.addEventListener('click', () => {
+          document.documentElement.dataset.upgradeHidden = '1';
+          try {
+            localStorage.setItem('hh-upgrade-banner', 'v1');
+          } catch {}
+        });
+
+        // Reveal blocks on scroll.
+        const els = document.querySelectorAll('.reveal:not(.in)');
+        if (!('IntersectionObserver' in window)) {
+          els.forEach((el) => el.classList.add('in'));
+          return;
+        }
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add('in');
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -8% 0px' },
+        );
+        els.forEach((el) => io.observe(el));
+      }
+      document.addEventListener('astro:page-load', setup);
+      // Astro swaps <html> attributes on navigation; restore the dismissal flag before paint.
+      document.addEventListener('astro:after-swap', () => {
+        try {
+          if (localStorage.getItem('hh-upgrade-banner') === 'v1') document.documentElement.dataset.upgradeHidden = '1';
+        } catch {}
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgb(252 250 255 / 0.95);
+    backdrop-filter: saturate(1.6) blur(14px);
+    -webkit-backdrop-filter: saturate(1.6) blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 60px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--ink);
+    flex: none;
+  }
+
+  .brand-mark {
+    position: relative;
+    width: 34px;
+    height: 34px;
+  }
+
+  .brand-mark i {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    mix-blend-mode: multiply;
+  }
+
+  .brand-mark i:first-child {
+    background: var(--pink);
+    left: 0;
+    top: 6px;
+  }
+
+  .brand-mark i:last-child {
+    background: var(--blue);
+    right: 0;
+    top: 6px;
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+
+  .brand-text b {
+    font: 800 1.05rem/1.1 var(--font-display);
+    letter-spacing: 0.06em;
+  }
+
+  .brand-text small {
+    font-size: 0.74rem;
+    color: var(--ink-3);
+  }
+
+  .here {
+    min-width: 0;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.88rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .here[hidden] {
+    display: none;
+  }
+
+  .here .num {
+    color: var(--pink);
+    font-size: 0.74rem;
+  }
+
+  .bar-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .bar-date {
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    color: var(--pink-ink);
+  }
+
+  @media (max-width: 520px) {
+    .bar-date,
+    .brand-text small {
+      display: none;
+    }
+    .here {
+      font-size: 0.8rem;
+      padding: 4px 10px;
+    }
+  }
+
+  .menu-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: #fff;
+    font: inherit;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--ink);
+    cursor: pointer;
+    flex: none;
+    transition:
+      border-color 0.2s,
+      background 0.2s;
+  }
+
+  .menu-btn:hover {
+    border-color: var(--pink);
+  }
+
+  .menu-btn[aria-expanded='true'] {
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+  }
+
+  .burger {
+    position: relative;
+    width: 16px;
+    height: 12px;
+  }
+
+  .burger i {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition:
+      transform 0.25s,
+      opacity 0.25s;
+  }
+
+  .burger i:nth-child(1) {
+    top: 0;
+  }
+
+  .burger i:nth-child(2) {
+    top: 5px;
+  }
+
+  .burger i:nth-child(3) {
+    top: 10px;
+  }
+
+  .menu-btn[aria-expanded='true'] .burger i:nth-child(1) {
+    transform: translateY(5px) rotate(45deg);
+  }
+
+  .menu-btn[aria-expanded='true'] .burger i:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu-btn[aria-expanded='true'] .burger i:nth-child(3) {
+    transform: translateY(-5px) rotate(-45deg);
+  }
+
+  .progress {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 3px;
+  }
+
+  .progress i {
+    display: block;
+    height: 100%;
+    background: var(--grad);
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+
+  /* ── Menu ── */
+  .menu {
+    position: fixed;
+    inset: 60px 0 0;
+    z-index: 60;
+  }
+
+  .menu[hidden] {
+    display: none;
+  }
+
+  .menu-scrim {
+    position: absolute;
+    inset: 0;
+    touch-action: none;
+    background: rgb(30 21 48 / 0.35);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .menu-panel {
+    position: relative;
+    width: min(100% - 24px, 860px);
+    margin: 10px auto 0;
+    max-height: calc(100dvh - 90px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: #fff;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-lg);
+    padding: 16px;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+    transition:
+      opacity 0.25s,
+      transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .menu.show .menu-scrim {
+    opacity: 1;
+  }
+
+  .menu.show .menu-panel {
+    opacity: 1;
+    transform: none;
+  }
+
+  .menu-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .menu-x {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+
+  .menu-grid {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  }
+
+  .mi {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    text-decoration: none;
+    color: var(--ink);
+    transition:
+      border-color 0.2s,
+      background 0.2s,
+      transform 0.2s;
+  }
+
+  .mi:hover {
+    border-color: var(--pink);
+    transform: translateY(-1px);
+  }
+
+  .mi[aria-current='page'] {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #fff;
+  }
+
+  .mi[aria-current='page'] small {
+    color: var(--pink);
+  }
+
+  .mi-ic {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: var(--grad-soft);
+  }
+
+  .mi-t {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+    min-width: 0;
+  }
+
+  .mi-t small {
+    font-size: 0.7rem;
+    color: var(--ink-3);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .menu-up {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: var(--pink-soft);
+    color: var(--pink-ink);
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+
+  @media (max-width: 640px) {
+    .menu-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .mi {
+      padding: 8px;
+      gap: 8px;
+    }
+    .mi-ic {
+      width: 36px;
+      height: 36px;
+    }
+    .menu-panel {
+      width: 100%;
+      margin: 0;
+      border-radius: 0 0 var(--radius) var(--radius);
+      max-height: calc(100dvh - 60px);
+    }
+  }
+
+  :global(html.menu-open) {
+    overflow: hidden;
+  }
+
+  /* ── Upgrade banner ── */
+  .upgrade-bar {
+    background: var(--grad);
+    color: #fff;
+    font-size: 0.88rem;
+  }
+
+  :global(html[data-upgrade-hidden]) .upgrade-bar {
+    display: none;
+  }
+
+  .ub-inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-block: 8px;
+  }
+
+  .ub-inner p {
+    margin: 0;
+    flex: 1;
+    line-height: 1.5;
+  }
+
+  .ub-inner a {
+    color: #fff;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .ub-dot {
+    flex: none;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #fff;
+    animation: ub-ping 1.6s infinite;
+  }
+
+  @keyframes ub-ping {
+    0% {
+      box-shadow: 0 0 0 0 rgb(255 255 255 / 0.8);
+    }
+    100% {
+      box-shadow: 0 0 0 10px rgb(255 255 255 / 0);
+    }
+  }
+
+  .ub-x {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 0;
+    background: rgb(255 255 255 / 0.2);
+    color: #fff;
+    cursor: pointer;
+  }
+
+  @media (max-width: 560px) {
+    .ub-more {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ub-dot {
+      animation: none;
+    }
+    .menu-panel,
+    .menu-scrim {
+      transition: none;
+    }
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    margin-top: 64px;
+    border-top: 1px solid var(--line);
+    background: #fff;
+    padding-block: 36px 48px;
+  }
+
+  .foot {
+    display: grid;
+    gap: 24px;
+  }
+
+  @media (min-width: 800px) {
+    .foot {
+      grid-template-columns: 1.4fr 1fr;
+    }
+  }
+
+  .foot-brand {
+    font-weight: 800;
+    font-size: 1.05rem;
+  }
+
+  .foot-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px 12px;
+  }
+
+  .foot-links a {
+    color: var(--ink-2);
+    text-decoration: none;
+  }
+
+  .foot-links a:hover {
+    color: var(--pink-ink);
+  }
+</style>

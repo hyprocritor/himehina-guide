@@ -1,0 +1,150 @@
+---
+import Ref from './Ref.astro';
+---
+
+<div class="up reveal">
+  <div class="up-badge">
+    <span class="up-pulse" aria-hidden="true"></span>
+    <b>UPGRADE</b>
+    <small>详情待公布</small>
+  </div>
+  <div class="up-body">
+    <h3>这场之后会开放「升级席（アップグレード）」，但多少钱、有什么、怎么申请都还没公布</h3>
+    <div class="up-grid">
+      <div class="up-i known">
+        <span class="chip ok">已确认</span>
+        <ul>
+          <li>要先有<b>普通门票</b>才能升级，升级票不能单独入场</li>
+          <li>升级要<b>整单一起升</b>：一起买了 4 张，就得 4 张都升，不能只升 1 张</li>
+          <li>轮椅区<b>不能</b>升级</li>
+        </ul>
+      </div>
+      <div class="up-i unknown">
+        <span class="chip warn">还没公布</span>
+        <ul>
+          <li>升级席的价格</li>
+          <li>升级内容（座位位置、特典等）</li>
+          <li>申请时间、方式，以及是不是抽选</li>
+          <li>怎么付钱、海外纸票能不能升级</li>
+        </ul>
+      </div>
+    </div>
+    <p class="up-tip">
+      <b>现在能做的：</b>先拿到普通门票；多留一点预算；和一起买票的群友先商量好“升不升、钱怎么分”。留意<a
+        href="https://spc.himehina.jp/LiveatBudokan27"
+        target="_blank"
+        rel="noopener">武道馆特设站</a
+      >的公告。<b>官方还没公布之前，说能“代办升级”的都别信</b>。<Ref n="02" />
+    </p>
+  </div>
+</div>
+
+<style>
+  .up {
+    display: grid;
+    gap: 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 2px solid transparent;
+    background:
+      linear-gradient(#fff, #fff) padding-box,
+      var(--grad) border-box;
+    box-shadow: var(--shadow-lg);
+  }
+
+  @media (min-width: 760px) {
+    .up {
+      grid-template-columns: 170px 1fr;
+    }
+  }
+
+  .up-badge {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 22px 12px;
+    background: var(--grad);
+    color: #fff;
+    text-align: center;
+  }
+
+  .up-badge b {
+    font: 900 1.4rem var(--font-display);
+    letter-spacing: 0.1em;
+  }
+
+  .up-badge small {
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.25);
+    font-weight: 700;
+  }
+
+  .up-pulse {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    animation: up-ping 1.6s infinite;
+  }
+
+  @keyframes up-ping {
+    0% {
+      box-shadow: 0 0 0 0 rgb(255 255 255 / 0.8);
+    }
+    100% {
+      box-shadow: 0 0 0 16px rgb(255 255 255 / 0);
+    }
+  }
+
+  .up-body {
+    padding: 20px 22px;
+  }
+
+  .up-body h3 {
+    font-size: 1.1rem;
+  }
+
+  .up-grid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    margin: 12px 0;
+  }
+
+  .up-i {
+    padding: 14px 16px;
+    border-radius: 14px;
+  }
+
+  .up-i.known {
+    background: var(--ok-soft);
+  }
+
+  .up-i.unknown {
+    background: var(--warn-soft);
+  }
+
+  .up-i ul {
+    margin: 8px 0 0;
+    padding-left: 1.2em;
+    font-size: 0.92rem;
+    color: var(--ink-2);
+    display: grid;
+    gap: 4px;
+  }
+
+  .up-tip {
+    margin: 0;
+    font-size: 0.93rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .up-pulse {
+      animation: none;
+    }
+  }
+</style>

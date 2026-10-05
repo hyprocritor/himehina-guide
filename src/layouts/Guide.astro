@@ -1,0 +1,252 @@
+---
+import Base from './Base.astro';
+import Icon from '../components/Icon.astro';
+import { sections, bySlug } from '../data/sections';
+import { fade } from 'astro:transitions';
+
+interface Props {
+  slug: string;
+  lead: string;
+  toc?: { id: string; label: string }[];
+}
+const { slug, lead, toc = [] } = Astro.props;
+const s = bySlug(slug);
+const i = sections.findIndex((x) => x.slug === slug);
+const prev = sections[i - 1];
+const next = sections[i + 1];
+---
+
+<Base title={s.title} current={slug} description={s.blurb}>
+  <section class={`hero tone-${s.tone}`}>
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow" transition:name={`en-${slug}`}>{s.no} / {s.en}</p>
+        <h1 transition:name={`title-${slug}`}>{s.title}</h1>
+        <p class="hero-lead" transition:animate={fade({ duration: '0.35s' })}>{lead}</p>
+        {
+          toc.length > 0 && (
+            <nav class="toc" aria-label="本页目录">
+              {toc.map((t, n) => (
+                <a href={`#${t.id}`}>
+                  <span class="num">{String(n + 1).padStart(2, '0')}</span>
+                  {t.label}
+                </a>
+              ))}
+            </nav>
+          )
+        }
+      </div>
+      <div class="hero-art" transition:name={`icon-${slug}`}>
+        <div class="orb pink"></div>
+        <div class="orb blue"></div>
+        <div class="icon-tile"><Icon name={s.icon} size={120} /></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="guide-body" transition:animate="slide">
+    <slot />
+  </div>
+
+  <nav class="wrap pager" aria-label="上一章／下一章">
+    {
+      prev ? (
+        <a class="pg prev" href={`/${prev.slug}/`}>
+          <small>← 上一章</small>
+          <b>{prev.title}</b>
+        </a>
+      ) : (
+        <a class="pg prev" href="/">
+          <small>← 返回</small>
+          <b>首页</b>
+        </a>
+      )
+    }
+    {
+      next && (
+        <a class="pg next" href={`/${next.slug}/`}>
+          <small>下一章 →</small>
+          <b>{next.title}</b>
+        </a>
+      )
+    }
+  </nav>
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: 40px 36px;
+    background: var(--grad-soft);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hero-inner {
+    display: grid;
+    gap: 24px;
+    align-items: center;
+  }
+
+  @media (min-width: 820px) {
+    .hero-inner {
+      grid-template-columns: 1fr 260px;
+    }
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    font-weight: 900;
+    margin: 6px 0 10px;
+    width: fit-content;
+  }
+
+  .hero-lead {
+    font-size: 1.08rem;
+    color: var(--ink-2);
+    max-width: 58ch;
+  }
+
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 18px;
+  }
+
+  .toc a {
+    display: inline-flex;
+    gap: 6px;
+    align-items: baseline;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition:
+      border-color 0.2s,
+      transform 0.2s;
+  }
+
+  .toc a:hover {
+    border-color: var(--pink);
+    transform: translateY(-1px);
+  }
+
+  .toc .num {
+    font-size: 0.72rem;
+    color: var(--pink-ink);
+  }
+
+  .hero-art {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin-inline: auto;
+    display: none;
+  }
+
+  @media (min-width: 820px) {
+    .hero-art {
+      display: block;
+      width: 240px;
+      height: 240px;
+    }
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(2px);
+    opacity: 0.85;
+    animation: float 7s ease-in-out infinite;
+  }
+
+  .orb.pink {
+    width: 62%;
+    height: 62%;
+    left: 0;
+    top: 6%;
+    background: radial-gradient(circle at 35% 35%, #ff8bd8, var(--pink));
+  }
+
+  .orb.blue {
+    width: 54%;
+    height: 54%;
+    right: 0;
+    bottom: 4%;
+    background: radial-gradient(circle at 35% 35%, #8fdcff, var(--blue));
+    animation-delay: -3.5s;
+  }
+
+  .icon-tile {
+    position: absolute;
+    inset: 22%;
+    border-radius: 32px;
+    background: rgb(255 255 255 / 0.82);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: grid;
+    place-items: center;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .icon-tile :global(svg) {
+    width: 72%;
+    height: 72%;
+  }
+
+  @keyframes float {
+    50% {
+      transform: translateY(-10px) scale(1.03);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orb {
+      animation: none;
+    }
+  }
+
+  .pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 48px;
+  }
+
+  .pg {
+    display: flex;
+    flex-direction: column;
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: #fff;
+    text-decoration: none;
+    color: var(--ink);
+    transition:
+      border-color 0.2s,
+      transform 0.2s;
+  }
+
+  .pg:hover {
+    border-color: var(--pink);
+    transform: translateY(-2px);
+  }
+
+  .pg small {
+    color: var(--ink-3);
+  }
+
+  .pg b {
+    font-size: 1.08rem;
+  }
+
+  .pg.next {
+    text-align: right;
+    grid-column: 2;
+  }
+</style>

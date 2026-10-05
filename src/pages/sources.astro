@@ -1,0 +1,97 @@
+---
+import Guide from '../layouts/Guide.astro';
+import { sources, sourceGroups } from '../data/sources';
+
+const groups = sourceGroups.map((g) => ({
+  ...g,
+  items: sources.filter((s) => s.n >= g.from && s.n <= g.to),
+}));
+---
+
+<Guide slug="sources" lead="本站的资料整理于 2026 年 10 月 4 日。签证政策一切以使领馆官网为准。出发前，建议点进来源再看一遍最新信息。">
+  {
+    groups.map((g, gi) => (
+      <section class="section">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <span class="idx">{String(gi + 1).padStart(2, '0')}</span>
+            <h2>{g.label}</h2>
+          </div>
+          <ol class="src">
+            {g.items.map((s) => (
+              <li id={`s${s.n}`} class="reveal">
+                <span class="src-n num">{s.n}</span>
+                <div>
+                  <b>{s.title}</b>
+                  <p>{s.desc}</p>
+                  <a href={s.url} target="_blank" rel="noopener">
+                    {s.url.replace(/^https?:\/\//, '')}
+                  </a>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    ))
+  }
+  <div class="wrap">
+    <div class="callout warn">
+      <strong>非官方网站</strong>
+      这是粉丝根据公开资料整理的攻略，和主办方、Lawson、使领馆、旅行社都没有关系，也不推荐任何店铺。文中的“建议”和“预算”只是参考，不是官方规定或报价。
+    </div>
+  </div>
+</Guide>
+
+<style>
+  .src {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  }
+
+  .src li {
+    display: flex;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    background: #fff;
+    border: 1px solid var(--line);
+    scroll-margin-top: 120px;
+  }
+
+  .src li:target {
+    border-color: var(--pink);
+    box-shadow: 0 0 0 4px var(--pink-soft);
+  }
+
+  .src-n {
+    flex: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: var(--grad-soft);
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    color: var(--pink-ink);
+  }
+
+  .src b {
+    font-size: 0.95rem;
+  }
+
+  .src p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--ink-2);
+  }
+
+  .src a {
+    font-size: 0.78rem;
+    word-break: break-all;
+  }
+</style>

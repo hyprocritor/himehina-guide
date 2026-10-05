@@ -1,0 +1,123 @@
+---
+import Ref from './Ref.astro';
+
+interface Props {
+  title: string;
+  items: string[];
+  note?: string;
+  refs?: string;
+}
+const { title, items, note, refs } = Astro.props;
+---
+
+<div class="pn reveal" role="note">
+  <div class="pn-badge">
+    <span class="pn-dot" aria-hidden="true"></span>
+    <b>COMING SOON</b>
+    <small>官方还没公布</small>
+  </div>
+  <div class="pn-body">
+    <strong>{title}</strong>
+    <ul>
+      {items.map((it) => <li>{it}</li>)}
+    </ul>
+    {
+      note && (
+        <p>
+          {note}
+          {refs && <Ref n={refs} />}
+        </p>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .pn {
+    display: grid;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 2px dashed #c9bfdc;
+    background: #fbf9fe;
+    margin: 0 0 20px;
+  }
+
+  @media (min-width: 700px) {
+    .pn {
+      grid-template-columns: 150px 1fr;
+    }
+  }
+
+  .pn-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 18px 10px;
+    background: repeating-linear-gradient(-45deg, #f1ecf7 0 10px, #e9e2f3 10px 20px);
+    text-align: center;
+  }
+
+  .pn-badge b {
+    font: 900 1.05rem var(--font-display);
+    letter-spacing: 0.1em;
+    color: var(--ink-2);
+  }
+
+  .pn-badge small {
+    padding: 1px 10px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .pn-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--pink);
+    animation: pn-ping 1.6s infinite;
+  }
+
+  @keyframes pn-ping {
+    0% {
+      box-shadow: 0 0 0 0 rgb(255 58 192 / 0.6);
+    }
+    100% {
+      box-shadow: 0 0 0 12px rgb(255 58 192 / 0);
+    }
+  }
+
+  .pn-body {
+    padding: 16px 20px;
+  }
+
+  .pn-body strong {
+    display: block;
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+  }
+
+  .pn-body ul {
+    margin: 0 0 8px;
+    padding-left: 1.2em;
+    display: grid;
+    gap: 3px;
+    font-size: 0.93rem;
+    color: var(--ink-2);
+  }
+
+  .pn-body p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--ink-3);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pn-dot {
+      animation: none;
+    }
+  }
+</style>

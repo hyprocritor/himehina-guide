@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="找不到页面｜HIMEHINA 武道馆赴日攻略">
+  <section class="nf wrap">
+    <p class="num big grad-text">404</p>
+    <h1>迷路了？</h1>
+    <p>这一页不存在。就像在新宿站找出口一样，先停下来，回到起点再出发。</p>
+    <div class="acts">
+      <a class="btn" href="/">回到首页</a>
+      <a class="btn ghost" href="/start/">从零开始</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    text-align: center;
+    padding-block: 80px 40px;
+  }
+  .big {
+    font-size: clamp(5rem, 20vw, 9rem);
+    font-weight: 900;
+    line-height: 1;
+    margin: 0;
+  }
+  .acts {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+</style>

@@ -1,0 +1,199 @@
+---
+import Guide from '../layouts/Guide.astro';
+import Sec from '../components/Sec.astro';
+import Ref from '../components/Ref.astro';
+import Checklist from '../components/islands/Checklist.tsx';
+import Budget from '../components/islands/Budget.tsx';
+import Phrases from '../components/islands/Phrases.tsx';
+import TripCard from '../components/islands/TripCard.tsx';
+
+const sos = [
+  { k: '航班取消／延误', d: '找航空公司改签，开一张延误证明（报保险用），再告诉酒店会晚到，免得房间被取消' },
+  { k: '电子票显示不出来', d: '截图保存错误信息，别乱点、别重装 App。联系 Lawson 客服；已经在会场的话，直接去咨询处', r: '06' },
+  { k: '护照丢了', d: '先去附近派出所（交番）开报失证明，再联系中国驻日大使馆或领事馆补办。只有护照照片是上不了飞机的' },
+  { k: '手机／钱包丢了', d: '去丢东西的车站、酒店或店里问问，日本捡到东西大多会交上去。用别的办法联系同伴，银行卡赶紧挂失' },
+  { k: '身体不舒服／受伤', d: '在会场就找工作人员；严重的话打 119，说清楚在哪里，再打保险公司的电话', r: '37' },
+  { k: '交通停运／灾害警报', d: '看官方通知，跟着工作人员走。别为了赶车往封锁的地方闯', r: '38' },
+];
+---
+
+<Guide
+  slug="checklist"
+  lead="这里有能直接打勾的清单、预算计算器、给日本人看的日语卡片，还有紧急电话。打的勾只存在你自己的手机里。"
+  toc={[
+    { id: 'list', label: '出发清单' },
+    { id: 'budget', label: '预算计算器' },
+    { id: 'phrase', label: '日语求助卡' },
+    { id: 'sos', label: '紧急情况' },
+    { id: 'card', label: '我的行程卡' },
+  ]}
+>
+  <Sec id="list" idx="01" title="出发清单，做完一项勾一项">
+    <Checklist client:load />
+    <div class="callout reveal">
+      <strong>还没勾完也没关系</strong>
+      护照、签证材料、机酒比价、查路线，这些都可以先做。不能退款的东西，想清楚万一去不了会损失多少，再决定要不要付。
+    </div>
+  </Sec>
+
+  <Sec id="budget" idx="02" title="预算计算器：算算总共要花多少">
+    <Budget client:visible />
+    <div class="callout tip reveal">
+      <strong>钱不够的话，先省哪里</strong>
+      先少买点周边、别去太远的地方玩，找靠谱的朋友合住；再考虑住便宜一点的酒店、少待一天。演出前一晚的住宿、医疗保险、去机场的时间，这几样别省。
+    </div>
+  </Sec>
+
+  <Sec id="phrase" idx="03" title="不会日语：直接把手机给对方看">
+    <Phrases client:visible />
+    <div class="names reveal">
+      <span><b lang="ja">九段下</b> Kudanshita</span>
+      <span><b lang="ja">日本武道館</b> Nippon Budokan</span>
+      <span><b lang="ja">羽田空港</b> Haneda (HND)</span>
+      <span><b lang="ja">成田空港</b> Narita (NRT)</span>
+      <span><b lang="ja">日本橋</b> Nihombashi</span>
+      <span><b lang="ja">飯田橋</b> Iidabashi</span>
+      <span><b lang="ja">神保町</b> Jimbocho</span>
+      <span><b lang="ja">水道橋</b> Suidobashi</span>
+    </div>
+    <p class="small muted reveal">如果是严重过敏、用药或者看病，最好请工作人员或保险公司帮你找翻译，别只靠手机翻译。<Ref n="31" /></p>
+  </Sec>
+
+  <Sec id="sos" idx="04" title="遇到麻烦，找谁帮忙">
+    <div class="phones reveal">
+      <a class="tel police" href="tel:110"><small>警察</small><b class="num">110</b></a>
+      <a class="tel fire" href="tel:119"><small>消防／救护</small><b class="num">119</b></a>
+      <a class="tel hot" href="tel:+815038162787"><small>Japan Visitor Hotline · 中文 24h</small><b class="num">050-3816-2787</b><span>境外拨打 +81-50-3816-2787</span></a>
+    </div>
+    <p class="small muted reveal">这条旅游热线有中文服务，全年 24 小时都能打。紧急受伤、生病还是先打 119。只能上网的卡可能打不了电话，打不通就请酒店、车站或会场的工作人员帮忙。<Ref n="37" /></p>
+    <div class="grid grid-3" style="margin-top:12px">
+      {
+        sos.map((s) => (
+          <div class="card reveal small">
+            <b>{s.k}</b>
+            <p>
+              {s.d}
+              {s.r && <Ref n={s.r} />}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+    <div class="callout warn reveal">
+      <strong>着急的时候，千万别做这些</strong>
+      一遍遍重装 App、急着重新买票、给陌生人转账“帮你解决”、把护照交给不认识的人、帮别人带东西过海关、付什么“验票费”“解锁费”。
+    </div>
+  </Sec>
+
+  <Sec id="card" idx="05" title="我的赴日观演行程卡">
+    <TripCard client:visible />
+    <div class="today reveal">
+      <p class="eyebrow">当天随身信息</p>
+      <p><b lang="ja">日本武道館</b>：東京都千代田区北の丸公園 2-3</p>
+      <p>公演：2027/7/13，暂定 16:30 开场／17:30 开演（日本时间）<Ref n="01 23" /></p>
+      <p>日本境内：急救／消防 <b>119</b>；警察 <b>110</b></p>
+    </div>
+  </Sec>
+</Guide>
+
+<style>
+  .names {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0 8px;
+  }
+
+  .names span {
+    padding: 6px 12px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid var(--line);
+    font-size: 0.88rem;
+    color: var(--ink-2);
+  }
+
+  .names b {
+    color: var(--ink);
+    margin-right: 4px;
+  }
+
+  .phones {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (min-width: 760px) {
+    .phones {
+      grid-template-columns: 1fr 1fr 2fr;
+    }
+  }
+
+  .tel {
+    display: flex;
+    flex-direction: column;
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    color: #fff;
+    text-decoration: none;
+    transition: transform 0.2s;
+  }
+
+  .tel:hover {
+    transform: translateY(-3px);
+  }
+
+  .tel b {
+    font-size: 2.4rem;
+    line-height: 1.1;
+  }
+
+  .tel.hot b {
+    font-size: 1.8rem;
+  }
+
+  .tel span {
+    font-size: 0.78rem;
+    opacity: 0.9;
+  }
+
+  .tel.police {
+    background: linear-gradient(135deg, #3a4ab8, #1e2a7a);
+  }
+
+  .tel.fire {
+    background: linear-gradient(135deg, #ff6b4a, #d62a1e);
+  }
+
+  .tel.hot {
+    grid-column: 1 / -1;
+    background: var(--grad);
+  }
+
+  @media (min-width: 760px) {
+    .tel.hot {
+      grid-column: auto;
+    }
+  }
+
+  .today {
+    margin-top: 16px;
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    background: var(--ink);
+    color: #fff;
+  }
+
+  .today .eyebrow {
+    color: var(--pink);
+  }
+
+  .today p {
+    margin: 4px 0;
+  }
+
+  .today :global(.ref) {
+    color: #cbbfe0;
+  }
+</style>

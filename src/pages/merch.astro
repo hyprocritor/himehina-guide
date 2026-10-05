@@ -1,0 +1,368 @@
+---
+import Guide from '../layouts/Guide.astro';
+import Sec from '../components/Sec.astro';
+import Ref from '../components/Ref.astro';
+import PendingNotice from '../components/PendingNotice.astro';
+
+const words = [
+  { jp: '物販', kana: 'ぶっぱん', cn: '周边销售', d: '卖周边的时间不一定等于开场时间' },
+  { jp: '事前通販', kana: 'じぜんつうはん', cn: '提前网上销售', d: '看清发货时间和收货地址' },
+  { jp: '会場受取', kana: 'かいじょううけとり', cn: '网上下单、现场领取', d: '不会自动寄到家' },
+  { jp: '整理券／整理番号', kana: 'せいりけん', cn: '排队顺序／时段凭证', d: '不是演出入场票' },
+  { jp: '売り切れ／完売', kana: 'うりきれ／かんばい', cn: '售罄', d: '会不会补货看后续公告' },
+  { jp: 'お一人様〇点まで', kana: 'おひとりさま', cn: '每人限购几件', d: '' },
+];
+
+const dos = ['安静听歌、鼓掌，或者跟着大家一起嗨', '提前多听几遍喜欢的歌，看看官方的 Live 视频', '能不能站、能不能跳、能不能喊，听工作人员的', '不确定的时候，先看看周围、听现场广播'];
+const donts = ['一直高举东西，挡住后面的人', '占别人的座位，或者站在过道上', '贴着别人耳朵大喊，安静的时候一直说话', '没说可以拍的时候拍照、录像'];
+
+const refund = [
+  { t: '在店里含税购买', d: '在免税店先付含税价，问清楚你买的东西能不能退税' },
+  { t: '保存收据', d: '问清楚税退到哪里、什么时候到账' },
+  { t: '机场：托运前确认', d: '去机场的退税机器或柜台刷护照；要检查的话，把东西拿出来给海关看' },
+  { t: '然后才托运行李', d: '办完退税确认，再去值机、托运' },
+  { t: '由商店或受托机构退款', d: '钱是商店退给你的，不是在机场直接领现金' },
+];
+---
+
+<Guide
+  slug="merch"
+  lead="物販（ぶっぱん）就是卖周边。不会打 call 也完全没关系，开心看就好。"
+  toc={[
+    { id: 'words', label: '物贩用语' },
+    { id: 'rules', label: '拍摄与应援物' },
+    { id: 'manners', label: '现场礼仪' },
+    { id: 'tax', label: '返程退税' },
+  ]}
+>
+  <Sec id="words" idx="01" title="物贩公告先看懂这些词">
+    <PendingNotice
+      title="这场的周边（物販）还没公布"
+      items={[
+        '卖哪些商品、多少钱',
+        '会场物贩的日期、时间和地点，要不要整理券',
+        '有没有事前通販（网上预售）、会場受取（网上买现场取）',
+        '能用什么付款方式，每人限购几件',
+        '海外能不能买、能不能寄到国外',
+      ]}
+      note="下面是日本演出物贩的常见用语和一般做法，先了解一下。具体安排等武道馆特设站和官方 X（推特）的公告。"
+      refs="02"
+    />
+    <div class="words">
+      {
+        words.map((w) => (
+          <div class="word reveal">
+            <span class="w-kana" lang="ja">
+              {w.kana}
+            </span>
+            <b lang="ja">{w.jp}</b>
+            <span class="w-cn">{w.cn}</span>
+            {w.d && <small>{w.d}</small>}
+          </div>
+        ))
+      }
+    </div>
+    <p class="small muted reveal">这些是常见的词，这场具体有哪些，等官方公告。</p>
+    <div class="split" style="margin-top:12px">
+      <div class="bag reveal">
+        <svg viewBox="0 0 300 220" aria-hidden="true">
+          <defs>
+            <linearGradient id="bag-g" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#ff7fd2"></stop><stop offset="1" stop-color="#3fb9ef"></stop></linearGradient>
+          </defs>
+          <path d="M60 70 h120 l-10 140 h-100z" fill="url(#bag-g)"></path>
+          <path d="M90 70 v-14 a30 30 0 0 1 60 0 v14" stroke="#1e1530" stroke-width="6" fill="none"></path>
+          <text x="120" y="150" text-anchor="middle" fill="#fff" font-size="18" font-weight="800" font-family="sans-serif">HIMEHINA</text>
+          <g class="stick s1"><rect x="200" y="40" width="12" height="110" rx="6" fill="#ff3ac0"></rect><rect x="198" y="140" width="16" height="40" rx="4" fill="#3b2a55"></rect></g>
+          <g class="stick s2"><rect x="238" y="50" width="12" height="100" rx="6" fill="#3fb9ef"></rect><rect x="236" y="140" width="16" height="40" rx="4" fill="#3b2a55"></rect></g>
+          <rect x="20" y="150" width="60" height="50" rx="8" fill="#fff" stroke="#ebe5f3" stroke-width="2"></rect>
+          <text x="50" y="181" text-anchor="middle" font-size="13" font-weight="700" fill="#c0158c" font-family="sans-serif">T-shirt</text>
+        </svg>
+        <p class="small muted" style="text-align:center;margin:4px 0 0">示意图，不是本场的商品</p>
+      </div>
+      <div class="reveal">
+        <h3>买之前先看清楚</h3>
+        <ul class="mini-list check">
+          <li>需不需要门票才能买</li>
+          <li>能不能替别人领取</li>
+          <li>要带什么证件，是不是分时段</li>
+          <li>支付方式（现金／卡／电子支付）</li>
+          <li>每人限购几件</li>
+        </ul>
+        <p class="small">排队买周边和排队入场是两条队。散场后还卖不卖，每场不一样，看公告。</p>
+      </div>
+    </div>
+  </Sec>
+
+  <Sec id="rules" idx="02" title="拍照、应援棒和花篮：以这场的规定为准">
+    <div class="rules">
+      <div class="rule reveal">
+        <span class="r-ic no">📷</span>
+        <b>演出中拍摄／录音</b>
+        <p>没说可以拍，就别拍也别录。官方说某个环节可以拍时，再按规定拍。别人举着手机，不代表允许。</p>
+      </div>
+      <div class="rule reveal">
+        <span class="r-ic mid">✦</span>
+        <b>应援棒／应援物</b>
+        <p>能带什么还没公布。先别准备会挡人视线的大横幅，也别带改装过的超亮灯。没有应援棒也一样能看。</p>
+      </div>
+      <div class="rule reveal">
+        <span class="r-ic mid">✿</span>
+        <b>花篮、礼物和寄送物品</b>
+        <p>等官方公布收不收、怎么收，再花钱。别直接寄到武道馆。</p>
+      </div>
+    </div>
+    <p class="small muted reveal">拍照、录音、应援物、花篮礼物、中途出入这些规定，特设站目前还没全部公布。<Ref n="02" /></p>
+  </Sec>
+
+  <Sec id="manners" idx="03" title="只要记住一条：不影响别人看演出">
+    <div class="grid grid-2">
+      <div class="do reveal">
+        <h3><span class="chip ok">可以这样</span></h3>
+        <ul>{dos.map((d) => <li>{d}</li>)}</ul>
+      </div>
+      <div class="dont reveal">
+        <h3><span class="chip warn">别这样</span></h3>
+        <ul>{donts.map((d) => <li>{d}</li>)}</ul>
+      </div>
+    </div>
+    <div class="callout tip reveal">
+      <strong>给第一次来的你</strong>
+      没有应援棒、不会日语、记不住口号，都没关系。带上门票和好心情，就能好好享受这场 Live。
+    </div>
+  </Sec>
+
+  <Sec id="tax" idx="04" title="回国那天：先办退税，再托运行李">
+    <div class="callout warn reveal">
+      <strong>2026 年 11 月起，日本免税改成“先付税，后退钱”</strong>
+      以前是在店里直接免税，现在要先付全款，离开日本时再办手续退税。网上的老攻略已经不适用了，出发前再看一下最新规定。<Ref n="34 35 36" />
+    </div>
+    <ol class="refund">
+      {
+        refund.map((r, i) => (
+          <li class="reveal">
+            <span class="num">{i + 1}</span>
+            <b>{r.t}</b>
+            <small>{r.d}</small>
+          </li>
+        ))
+      }
+    </ol>
+    <div class="grid grid-2" style="margin-top:16px">
+      <div class="callout reveal">
+        <strong>同一张收据的东西要带齐</strong>
+        退税是按收据来查的。同一张收据上少了一件，可能整张都退不了。拆开用过的化妆品、零食之类，一般也退不了。<Ref n="35" />
+      </div>
+      <div class="callout reveal">
+        <strong>早点去机场</strong>
+        一般起飞前 3 小时到机场。要办退税、要转机、或者赶上人多的时候，再早一点。别为了退税误了飞机。
+      </div>
+    </div>
+    <p class="small muted reveal">先坐日本国内航班再转国际航班的，在最后离开日本的那个机场办。另外，在日本退了税，回国入境时该申报的还是要申报。<Ref n="35" /></p>
+  </Sec>
+</Guide>
+
+<style>
+  .words {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  }
+
+  .word {
+    position: relative;
+    padding: 16px 18px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .word::after {
+    content: '';
+    position: absolute;
+    right: -20px;
+    top: -20px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: var(--grad);
+    opacity: 0.12;
+  }
+
+  .w-kana {
+    font-size: 0.75rem;
+    color: var(--ink-3);
+  }
+
+  .word b {
+    font-size: 1.4rem;
+  }
+
+  .w-cn {
+    color: var(--pink-ink);
+    font-weight: 700;
+  }
+
+  .word small {
+    color: var(--ink-2);
+    margin-top: 4px;
+  }
+
+  .bag svg {
+    max-width: 320px;
+    margin-inline: auto;
+  }
+
+  .stick {
+    transform-box: fill-box;
+    transform-origin: bottom center;
+    animation: wave 1.8s ease-in-out infinite;
+  }
+
+  .stick.s2 {
+    animation-delay: -0.9s;
+  }
+
+  @keyframes wave {
+    0%,
+    100% {
+      transform: rotate(-8deg);
+    }
+    50% {
+      transform: rotate(8deg);
+    }
+  }
+
+  .rules {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  }
+
+  .rule {
+    padding: 18px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+
+  .rule b {
+    display: block;
+    margin: 10px 0 4px;
+  }
+
+  .rule p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--ink-2);
+  }
+
+  .r-ic {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    font-size: 1.4rem;
+    color: #fff;
+  }
+
+  .r-ic.no {
+    background: var(--warn);
+    position: relative;
+    font-size: 0;
+  }
+
+  .r-ic.no::before {
+    content: '';
+    width: 22px;
+    height: 16px;
+    border: 3px solid #fff;
+    border-radius: 4px;
+  }
+
+  .r-ic.no::after {
+    content: '';
+    position: absolute;
+    width: 34px;
+    height: 3px;
+    background: #fff;
+    transform: rotate(-45deg);
+  }
+
+  .r-ic.mid {
+    background: var(--blue);
+  }
+
+  .do,
+  .dont {
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+
+  .do {
+    border-top: 4px solid var(--ok);
+  }
+
+  .dont {
+    border-top: 4px solid var(--warn);
+  }
+
+  .do ul,
+  .dont ul {
+    margin: 0;
+    padding-left: 1.2em;
+    display: grid;
+    gap: 6px;
+    color: var(--ink-2);
+  }
+
+  .refund {
+    list-style: none;
+    margin: 16px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
+  }
+
+  .refund li {
+    position: relative;
+    padding: 16px;
+    border-radius: var(--radius-sm);
+    background: #fff;
+    border: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .refund li:nth-child(3) {
+    background: var(--pink-soft);
+    border-color: #ffc8ec;
+  }
+
+  .refund .num {
+    font-weight: 800;
+    font-size: 1.4rem;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .refund small {
+    color: var(--ink-2);
+    line-height: 1.5;
+    margin-top: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stick {
+      animation: none;
+    }
+  }
+</style>

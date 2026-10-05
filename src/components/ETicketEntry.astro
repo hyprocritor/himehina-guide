@@ -1,0 +1,233 @@
+---
+import Ref from './Ref.astro';
+---
+
+<div class="ete">
+  <div class="ete-head">
+    <span class="chip blue">电子票</span>
+    <h3>Lawson 电子票不是扫二维码，而是工作人员当面“もぎり”</h3>
+    <p>
+      ローチケ电子票没有二维码。入场时在工作人员面前操作手机，由工作人员确认后“撕票”（もぎり）。截图、录屏都不能用。<Ref n="06" />
+    </p>
+  </div>
+
+  <ol class="ete-steps">
+    <li>
+      <span class="num">1</span>
+      <div>
+        <b>排队前打开 App</b>
+        <p>首页点本场的「入場チケット」。张数对不对、同入的朋友到齐没有，在这时确认。</p>
+      </div>
+    </li>
+    <li>
+      <span class="num">2</span>
+      <div>
+        <b>显示「入場チェック画面」</b>
+        <p>演出当天才会出现这个入场检查画面。给工作人员看的是<b>这个画面</b>，不是票面。</p>
+      </div>
+    </li>
+    <li>
+      <span class="num">3</span>
+      <div>
+        <b>按工作人员指示操作</b>
+        <p>走到入口再操作。按本场的方式（见下面两种），由工作人员确认后完成入场。</p>
+      </div>
+    </li>
+  </ol>
+
+  <div class="ete-ways">
+    <div class="ete-way">
+      <svg viewBox="0 0 200 150" aria-hidden="true">
+        <rect x="60" y="8" width="80" height="134" rx="14" fill="#1e1530"></rect>
+        <rect x="66" y="20" width="68" height="110" rx="6" fill="#e2f5fd"></rect>
+        <text x="100" y="40" text-anchor="middle" font-size="9" font-weight="700" fill="#0a76a8" font-family="sans-serif">入場チェック</text>
+        <rect x="74" y="52" width="52" height="44" rx="6" fill="#3fb9ef"></rect>
+        <path d="M74 74 h52" stroke="#fff" stroke-width="2" stroke-dasharray="3 3"></path>
+        <g class="swipe">
+          <circle cx="82" cy="112" r="7" fill="#ff3ac0" opacity="0.9"></circle>
+          <path d="M92 112 h26" stroke="#ff3ac0" stroke-width="3" stroke-linecap="round"></path>
+          <path d="M114 106 l7 6 -7 6" fill="none" stroke="#ff3ac0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+        </g>
+        <g fill="#7a7190">
+          <circle cx="170" cy="40" r="10"></circle>
+          <rect x="158" y="52" width="24" height="34" rx="9"></rect>
+        </g>
+        <text x="170" y="104" text-anchor="middle" font-size="9" fill="#7a7190" font-family="sans-serif">スタッフ</text>
+      </svg>
+      <div>
+        <span class="chip">方式 A</span>
+        <b>スワイプもぎり（滑动撕票）</b>
+        <p>工作人员说可以了，你才在画面上<b>滑动一下</b>，票就“撕”掉了。工作人员没指示之前，<b>千万不要自己先滑</b>。一旦滑过就算已入场，不能再用。</p>
+      </div>
+    </div>
+    <div class="ete-way">
+      <svg viewBox="0 0 200 150" aria-hidden="true">
+        <rect x="60" y="8" width="80" height="134" rx="14" fill="#1e1530"></rect>
+        <rect x="66" y="20" width="68" height="110" rx="6" fill="#ffe6f6"></rect>
+        <text x="100" y="40" text-anchor="middle" font-size="9" font-weight="700" fill="#c0158c" font-family="sans-serif">入場チェック</text>
+        <circle cx="100" cy="82" r="22" fill="none" stroke="#ff3ac0" stroke-width="3" stroke-dasharray="4 3"></circle>
+        <g class="stamp">
+          <rect x="88" y="34" width="24" height="16" rx="4" fill="#3b2a55"></rect>
+          <rect x="94" y="16" width="12" height="20" rx="5" fill="#7a5fa0"></rect>
+          <rect x="84" y="50" width="32" height="8" rx="2" fill="#c0158c"></rect>
+        </g>
+      </svg>
+      <div>
+        <span class="chip blue">方式 B</span>
+        <b>スタンプ（盖章）</b>
+        <p>把画面朝向工作人员，由<b>工作人员</b>用专用印章在手机屏幕上按一下，确认后入场。你只需要拿稳手机，不用自己操作。</p>
+      </div>
+    </div>
+  </div>
+
+  <ul class="mini-list check ete-tips">
+    <li>用哪一种方式由本场决定，到入口<b>听工作人员的</b>就好</li>
+    <li>同時入場的话，所有同行票都在申请人的手机上核验，大家要一起排队、一起进</li>
+    <li>入口前把屏幕调亮，关掉省电模式和自动锁屏，手机至少留 30% 电量</li>
+    <li>画面出不来或者误操作了，不要反复重开 App，直接去旁边的咨询处找工作人员</li>
+  </ul>
+</div>
+
+<style>
+  .ete {
+    padding: 20px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 2px solid var(--blue);
+    margin: 18px 0;
+  }
+
+  .ete-head h3 {
+    margin: 8px 0 4px;
+    font-size: 1.12rem;
+  }
+
+  .ete-head p {
+    margin: 0 0 14px;
+    color: var(--ink-2);
+    font-size: 0.93rem;
+  }
+
+  .ete-steps {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  }
+
+  .ete-steps li {
+    display: flex;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: var(--blue-soft);
+  }
+
+  .ete-steps .num {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+  }
+
+  .ete-steps p {
+    margin: 2px 0 0;
+    font-size: 0.86rem;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+
+  .ete-ways {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  }
+
+  .ete-way {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+  }
+
+  .ete-way svg {
+    width: 100%;
+  }
+
+  .ete-way > div > b {
+    display: block;
+    margin: 6px 0 2px;
+  }
+
+  .ete-way p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--ink-2);
+  }
+
+  .ete-tips {
+    margin-top: 14px;
+    font-size: 0.92rem;
+  }
+
+  .swipe {
+    animation: ete-swipe 1.8s ease-in-out infinite;
+  }
+
+  .stamp {
+    animation: ete-stamp 1.8s ease-in-out infinite;
+  }
+
+  @keyframes ete-swipe {
+    0%,
+    20% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    70% {
+      transform: translateX(22px);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(22px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes ete-stamp {
+    0%,
+    30% {
+      transform: translateY(0);
+    }
+    55%,
+    70% {
+      transform: translateY(18px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 420px) {
+    .ete-way {
+      grid-template-columns: 90px 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .swipe,
+    .stamp {
+      animation: none;
+    }
+  }
+</style>

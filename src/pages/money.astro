@@ -1,0 +1,623 @@
+---
+import Guide from '../layouts/Guide.astro';
+import Sec from '../components/Sec.astro';
+import Ref from '../components/Ref.astro';
+
+const tools = [
+  { k: '信用卡 / 借记卡', d: '卡上有 JCB、Amex、Visa、Mastercard 标志的，在日本的商店、便利店、餐厅大多能刷。抽票用什么卡，见门票页。', tag: '主力', c: 'pink', r: '69 73' },
+  { k: '银联 UnionPay', d: '贴了银联标志的店和 ATM 可以用，但不是每家店都有，最好再带一张别的卡。', tag: '备用', c: 'blue', r: '74' },
+  { k: '支付宝 / 微信支付', d: '有些店能用，看到标志再问。坐车、买票基本用不了，别只靠它。', tag: '看店', c: 'gray' },
+  { k: 'Suica / PASMO', d: '先充钱，坐电车、在便利店买东西都能刷。', tag: '交通', c: 'blue', r: '21 22' },
+  { k: '日元现金', d: '充交通卡、买小东西、刷卡失败时都用得上。日本的店不收人民币。', tag: '必备', c: 'pink', r: '32' },
+];
+
+const apps = [
+  { cat: '地图·换乘', name: 'Google Maps', d: '日本最好用的导航，电车换乘、步行、店铺营业时间都有。', google: true },
+  { cat: '地图·换乘', name: 'Apple 地图', d: 'iPhone 自带，日本的电车线路和换乘也很全，漫游也能用。' },
+  { cat: '地图·换乘', name: 'Japan Transit Planner（乗換案内）', d: '日本本地的换乘 App，几点有车、在哪个站台、多少钱，一查就知道。有英文。' },
+  { cat: '交通卡', name: 'Welcome Suica Mobile', d: 'JR 东日本给游客的手机交通卡，只有 iPhone 能用。', href: '/transport/#ic' },
+  { cat: '翻译', name: 'Google 翻译', d: '拍照就能翻译菜单和告示，也能对着说话翻译。', google: true },
+  { cat: '翻译', name: '有道翻译／微信翻译', d: '国内能直接用，拍照、语音翻译都有。没有日本上网卡时的备选。' },
+  { cat: '演出', name: 'ローチケ電子チケット', d: '日本国内渠道的电子票 App，只在日本区上架。', href: '/tickets/#phone' },
+  { cat: '入境', name: 'Visit Japan Web', d: '入境申报用的网页（不是 App），出发前填好，保存二维码。', href: '/transport/#arrive' },
+  { cat: '安全', name: 'Safety tips', d: '日本观光厅的官方 App，地震、台风、大雨警报会推送，有中文。', r: '38' },
+  { cat: '打车', name: 'GO／Uber', d: '东京用得最多的打车 App，不会日语也能叫车，可以绑信用卡付钱。' },
+  { cat: '吃饭', name: '食べログ（Tabelog）', d: '日本人常用的餐厅评分网站，3.5 分以上一般就不错。' },
+  { cat: '聊天', name: 'LINE', d: '日本人最常用的聊天软件，要和日本朋友联系可以装一个。' },
+];
+
+const nets = [
+  { k: '国际漫游', d: '最省事，国内号码照常收验证码。出发前问清楚资费。', pro: '验证码不中断', con: '费用高，上不了 Google' },
+  { k: '旅游 SIM / eSIM', d: '上网便宜，但一般只能上网，收不了短信。', pro: '流量便宜', con: '可能不能打电话' },
+  { k: '随身 Wi-Fi', d: '几个人一起用很划算，不过大家要待在一起，还要记得充电。', pro: '多人共享', con: '要多带一个设备' },
+];
+---
+
+<Guide
+  slug="money"
+  lead="手上有银行卡，也不一定在日本都能用。银行卡、现金、上网，每样都准备一个主要的、一个备用的。"
+  toc={[
+    { id: 'tools', label: '支付工具' },
+    { id: 'cash', label: '现金与 ATM' },
+    { id: 'dcc', label: '选日元还是人民币' },
+    { id: 'net', label: '上网' },
+    { id: 'apps', label: '常用 App' },
+  ]}
+>
+  <Sec id="tools" idx="01" title="出发前先看看自己手上有什么">
+    <div class="tools">
+      {
+        tools.map((t) => (
+          <div class="tool reveal">
+            <span class={`chip ${t.c}`}>{t.tag}</span>
+            <b>{t.k}</b>
+            <p>
+              {t.d}
+              {t.r && <Ref n={t.r} />}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+    <div class="combo reveal">
+      <p class="eyebrow">新手推荐组合</p>
+      <div class="combo-row">
+        <div class="combo-i"><span class="ci-art card-art"></span><b>一张确认能用的实体卡</b><small>JCB／Amex 优先</small></div>
+        <span class="plus">+</span>
+        <div class="combo-i"><span class="ci-art yen-art">¥</span><b>少量日元现金</b><small>约 1–2 万日元起步</small></div>
+        <span class="plus">+</span>
+        <div class="combo-i"><span class="ci-art phone-art"></span><b>能收银行短信的手机</b><small>国内号码开漫游</small></div>
+      </div>
+    </div>
+    <div class="callout warn reveal">
+      <strong>看清币种：两种货币都可能写成“¥”</strong>
+      JPY 是日元，CNY／RMB 是人民币。票价 <b>11,000 日元</b>，按现在的汇率大约 500 多元人民币，可不是 11,000 元。<Ref n="01" />
+    </div>
+  </Sec>
+
+  <Sec id="cash" idx="02" title="现金和 ATM：给自己留条后路">
+    <div class="split">
+      <div class="atm reveal" aria-label="ATM 取款步骤示意">
+        <div class="atm-body">
+          <div class="atm-screen">
+            <small>Seven Bank ATM（示意）</small>
+            <div class="atm-btns">
+              <span>中文</span><span>English</span><span class="on">取款 <span lang="ja">お引き出し</span></span><span>余额 <span lang="ja">残高照会</span></span>
+            </div>
+          </div>
+          <div class="atm-slots">
+            <span class="slot card">卡</span>
+            <span class="slot cash">现金</span>
+            <span class="slot rcpt">凭条</span>
+          </div>
+        </div>
+      </div>
+      <ol class="steps">
+        <li class="reveal"><strong>看看能不能用你的卡</strong><p>对一下 ATM 和你卡上的标志。7-11 里的 Seven Bank ATM 支持 Visa、Mastercard、银联等，但也有个别卡用不了。<Ref n="74" /></p></li>
+        <li class="reveal"><strong>选中文，取钱</strong><p>插卡 → 选中文 → 取款 → 选账户 → 输密码 → 输入要取多少日元。<Ref n="75" /></p></li>
+        <li class="reveal"><strong>看清汇率再确认</strong><p>如果问你用哪种货币结算，先看汇率和手续费再点确认。<Ref n="75 76" /></p></li>
+        <li class="reveal"><strong>拿好钱、卡和凭条</strong><p>走之前确认卡拿回来了。密码记不清的话别乱试，打电话问银行。</p></li>
+      </ol>
+    </div>
+    <div class="grid grid-2" style="margin-top:16px">
+      <div class="callout tip reveal">
+        <strong>也可以出发前在国内换</strong>
+        提前在银行 App 上预约日元现钞，去网点取。要的是“现钞”，不是账户里的外币余额。机场的正规兑换点也能换，别找私人换汇。<Ref n="32" />
+      </div>
+      <div class="callout warn reveal">
+        <strong>用信用卡取现，可能要付利息</strong>
+        信用卡取现算“预借现金”，手续费和利息都比刷卡高。出发前问清楚限额和费用，能用借记卡取就用借记卡。
+      </div>
+    </div>
+  </Sec>
+
+  <Sec id="dcc" idx="03" title="刷卡时选日元，还是人民币？">
+    <div class="split">
+      <div class="dcc reveal" aria-label="DCC 选择示意">
+        <p class="dcc-q">Pay in which currency? <span class="jpk" lang="ja">お支払い通貨</span></p>
+        <div class="dcc-opt good">
+          <b class="num">JPY ¥11,000</b>
+          <span>用日元付 · 一般更划算 <span class="jpk" lang="ja">日本円</span></span>
+        </div>
+        <div class="dcc-opt bad">
+          <b class="num">CNY ¥5xx.xx</b>
+          <span>店家帮你换成人民币（DCC），通常多收钱 <span class="jpk" lang="ja">人民元</span></span>
+        </div>
+        <p class="small muted" style="margin:0">示意画面，金额不代表实际汇率</p>
+      </div>
+      <div class="reveal">
+        <p>
+          刷卡或取钱时，有时会问你要用日元还是人民币付，这叫 <b>DCC</b>。选人民币的话，是店家帮你换汇，汇率一般不太好。<b>大多数时候选日元（JPY）更划算</b>，让你的银行来换。对方不告诉你汇率、或者硬要你选人民币，可以直接拒绝。<Ref n="76" />
+        </p>
+        <div class="callout">
+          <strong>押金和退款</strong>
+          订酒店时问一下会不会先冻结一笔押金、什么时候退。店家说“已经退款”，钱也要过几天才到。信用卡账单照常按时还，别因为等退款逾期了。
+        </div>
+      </div>
+    </div>
+  </Sec>
+
+  <Sec id="net" idx="04" title="上网：能联系、能查路就够了">
+    <div class="nets">
+      {
+        nets.map((n) => (
+          <div class="net reveal">
+            <b>{n.k}</b>
+            <p>{n.d}</p>
+            <div class="pc">
+              <span class="chip ok">+ {n.pro}</span>
+              <span class="chip warn">− {n.con}</span>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <div class="roam reveal" id="roaming">
+      <div class="roam-ic" aria-hidden="true">G</div>
+      <div>
+        <strong>用国内号码开国际漫游上网：Google 照样打不开</strong>
+        <p>
+          国内三大运营商的漫游流量会绕回国内再出去，所以在日本用漫游上网，和在国内一样：<b>Google 地图、Gmail、Google 翻译、YouTube、X（推特）等都用不了</b>，有些日本网站也会很慢。
+        </p>
+        <ul>
+          <li>想用 Google 地图导航，就买一张<b>日本当地的上网卡或 eSIM</b>（或者租随身 Wi-Fi），用它上网</li>
+          <li>国内号码继续开着漫游，只用来<b>收银行和航空公司的短信</b>，把数据漫游关掉，省钱</li>
+          <li>只用漫游的话，可以用 Apple 地图、高德等国内能直接用的 App 查路线</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="dual reveal" aria-label="双卡设置建议">
+      <div class="sim s1">
+        <small>卡 1 · 国内号码</small>
+        <b>收银行、航空公司的验证码</b>
+        <span>开短信漫游，关数据漫游</span>
+      </div>
+      <div class="sim s2">
+        <small>卡 2 · 日本上网卡</small>
+        <b>地图、聊天、翻译</b>
+        <span>设为默认数据卡</span>
+      </div>
+      <div class="sim s3">
+        <small>（走日本国内渠道才需要）</small>
+        <b>日本 090/080/070</b>
+        <span>CMLink／Cuniq JP／ifmobile <a href="/tickets/#phone">详情</a></span>
+      </div>
+    </div>
+    <div class="grid grid-2" style="margin-top:16px">
+      <div class="callout reveal">
+        <strong>两个地方都要有网</strong>
+        到了日本要用网看地图；办电子签的人，在<b>国内机场</b>值机时就要联网打开电子签。订单、地址、路线最好再截图存一份，以防没网。不过截图不能当门票和电子签用。<Ref n="13" />
+      </div>
+      <div class="callout tip reveal">
+        <strong>手机里至少准备这些</strong>
+        地图、翻译、航空公司 App、酒店订单、Lawson App（需要的话）、VJW，还有保险公司的求助电话。酒店地址和行程卡最好没网也能打开。
+      </div>
+    </div>
+    <div class="callout warn reveal">
+      <strong>买 eSIM 前先看看自己的手机</strong>
+      确认你的手机支持 eSIM、没有锁卡。同一款手机，国行版和海外版不一定一样。另外，上网用的 eSIM 一般打不了电话。
+    </div>
+  </Sec>
+  <Sec id="apps" idx="05" title="到了日本，手机里装这些 App">
+    <p class="lead reveal">不用全装，挑自己用得上的。标着 <span class="chip warn">要能上 Google</span> 的，需要日本上网卡或随身 Wi-Fi，<a href="#roaming">漫游上不了</a>。</p>
+    <div class="apps">
+      {
+        apps.map((a) => (
+          <div class="app reveal">
+            <span class="chip gray">{a.cat}</span>
+            <b>{a.name}</b>
+            <p>
+              {a.d}
+              {a.r && <Ref n={a.r} />}
+            </p>
+            <div class="app-foot">
+              {a.google && <span class="chip warn">要能上 Google</span>}
+              {a.href && <a href={a.href}>本站说明 →</a>}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <div class="callout tip reveal">
+      <strong>出发前在国内就装好、登录好</strong>
+      到了日本再下载，可能遇到商店地区不对、收不到验证码等问题。能离线用的（地图、翻译）记得提前下载离线包。
+    </div>
+  </Sec>
+</Guide>
+
+<style>
+  .tools {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  }
+
+  /* subgrid: tag / title / text rows line up across every card in a row */
+  .tool {
+    display: grid;
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    row-gap: 6px;
+    align-content: start;
+    padding: 18px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+
+  .tool .chip {
+    justify-self: start;
+    align-self: start;
+  }
+
+  .tool b {
+    display: block;
+    align-self: start;
+    line-height: 1.4;
+  }
+
+  .tool p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--ink-2);
+  }
+
+  .combo {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: var(--radius);
+    background: var(--grad-soft);
+    border: 1px solid var(--line);
+  }
+
+  .combo-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .combo-i {
+    flex: 1 1 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 16px 10px;
+    background: #fff;
+    border-radius: 16px;
+  }
+
+  .combo-i small {
+    color: var(--ink-3);
+  }
+
+  .plus {
+    font: 800 1.6rem var(--font-display);
+    color: var(--pink);
+  }
+
+  .ci-art {
+    width: 64px;
+    height: 44px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+  }
+
+  .card-art {
+    background: linear-gradient(135deg, #e6322d, #9c1b20);
+    box-shadow: inset 10px 12px 0 -4px #ffd36b;
+  }
+
+  .yen-art {
+    display: grid;
+    place-items: center;
+    background: #e6f7ef;
+    color: var(--ok);
+    font: 900 1.6rem var(--font-display);
+    border: 2px solid #bfe8d4;
+  }
+
+  .phone-art {
+    width: 30px;
+    height: 48px;
+    border-radius: 7px;
+    background: var(--ink);
+    box-shadow: inset 0 0 0 3px var(--ink), inset 0 0 0 20px var(--blue);
+  }
+
+  .atm {
+    display: grid;
+    place-items: center;
+  }
+
+  .atm-body {
+    width: 280px;
+    padding: 18px;
+    border-radius: 24px 24px 12px 12px;
+    background: linear-gradient(180deg, #f6f3fa, #e3dcef);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .atm-screen {
+    background: var(--ink);
+    border-radius: 12px;
+    padding: 12px;
+    color: #fff;
+  }
+
+  .atm-screen small {
+    font-size: 0.7rem;
+    opacity: 0.7;
+  }
+
+  .atm-btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .atm-btns span {
+    padding: 8px 4px;
+    border-radius: 8px;
+    background: rgb(255 255 255 / 0.12);
+    text-align: center;
+    font-size: 0.78rem;
+  }
+
+  .atm-btns span.on {
+    background: var(--pink);
+    animation: blink 1.6s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    50% {
+      box-shadow: 0 0 0 4px rgb(255 58 192 / 0.35);
+    }
+  }
+
+  .atm-slots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .slot {
+    font-size: 0.75rem;
+    text-align: center;
+    padding: 10px 0 6px;
+    border-radius: 8px;
+    background: #fff;
+    border-top: 5px solid var(--ink-2);
+  }
+
+  .slot.cash {
+    border-top-color: var(--ok);
+  }
+
+  .dcc {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: grid;
+    gap: 10px;
+  }
+
+  .dcc-q {
+    margin: 0;
+    font-weight: 700;
+    font-family: var(--font-display);
+  }
+
+  .dcc-opt {
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 2px solid var(--line);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dcc-opt b {
+    font-size: 1.3rem;
+  }
+
+  .dcc-opt span {
+    font-size: 0.85rem;
+    color: var(--ink-2);
+  }
+
+  .dcc-opt.good {
+    border-color: var(--ok);
+    background: var(--ok-soft);
+  }
+
+  .dcc-opt.good b::after {
+    content: ' ✓';
+    color: var(--ok);
+  }
+
+  .dcc-opt.bad {
+    opacity: 0.7;
+  }
+
+  .nets {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  }
+
+  .net {
+    display: flex;
+    flex-direction: column;
+    padding: 18px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+
+  .net .pc {
+    margin-top: auto;
+  }
+
+  .net p {
+    font-size: 0.9rem;
+    color: var(--ink-2);
+    margin: 4px 0 10px;
+  }
+
+  .pc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .dual {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    margin-top: 16px;
+  }
+
+  .sim {
+    position: relative;
+    padding: 16px 16px 16px 20px;
+    border-radius: 6px 22px 6px 6px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sim small {
+    opacity: 0.85;
+  }
+
+  .sim span {
+    font-size: 0.85rem;
+    opacity: 0.95;
+  }
+
+  .sim a {
+    color: #fff;
+  }
+
+  .s1 {
+    background: linear-gradient(135deg, #6a5a8a, #3a2c55);
+  }
+
+  .s2 {
+    background: linear-gradient(135deg, #6fd0fb, #1b8fcf);
+  }
+
+  .s3 {
+    background: linear-gradient(135deg, #ff7fd2, #e0209f);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .atm-btns span.on {
+      animation: none;
+    }
+  }
+  .roam {
+    display: flex;
+    gap: 16px;
+    margin-top: 18px;
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    background: var(--warn-soft);
+    border: 2px solid #ffc9a3;
+  }
+
+  .roam-ic {
+    flex: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    font: 900 1.5rem var(--font-display);
+    color: #fff;
+    background: var(--warn);
+    position: relative;
+  }
+
+  .roam-ic::after {
+    content: '';
+    position: absolute;
+    width: 56px;
+    height: 4px;
+    background: #fff;
+    transform: rotate(-45deg);
+    border-radius: 2px;
+  }
+
+  .roam strong {
+    display: block;
+    color: #8a3205;
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+  }
+
+  .roam p {
+    margin: 0 0 8px;
+    font-size: 0.93rem;
+  }
+
+  .roam ul {
+    margin: 0;
+    padding-left: 1.2em;
+    display: grid;
+    gap: 4px;
+    font-size: 0.92rem;
+  }
+
+  @media (max-width: 520px) {
+    .roam {
+      flex-direction: column;
+    }
+  }
+
+  .apps {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  }
+
+  .app {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    border-radius: var(--radius-sm);
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+
+  .app .chip {
+    align-self: flex-start;
+  }
+
+  .app b {
+    margin: 8px 0 2px;
+    font-size: 1.02rem;
+  }
+
+  .app p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--ink-2);
+    flex: 1;
+  }
+
+  .app-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    font-size: 0.84rem;
+  }
+</style>

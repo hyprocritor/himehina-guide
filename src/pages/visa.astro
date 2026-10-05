@@ -1,0 +1,630 @@
+---
+import Guide from '../layouts/Guide.astro';
+import Sec from '../components/Sec.astro';
+import Ref from '../components/Ref.astro';
+import Icon from '../components/Icon.astro';
+import ConsulateFinder from '../components/islands/ConsulateFinder.tsx';
+import CopyBlock from '../components/islands/CopyBlock.tsx';
+
+const types = [
+  { name: '个人单次旅游', valid: '3 个月', stay: '15 或 30 天', w: 8, note: '只能入境一次。只去东京看几天演出的话，办这个最合适。在校大学生还能用简化材料。', best: true, r: '09 10' },
+  { name: '普通三年多次', valid: '3 年', stay: '通常 30 天', w: 60, note: '要证明你有足够的经济能力（或者是符合条件的家属）。第一次去不要求住冲绳或东北。', r: '09 45' },
+  { name: '地区型三年多次', valid: '3 年', stay: '通常 30 天', w: 60, note: '第一次去必须真的在冲绳或东北六县住一晚。只去东京的话用不了。', r: '09 51' },
+  { name: '五年多次', valid: '5 年', stay: '通常 90 天', w: 100, note: '收入要求很高。机酒可以自己订、自己改。不是多付代办费就能办下来的。', r: '09 61' },
+  { name: '团体旅游', valid: '单次', stay: '按团体日程', w: 8, note: '必须跟着旅行团走。你要自己安排去武道馆，别买成这种。', r: '09' },
+];
+
+const people = [
+  { who: '符合高校简化资格', lv: 1, d: '材料最简单，只要学校和毕业时间符合要求，身份和居住地材料齐全就行。第一次去日本的学生，先问这条路。' },
+  { who: '在职、收入能连续查到', lv: 2, d: '按常规准备：在职证明、银行流水等，内容要前后对得上。没必要硬办五年签。' },
+  { who: '退休／由家属负担费用', lv: 2, d: '问问旅行社能不能用退休金、房产，或者家人的经济担保。没有在职证明也有办法。' },
+  { who: '学生不符合简化／未成年人', lv: 3, d: '问问能不能用父母的经济材料，再准备好亲属关系证明。未成年人还要说明谁陪同。' },
+  { who: '自由职业／个体／暂时没工作', lv: 3, d: '提前问清楚：营业执照、收入记录、存款等，哪些能用来代替在职证明。没有固定工资也别编个单位。' },
+  { who: '申请三年或五年多次', lv: 3, d: '要查的财力材料更多。先问清楚接受哪些证明、家属能不能一起办、第一次去有什么要求。' },
+];
+
+const ads = [
+  { ad: '免流水／免财力／简化', ask: '我的情况能用吗？是真的不用交，还是换成别的材料？我所在的领区也行吗？' },
+  { ad: '包过／100%／拒一赔三', ask: '这是店家自己的承诺，领馆不会保证结果。具体赔什么、什么情况不赔，看合同怎么写。' },
+  { ad: '加急／几天出签', ask: '快的是店家审材料、送件和快递，领馆审查的时间谁也加快不了。说能“加钱让领馆快点批”的，别信。' },
+  { ad: '低价起／另收押金', ask: '签证费、服务费、快递费、押金，还有要不要另付机酒钱，一项一项问清楚。' },
+];
+
+const template = `我持中国大陆普通护照，实际常住____，户籍____，现有居住证明____。职业／学籍____；学校全名和毕业日期（适用时）____。是否首次赴日____，近三年相关赴日经历____。计划 2027 年____月____日至____日赴东京旅游，7 月 13 日观看 HIMEHINA 武道馆演出；同行____人。拟申请____签证，可提供的真实收入／资产或家属证明类型为____。
+
+请逐项书面回答：
+1. 贵社法律全称、对应领区、官方指定名单入口？店铺是否由该指定旅行社直接经营／受理？
+2. 本人适合普通单次、高校简化、三年还是五年？请发当前完整清单，标明必交、择一、可替代及原件要求。
+3. 收入、税额、存款要求是官方条款还是贵社受理标准？
+4. 机票酒店须怎样安排？获签后更改日期／酒店要走什么手续？
+5. 领馆费、代办费、快递、押金分别多少？未递交、撤回、拒签各自怎么退款？
+6. 何时可正式递交、预计何时送馆？电子签还是贴纸？电子签如何展示？`;
+---
+
+<Guide
+  slug="visa"
+  lead="拿大陆护照、住在大陆的话，去日本要先办签证。办理流程是：看你住在哪个领区，找那个领区的指定旅行社帮你递交。"
+  toc={[
+    { id: 'who', label: '先分流' },
+    { id: 'types', label: '单次/三年/五年' },
+    { id: 'docs', label: '材料' },
+    { id: 'people', label: '学生/家属/自由职业' },
+    { id: 'district', label: '七个领区' },
+    { id: 'taobao', label: '淘宝/飞猪' },
+    { id: 'cost', label: '费用与进度' },
+    { id: 'after', label: '获签之后' },
+    { id: 'template', label: '咨询模板' },
+  ]}
+>
+  <Sec id="who" idx="01" title="先看看你属于哪种情况">
+    <div class="grid grid-3">
+      <div class="card who main reveal">
+        <span class="chip">本站主要读者</span>
+        <h3>大陆普通护照，常住大陆</h3>
+        <p class="small">要提前办签证。按你实际住的地方找对应领区的指定旅行社。<Ref n="08 40" /></p>
+      </div>
+      <div class="card who visa-free reveal">
+        <span class="chip ok">✓ 免签 · 每次最多 90 天</span>
+        <h3>香港／澳门特区护照</h3>
+        <p class="small">
+          拿<b>香港特区护照</b>（或者有香港居留权的 BN(O) 护照）、<b>澳门特区护照</b>去日本旅游，<b>不用办签证</b>，每次最多待 90 天。买好机票酒店、填好 Visit Japan Web 就能出发。台湾护照（有身份证号的）也一样免签。
+        </p>
+        <p class="small muted">注意：入境要拿护照。只有香港／澳门身份证、港澳通行证或回乡证都不行。<Ref n="12" /></p>
+      </div>
+      <div class="card who reveal">
+        <span class="chip gray">其他情况</span>
+        <h3>大陆护照，长期住在海外</h3>
+        <p class="small">一般在你住的那个国家申请。在国外有居留权，不代表去日本能免签。<Ref n="11 13" /></p>
+      </div>
+    </div>
+    <div class="callout tip reveal">
+      <strong>只为这一次东京 Live：先考虑个人单次旅游</strong>
+      个人旅游签证不用跟团。直接告诉旅行社你是去东京玩、看演出就好，别为了少交材料编个商务或探亲理由。<Ref n="53" />
+    </div>
+  </Sec>
+
+  <Sec id="types" idx="02" title="单次、三年、五年有什么区别">
+    <p class="lead reveal">“有效期”是这张签证多长时间内能用，“停留期”是每次去最多能待几天。条越长，有效期越长。</p>
+    <div class="types">
+      {
+        types.map((t) => (
+          <div class={`vt reveal ${t.best ? 'best' : ''}`}>
+            <div class="vt-head">
+              <h3>{t.name}</h3>
+              {t.best && <span class="chip">本场推荐</span>}
+            </div>
+            <div class="vt-bar">
+              <i style={`--w:${t.w}%`} />
+            </div>
+            <div class="vt-meta">
+              <span>
+                有效期 <b>{t.valid}</b>
+              </span>
+              <span>
+                每次停留 <b>{t.stay}</b>
+              </span>
+            </div>
+            <p>
+              {t.note}
+              <Ref n={t.r} />
+            </p>
+          </div>
+        ))
+      }
+    </div>
+    <div class="grid grid-2" style="margin-top:16px">
+      <div class="callout reveal">
+        <strong>“学生简化”和“电子签”是什么？</strong>
+        学生简化是给符合条件的大学生少交一些材料，签证还是单次的。电子签（JAPAN eVISA）只是签证不贴在护照上、改成手机里显示，大陆居民申请的旅游电子签目前也是单次。<Ref n="10 13" />
+      </div>
+      <div class="callout warn reveal">
+        <strong>只去东京的话，别办地区型三年签</strong>
+        东北六县是青森、岩手、宫城、秋田、山形、福岛。只是转机、路过，或者拿个假的酒店订单，都不算住过。<Ref n="09 51" />
+      </div>
+    </div>
+  </Sec>
+
+  <Sec id="docs" idx="03" title="要准备哪些材料">
+    <div class="mat">
+      <div class="mat-i reveal"><span><Icon name="passport" size={44} /></span><b>身份与申请</b><p>护照、照片、申请表，还有一份个人信息同意书</p></div>
+      <div class="mat-i reveal"><span><Icon name="stage" size={44} /></span><b>实际居住地</b><p>户口本；户口不在这边的话，还要居住证</p></div>
+      <div class="mat-i reveal"><span><Icon name="card" size={44} /></span><b>收入与工作</b><p>在职证明上写的职位和收入，要和银行流水对得上</p></div>
+      <div class="mat-i reveal"><span><Icon name="check" size={44} /></span><b>资产与来源</b><p>不光要有存款，还要能说清楚钱是怎么来的</p></div>
+      <div class="mat-i reveal"><span><Icon name="book" size={44} /></span><b>家属与旧旅行史</b><p>和家人一起办要带关系证明；有旧护照也一起交。朋友不算家属</p></div>
+    </div>
+    <div class="grid grid-2" style="margin-top:16px">
+      <div class="card reveal">
+        <h3>单次签证：证明经济能力有好几种办法</h3>
+        <p class="small">
+          比如：一张<b>金卡或更高级别</b>的信用卡（银联也行）加上银行开的证明；或者在职证明加上最近六个月的银行流水。选一种适合你的就行。有金卡也不是一定能过。<Ref n="10 46" />
+        </p>
+      </div>
+      <div class="card reveal">
+        <h3>“年薪 × 万”“存款 × 万”是谁定的？</h3>
+        <p class="small">
+          先问清楚：这是领馆的要求，还是这家旅行社自己定的？是必须交，还是可以用别的材料代替？另外，账户“进账 30 万”和“年薪 30 万”可不是一回事。
+        </p>
+      </div>
+    </div>
+    <div class="callout warn reveal">
+      <strong>别现在就开好所有证明</strong>
+      很多证明有有效期，现在开好明年可能就过期了。等旅行社告诉你要哪种格式、哪几个月的流水再去开。千万别借钱刷流水、改收入、买假证明。<Ref n="08 48" />
+    </div>
+  </Sec>
+
+  <Sec id="people" idx="04" title="学生、家属、自由职业：各自难在哪">
+    <p class="lead reveal">这里的“难度”说的是准备材料麻不麻烦，不是被拒签的可能性。</p>
+    <div class="people">
+      {
+        people.map((p) => (
+          <div class="pp reveal">
+            <div class="pp-lv" aria-label={`准备难度 ${p.lv}/3`}>
+              {[1, 2, 3].map((n) => (
+                <i class={n <= p.lv ? 'on' : ''} />
+              ))}
+            </div>
+            <div>
+              <b>{p.who}</b>
+              <p>{p.d}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <div class="callout tip reveal">
+      <strong>学生简化：先看自己符不符合</strong>
+      适用于国内普通本科高校（在教育部名单上）的在校本科生、研究生，以及毕业三年以内的毕业生。大专、成人教育、海外学校一般不算。“毕业三年内”按递交签证那天算，现在符合，到 2027 年不一定还符合。<Ref n="10 43 46" />
+    </div>
+  </Sec>
+
+  <Sec id="district" idx="05" title="七个领区：你应该在哪里办">
+    <ConsulateFinder client:visible />
+    <div class="grid grid-3" style="margin-top:20px">
+      <div class="card reveal small">
+        <b>湖南户籍，长期住上海</b>
+        <p>有上海居住证的话，就找上海领区办。上海要求外地户口的人交居住证。<Ref n="42" /></p>
+      </div>
+      <div class="card reveal small">
+        <b>山东户籍，长期住广东</b>
+        <p>找广州领区的指定旅行社，说明你长期住在广东。别因为便宜去买青岛的。</p>
+      </div>
+      <div class="card reveal small">
+        <b>住沈阳，从上海起飞</b>
+        <p>从哪里起飞不影响领区，还是在沈阳办。家属、异地上学的学生可能有例外，问旅行社。<Ref n="43 51" /></p>
+      </div>
+    </div>
+  </Sec>
+
+  <Sec id="taobao" idx="06" title="淘宝／飞猪可以办，关键是找对旅行社">
+    <p class="lead reveal">在淘宝、飞猪上找代办没问题，但要确认背后是领馆认可的指定旅行社。<Ref n="62" /></p>
+    <ol class="steps">
+      <li class="reveal"><strong>先选自己的领区和类别</strong><p>搜“日本 单次旅游签证 上海领区”这样的关键词，别点进商务、留学或者跟团的商品。</p></li>
+      <li class="reveal"><strong>问到公司全称，别只看店名</strong><p>拿店家给的公司全称，去领馆公布的指定旅行社名单里对一下，看看在不在上面。</p></li>
+      <li class="reveal"><strong>最好选指定旅行社自己开的店</strong><p>多次签证领馆明确要求直接找指定旅行社。店家说“我们有渠道，再转给合作社办”的，要多个心眼。<Ref n="09 46" /></p></li>
+      <li class="reveal"><strong>先让店家看材料，再付钱</strong><p>把你住哪、户口在哪、工作或上学情况、有什么经济证明说清楚，让对方发一份书面材料清单和全部费用。</p></li>
+      <li class="reveal"><strong>留好合同和聊天记录</strong><p>问清楚什么时候送签、要补材料怎么通知、原件怎么寄回、拒签怎么退钱。钱只走平台付款，别转私人账户。</p></li>
+    </ol>
+    <h3 class="reveal" style="margin-top:28px">商品页上写这些，下单前问一句</h3>
+    <div class="ads">
+      {
+        ads.map((a) => (
+          <div class="ad reveal">
+            <span class="ad-tag">「{a.ad}」</span>
+            <p>{a.ask}</p>
+          </div>
+        ))
+      }
+    </div>
+    <div class="callout warn reveal">
+      <strong>材料可以给，密码不能给</strong>
+      银行卡密码、信用卡安全码、短信验证码、个税或学信网的登录密码，都不用给店家。叫你开假证明、在空白表上签名的，直接拒绝。
+    </div>
+  </Sec>
+
+  <Sec id="cost" idx="07" title="要花多少钱、要等多久">
+    <div class="fees reveal">
+      <div class="fee"><small>领馆手续费·单次</small><b class="num">¥715</b><span>人民币，2026/7/1 起</span></div>
+      <div class="fee"><small>领馆手续费·两次/数次</small><b class="num">¥1,430</b><span>人民币</span></div>
+      <div class="fee alt"><small>旅行社服务费／快递</small><b>另计</b><span>没有全国统一价</span></div>
+      <div class="fee alt"><small>旅行社押金</small><b>看合同</b><span>不是领馆收的</span></div>
+    </div>
+    <p class="small muted reveal">没拿到签证的话不收签证费，但旅行社的服务费、快递费不一定退。<Ref n="10 48 50 57 59" /></p>
+
+    <h3 class="reveal" style="margin-top:24px">领馆说“四五个工作日”，你实际要等更久</h3>
+    <div class="eq reveal">
+      <span>旅行社预审</span><i>+</i><span>补材料</span><i>+</i><span>送馆排期</span><i>+</i><span class="hl">领馆审查</span><i>+</i><span>寄回</span><i>=</i><span class="total">总耗时</span>
+    </div>
+    <div class="rows reveal" style="margin-top:14px">
+      <div><dt>北京</dt><dd>受理翌日起第 5 个工作日发结果 <Ref n="09" /></dd></div>
+      <div><dt>重庆</dt><dd>含受理日，最快 5 个工作日 <Ref n="48" /></dd></div>
+      <div><dt>青岛</dt><dd>受理翌日起，最快 4 个工作日 <Ref n="57" /></dd></div>
+    </div>
+    <div class="grid grid-2" style="margin-top:16px">
+      <div class="callout tip reveal">
+        <strong>为 2027 年 7 月出行留缓冲</strong>
+        现在先找旅行社看看材料够不够、算好预算。正式办理大约从 2027 年 5 月中旬（出发前 4～8 周）开始。买了机票和门票，领馆也不会给你加快。<Ref n="48" />
+      </div>
+      <div class="callout warn reveal">
+        <strong>店家不接单，不等于被拒签</strong>
+        店家不接你的单，换一家试试就好。但如果领馆正式拒签，一般六个月内不能再用同样的理由申请。拒签记录不要隐瞒，也别编个理由重新申请。<Ref n="56" />
+      </div>
+    </div>
+  </Sec>
+
+  <Sec id="after" idx="08" title="拿到签证之后要做什么">
+    <div class="split">
+      <div class="reveal">
+        <ul class="mini-list check">
+          <li><b>看信息：</b>姓名拼写、护照号和你要带的护照一样</li>
+          <li><b>看日期：</b>“最晚哪天入境”和“每次能待几天”是两个日期，别看混 <Ref n="11" /></li>
+          <li><b>别待太久：</b>三年签、五年签也只能每次短期停留 <Ref n="11" /></li>
+          <li><b>第一次去：</b>除了五年签，第一次去的行程要改的话有专门规定，先问旅行社 <Ref n="46 51" /></li>
+          <li><b>回国后：</b>问旅行社要不要交回国证明、押金什么时候退</li>
+        </ul>
+        <div class="callout">
+          <strong>机票酒店可以自己订吗？</strong>
+          按使馆的说明，大部分旅游签的机票和住宿要由指定旅行社安排，五年签可以自己订、自己改。已经自己订好的，递交前跟旅行社说一声，别让店家给你做假订单。<Ref n="09 46" />
+        </div>
+      </div>
+      <div class="evisa reveal">
+        <div class="ev-phone">
+          <div class="ev-screen">
+            <span class="ev-wifi">● 联网中</span>
+            <b>JAPAN eVISA</b>
+            <div class="ev-card">
+              <small>Visa issuance notice</small>
+              <span class="ev-ok">✓ ISSUED</span>
+              <div class="ev-lines"><i></i><i></i><i></i></div>
+            </div>
+          </div>
+        </div>
+        <div class="ev-vs">
+          <span class="chip ok">✓ 联网实时展示</span>
+          <span class="chip warn">✗ 截图</span>
+          <span class="chip warn">✗ PDF</span>
+          <span class="chip warn">✗ 打印件</span>
+        </div>
+        <p class="small">
+          电子签要在机场联网打开「Visa issuance notice」给工作人员看，截图不行。出发前先打开试一次，确保在<b>国内机场</b>也有网、手机有电。<Ref n="13" />
+        </p>
+      </div>
+    </div>
+  </Sec>
+
+  <Sec id="template" idx="09" title="可以直接复制：发给代办的咨询模板">
+    <p class="lead reveal">用同一份情况，问两三家本领区的指定旅行社，比一比再决定。填好的内容别发到公开群里。</p>
+    <div class="reveal">
+      <CopyBlock client:visible text={template} label="复制咨询模板" />
+    </div>
+    <div class="card reveal" style="margin-top:16px">
+      <h3>付钱前，最后检查一遍</h3>
+      <ul class="mini-list check">
+        <li>确认这家店在领馆的指定旅行社名单上，不是只看店名和销量</li>
+        <li>身份、住址、收入和以前的签证情况都如实说了</li>
+        <li>拿到了材料清单、费用明细和退款规则</li>
+        <li>问清楚了机酒要不要旅行社订，没有用假订单、假材料</li>
+        <li>留够了补材料的时间，不会赶不上出发</li>
+      </ul>
+    </div>
+  </Sec>
+</Guide>
+
+<style>
+  .who.main {
+    border-color: var(--pink);
+    box-shadow: 0 0 0 3px var(--pink-soft);
+  }
+
+  .who.visa-free {
+    border-color: var(--ok);
+    box-shadow: 0 0 0 3px var(--ok-soft);
+  }
+
+  .who h3 {
+    margin: 10px 0 4px;
+  }
+
+  .types {
+    display: grid;
+    gap: 12px;
+  }
+
+  .vt {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+  }
+
+  .vt.best {
+    border-color: var(--pink);
+    background: linear-gradient(90deg, #fff5fc, #fff);
+  }
+
+  .vt-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .vt-head h3 {
+    margin: 0;
+    font-size: 1.08rem;
+  }
+
+  .vt-bar {
+    height: 10px;
+    border-radius: 10px;
+    background: #f1ecf7;
+    margin: 10px 0 8px;
+    overflow: hidden;
+  }
+
+  .vt-bar i {
+    display: block;
+    height: 100%;
+    width: var(--w);
+    border-radius: 10px;
+    background: var(--grad);
+  }
+
+  .vt-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 20px;
+    font-size: 0.88rem;
+    color: var(--ink-3);
+  }
+
+  .vt-meta b {
+    color: var(--ink);
+  }
+
+  .vt p {
+    margin: 6px 0 0;
+    font-size: 0.92rem;
+    color: var(--ink-2);
+  }
+
+  .mat {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+    gap: 12px;
+  }
+
+  .mat-i {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px;
+    text-align: center;
+  }
+
+  .mat-i span {
+    display: grid;
+    place-items: center;
+  }
+
+  .mat-i b {
+    display: block;
+    margin: 6px 0 4px;
+  }
+
+  .mat-i p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+
+  .people {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  }
+
+  .pp {
+    display: flex;
+    gap: 14px;
+    padding: 16px;
+    border-radius: var(--radius-sm);
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+
+  .pp p {
+    margin: 2px 0 0;
+    font-size: 0.9rem;
+    color: var(--ink-2);
+  }
+
+  .pp-lv {
+    flex: none;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 3px;
+    padding-top: 4px;
+  }
+
+  .pp-lv i {
+    width: 22px;
+    height: 8px;
+    border-radius: 4px;
+    background: #ece6f4;
+  }
+
+  .pp-lv i.on {
+    background: var(--pink);
+  }
+
+  .ads {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    margin-top: 12px;
+  }
+
+  .ad {
+    padding: 16px;
+    border-radius: var(--radius-sm);
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+
+  .ad-tag {
+    display: inline-block;
+    font-weight: 800;
+    color: var(--warn);
+    background: var(--warn-soft);
+    padding: 2px 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    text-decoration: line-through wavy rgb(232 89 12 / 0.5);
+  }
+
+  .ad p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--ink-2);
+  }
+
+  .fees {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: 12px;
+  }
+
+  .fee {
+    border-radius: var(--radius);
+    padding: 18px;
+    background: var(--grad);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fee.alt {
+    background: #fff;
+    color: var(--ink);
+    border: 1px dashed #d6cce4;
+  }
+
+  .fee small {
+    opacity: 0.85;
+  }
+
+  .fee b {
+    font-size: 1.8rem;
+    line-height: 1.3;
+  }
+
+  .fee span {
+    font-size: 0.8rem;
+    opacity: 0.85;
+  }
+
+  .eq {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .eq span {
+    padding: 8px 14px;
+    border-radius: 12px;
+    background: #fff;
+    border: 1px solid var(--line);
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+
+  .eq span.hl {
+    border-color: var(--blue);
+    background: var(--blue-soft);
+  }
+
+  .eq span.total {
+    background: var(--ink);
+    color: #fff;
+    border: 0;
+  }
+
+  .eq i {
+    font-style: normal;
+    font-weight: 800;
+    color: var(--pink);
+  }
+
+  .evisa {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+  }
+
+  .ev-phone {
+    width: 200px;
+    padding: 10px;
+    border-radius: 32px;
+    background: var(--ink);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .ev-screen {
+    border-radius: 24px;
+    background: linear-gradient(180deg, #fdf6ff, #e9f7ff);
+    padding: 18px 14px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ev-wifi {
+    font-size: 0.7rem;
+    color: var(--ok);
+    text-align: left;
+  }
+
+  .ev-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 12px;
+    border: 1px solid var(--line);
+    display: grid;
+    gap: 6px;
+  }
+
+  .ev-card small {
+    font-size: 0.68rem;
+    color: var(--ink-3);
+  }
+
+  .ev-ok {
+    font: 800 1.2rem var(--font-display);
+    color: var(--ok);
+  }
+
+  .ev-lines {
+    display: grid;
+    gap: 5px;
+  }
+
+  .ev-lines i {
+    height: 6px;
+    border-radius: 3px;
+    background: #ece6f4;
+  }
+
+  .ev-lines i:nth-child(2) {
+    width: 70%;
+  }
+
+  .ev-vs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+  }
+</style>

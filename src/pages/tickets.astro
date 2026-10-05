@@ -1,0 +1,1672 @@
+---
+import Guide from '../layouts/Guide.astro';
+import Sec from '../components/Sec.astro';
+import Ref from '../components/Ref.astro';
+import TicketRoute from '../components/islands/TicketRoute.tsx';
+import ScreenGuide from '../components/islands/ScreenGuide.tsx';
+import UpgradeNotice from '../components/UpgradeNotice.astro';
+import ETicketAlert from '../components/ETicketAlert.astro';
+import BankAlert from '../components/BankAlert.astro';
+import AppLinks from '../components/AppLinks.astro';
+
+const toc = [
+  { id: 'facts', label: '本场票务' },
+  { id: 'upgrade', label: '升级席（待公布）' },
+  { id: 'route', label: '我该走哪条路' },
+  { id: 'card', label: '信用卡' },
+  { id: 'phone', label: '日本手机号' },
+  { id: 'apply', label: '申请抽选' },
+  { id: 'walkthrough', label: '图解：填申请表' },
+  { id: 'after', label: '付款与取票' },
+  { id: 'companions', label: '从群友拿票' },
+];
+
+const statuses = [
+  { jp: '抽選受付', cn: '接受抽选申请' },
+  { jp: '申込完了', cn: '申请已提交' },
+  { jp: '当選／落選', cn: '中签／未中签' },
+  { jp: '決済／入金', cn: '扣款或便利店付款', forks: ['信用卡：自动扣款', '便利店：Loppi 入金'] },
+  { jp: '発券', cn: '拿到能入场的票', forks: ['电子票：App 里显示', '纸票：开演前去 Loppi 取票'] },
+  { jp: '入場', cn: '入场' },
+];
+---
+
+<Guide
+  slug="tickets"
+  lead="这场的票靠抽选，不用拼手速。选对申请入口、准备好能付款的卡就行；走日本国内渠道的话，还要一个能收日本短信的手机号。"
+  toc={toc}
+>
+  <Sec id="facts" idx="01" title="这场演出的票：目前已知的信息">
+    <div class="ticket-hero reveal">
+      <div class="tk">
+        <div class="tk-main">
+          <p class="eyebrow">HIMEHINA LIVE 2027</p>
+          <h3>『BUDOKAN（仮）』</h3>
+          <div class="tk-grid">
+            <div><small>DATE</small><b class="num">2027.07.13 TUE</b></div>
+            <div><small>VENUE</small><b>日本武道館</b></div>
+            <div><small>OPEN / START</small><b class="num">16:30 / 17:30</b></div>
+            <div><small>PRICE</small><b class="num">¥11,000</b></div>
+          </div>
+        </div>
+        <div class="tk-stub">
+          <span>全席指定</span>
+          <b class="num">×4</b>
+          <small>每次最多</small>
+        </div>
+      </div>
+      <div class="rows">
+        <div><dt>座席</dt><dd>全部是对号入座，一次最多申请 4 张</dd></div>
+        <div><dt>年龄</dt><dd>不限年龄，6 岁以上要买票</dd></div>
+        <div>
+          <dt>票的形式</dt><dd><span class="chip blue">日本国内</span> 电子票　<span class="chip">海外</span> 纸票</dd>
+        </div>
+        <div><dt>发券</dt><dd>电子票 <b>2027/6/29(周二) 12:00</b> 起在 App 里显示</dd></div>
+        <div>
+          <dt>手续费</dt><dd>票价 11,000 日元（含税）。这一轮国内电子票每张还要加 ¥550 + ¥330 + ¥110 的手续费，<b>实际每张 ¥11,990</b>（4 张 ¥47,960）。选便利店付款的话，每单再加 ¥330</dd>
+        </div>
+      </div>
+      <p class="small muted">来源 <Ref n="01 02" /></p>
+    </div>
+
+    <div class="lottery reveal">
+      <div class="lot-item">
+        <span class="chip">进行中</span>
+        <h4>FC 最速先行／Lawson 最速先行</h4>
+        <p class="num big">10/4 21:00 → 10/18 23:59</p>
+        <p class="small muted">日本时间。北京时间截止是 <b>10 月 18 日 22:59</b></p>
+        <div class="lot-links">
+          <a class="lot-link fc" href="https://himehina.jp/post/post-466/" target="_blank" rel="noopener">FC 最速先行公告 ↗</a>
+          <a class="lot-link lt" href="https://l-tike.com/concert/mevent/?mid=496836" target="_blank" rel="noopener">Lawson（l-tike）受付页 ↗</a>
+        </div>
+      </div>
+      <div class="lot-arrow" aria-hidden="true">→</div>
+      <div class="lot-item">
+        <span class="chip blue">结果</span>
+        <h4>当落公布</h4>
+        <p class="num big">2026/10/23</p>
+        <p class="small muted">国内渠道大约 15:00 出结果；海外渠道看邮件通知 <Ref n="01 04" /></p>
+      </div>
+    </div>
+
+    <div class="callout warn reveal">
+      <strong>这些还没公布</strong>
+      几点结束、物贩时间和付款方式、能不能拍照、能带什么应援物、中途能不能出场、官方转售、升级席的价格和内容，都要等后续公告。海外纸票怎么付款、怎么取票，看你自己的订单通知，别照搬以前演出的经验。<Ref n="02 03" />
+    </div>
+  </Sec>
+
+  <Sec id="upgrade" idx="02" title="升级席：会开放，细节还没公布">
+    <UpgradeNotice />
+  </Sec>
+
+  <Sec id="route" idx="03" title="30 秒判断：我该走哪条路">
+    <div class="split">
+      <div class="reveal">
+        <TicketRoute client:visible />
+      </div>
+      <div class="paths reveal">
+        <div class="path">
+          <span class="path-tag">A</span>
+          <div>
+            <b>海外渠道 · 纸票</b>
+            <p>给住在日本以外的人。<strong>不用日本手机号</strong>，有一张能用的 JCB／Amex 卡就行。</p>
+          </div>
+        </div>
+        <div class="path">
+          <span class="path-tag blue">B</span>
+          <div>
+            <b>日本国内渠道 · 电子票</b>
+            <p>要有能收短信的 <strong>090／080／070</strong> 日本号码，手机也要能装 Lawson 的 App。</p>
+          </div>
+        </div>
+        <div class="path">
+          <span class="path-tag gray">C</span>
+          <div>
+            <b>群友同行名额</b>
+            <p>不会抽、或者没有合适的卡，就等群里的“老司机”放票。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Sec>
+
+  <Sec
+    id="card"
+    idx="04"
+    title="信用卡：推荐 JCB 或 Amex"
+    lead="日本的票务网站对国外的卡挑得很，不少国内发的卡、借记卡、预付卡都付不了。手上有卡，也不一定能在日本网站上用。"
+  >
+    <div class="split">
+      <div class="cards-visual reveal" aria-label="推荐卡种示意">
+        <div class="cc cc-cmb">
+          <span class="cc-bank">招商银行 CMB</span>
+          <span class="cc-chip"></span>
+          <span class="cc-no num">3528 •••• •••• 0713</span>
+          <span class="cc-brand num">JCB</span>
+        </div>
+        <div class="cc cc-boc">
+          <span class="cc-bank">中国银行 BOC</span>
+          <span class="cc-chip"></span>
+          <span class="cc-no num">3566 •••• •••• 1830</span>
+          <span class="cc-brand num">JCB</span>
+        </div>
+        <div class="cc cc-amex">
+          <span class="cc-bank">American Express</span>
+          <span class="cc-chip"></span>
+          <span class="cc-no num">3782 •••••• •1630</span>
+          <span class="cc-brand num">AMEX</span>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="callout tip">
+          <strong>本站推荐</strong>
+          <b>招商银行或中国银行的 JCB 卡</b>，或者<b>美国运通（Amex）卡</b>。JCB 是日本自己的卡，在日本网站和商店基本都能用。
+        </div>
+        <h3>拿到卡后，打电话问银行这六件事</h3>
+        <ol class="mini-list">
+          <li>能不能<b>在国外网站付款</b>？要不要先开通？</li>
+          <li>支不支持 <b>3D Secure</b> 验证？验证码发到哪个手机？</li>
+          <li>一笔、一天最多能刷多少？<b>额度</b>够不够？</li>
+          <li>在国外刷卡有没有手续费？</li>
+          <li>能不能在日本 ATM 取钱？要收多少钱？</li>
+          <li>日元账单怎么还？能不能直接用人民币还？</li>
+        </ol>
+        <p class="small muted">
+          最后能不能用，以付款页面上列出的卡为准。Lawson 也提醒过，有些国外发的卡用不了。<Ref n="69 70 73" />
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grid-3" style="margin-top:20px">
+      <div class="card reveal">
+        <h3>填卡信息时，每一栏填什么</h3>
+        <p class="small">
+          <b>Card number</b> <span class="jpk" lang="ja">カード番号</span> 卡号<br /><b>Expiry (MM/YY)</b> <span class="jpk" lang="ja">有効期限</span> 到期月／年<br /><b>Cardholder name</b> <span class="jpk" lang="ja">カード名義人</span> 持卡人姓名（拼音大写）<br /><b>CVV／CVC</b> <span class="jpk" lang="ja">セキュリティコード</span> 卡背面的 3 位安全码（Amex 是卡正面的 4 位）
+        </p>
+        <p class="small muted">安全码不是你的取款密码，也不是银行短信里的验证码。</p>
+      </div>
+      <div class="card reveal">
+        <h3>付款失败，按这个顺序查</h3>
+        <p class="small">
+          先看看订单其实是不是已经成功了 → 卡号、有效期有没有填错 → 额度够不够 → 国外网上支付开了没有 → 3D 验证做完没有 → 有没有收到银行的拦截短信。<b>别连着狂点提交</b>，可能会被重复扣款。
+        </p>
+      </div>
+      <div class="card reveal">
+        <h3>什么时候扣钱？</h3>
+        <p class="small">
+          用信用卡抽选的话，一般在申请截止后、出结果之前扣款，没中签不扣。其他付款方式规则不一样，以你申请时页面上的说明为准。<Ref n="69" />
+        </p>
+      </div>
+    </div>
+    <div class="pay-flow reveal">
+      <h3>网上刷卡的流程（3D Secure 验证）</h3>
+      <div class="ds" aria-label="3D Secure 付款流程">
+        <div class="ds-i"><span class="num">1</span><b>票务网站</b><small>填卡号、有效期、安全码</small></div>
+        <i class="ds-ar">→</i>
+        <div class="ds-i bank"><span class="num">2</span><b>银行验证页</b><small>收短信，或在银行 App 里确认</small></div>
+        <i class="ds-ar">→</i>
+        <div class="ds-i"><span class="num">3</span><b>自动跳回</b><small>这时别关浏览器</small></div>
+        <i class="ds-ar">→</i>
+        <div class="ds-i done"><span class="num">4</span><b>申请完成页</b><small>看到编号才算成功</small></div>
+      </div>
+      <p class="small muted">
+        Lawson 刷卡一般要做 3D Secure 验证，怎么验证看你的银行。另外，有些格式奇怪的邮箱可能会导致申请或付款出问题，比如有两个连着的点，或者 @ 前面是一个点（像 <code>abc.@xx.com</code>），用一个简单、常用的邮箱最保险。<Ref n="68 69 70 71" />
+      </p>
+    </div>
+    <BankAlert />
+    <div class="callout warn reveal">
+      <strong>不想被自动扣款？可以选便利店付款</strong>
+      选「コンビニ入金」的话，中签后要在入金期限内到日本罗森／MINISTOP 的 Loppi 付现金，人在国内的话，可以请在日本的朋友帮你付；到期不付就当放弃了，一分钱都不扣。注意付款期限很短，等你明年到了日本再付肯定来不及。详见下面的<a href="#after">付款与取票</a>。用家人的信用卡付的话，让家人自己输验证码，密码和验证码别给任何代办。
+    </div>
+  </Sec>
+
+  <Sec
+    id="phone"
+    idx="05"
+    title="日本手机号：只有走国内渠道才需要"
+    lead="Lawson 的电子票 App 要用 090／080／070 开头的日本号码收短信验证。国内号码、050 号码、只能上网的旅游卡都不行。"
+  >
+    <div class="split rev">
+      <div class="phone-art reveal">
+        <svg viewBox="0 0 260 400" role="img" aria-label="手机收到 Lawson 认证短信示意">
+          <defs>
+            <linearGradient id="ph-g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#ff3ac0"></stop>
+              <stop offset="1" stop-color="#3fb9ef"></stop>
+            </linearGradient>
+          </defs>
+          <rect x="40" y="10" width="180" height="370" rx="30" fill="#1e1530"></rect>
+          <rect x="50" y="22" width="160" height="346" rx="22" fill="#fcfaff"></rect>
+          <rect x="105" y="30" width="50" height="10" rx="5" fill="#1e1530"></rect>
+          <text x="62" y="68" font-size="10" fill="#7a7190" font-family="sans-serif">SIM · 日本号码</text>
+          <rect x="62" y="78" width="136" height="38" rx="10" fill="url(#ph-g)"></rect>
+          <text x="130" y="102" font-size="15" fill="#fff" text-anchor="middle" font-weight="700" font-family="sans-serif">080-XXXX-XXXX</text>
+          <text x="62" y="140" font-size="10" fill="#7a7190" font-family="sans-serif">SMS · 刚刚</text>
+          <rect x="62" y="148" width="136" height="64" rx="12" fill="#e2f5fd"></rect>
+          <text x="72" y="168" font-size="10" fill="#1e1530" font-family="sans-serif">【ローチケ】認証コード</text>
+          <text x="72" y="188" font-size="16" fill="#0a76a8" font-weight="700" font-family="sans-serif" letter-spacing="3">482913</text>
+          <text x="72" y="204" font-size="9" fill="#7a7190" font-family="sans-serif">示意画面</text>
+          <rect x="62" y="228" width="136" height="44" rx="12" fill="#fff" stroke="#ebe5f3"></rect>
+          <circle cx="82" cy="250" r="10" fill="#ff3ac0"></circle>
+          <text x="98" y="248" font-size="10" fill="#1e1530" font-weight="700" font-family="sans-serif">ローチケ電子チケット</text>
+          <text x="98" y="262" font-size="9" fill="#1f9d6b" font-family="sans-serif">✓ 認証済み</text>
+          <g font-family="sans-serif" font-size="11" font-weight="700">
+            <rect x="62" y="290" width="40" height="22" rx="11" fill="#e6f7ef"></rect>
+            <text x="82" y="305" text-anchor="middle" fill="#1f9d6b">090</text>
+            <rect x="110" y="290" width="40" height="22" rx="11" fill="#e6f7ef"></rect>
+            <text x="130" y="305" text-anchor="middle" fill="#1f9d6b">080</text>
+            <rect x="158" y="290" width="40" height="22" rx="11" fill="#e6f7ef"></rect>
+            <text x="178" y="305" text-anchor="middle" fill="#1f9d6b">070</text>
+            <rect x="62" y="320" width="64" height="22" rx="11" fill="#fff3e8"></rect>
+            <text x="94" y="335" text-anchor="middle" fill="#e8590c">050 ✗</text>
+            <rect x="134" y="320" width="64" height="22" rx="11" fill="#fff3e8"></rect>
+            <text x="166" y="335" text-anchor="middle" fill="#e8590c">纯流量 ✗</text>
+          </g>
+        </svg>
+      </div>
+      <div class="reveal">
+        <div class="callout tip">
+          <strong>本站推荐的号码方案</strong>
+          打算走日本国内渠道抽票的话，推荐办 <b>CMLink</b>、<b>Cuniq JP</b> 或 <b>ifmobile</b> 的日本号码。因为 Lawson 只认能收日本短信的 090／080／070 号码。
+        </div>
+        <div class="carriers">
+          <div class="carrier"><b>CMLink</b><small>中国移动国际</small></div>
+          <div class="carrier"><b>Cuniq JP</b><small>中国联通国际</small></div>
+          <div class="carrier"><b>ifmobile</b><small>日本号码方案</small></div>
+        </div>
+        <h3>买之前确认一下</h3>
+        <ul class="mini-list check">
+          <li>号码以 <b>090／080／070</b> 开头（不是 050）</li>
+          <li>套餐能<b>收发日本短信</b>，不是只能上网</li>
+          <li>你的手机能用这张卡或 eSIM（看看型号、是不是国行版、有没有锁卡）</li>
+          <li>号码能一直用到演出结束，别中途停机</li>
+          <li>申请时填的号码，就是装 App、收电子票的那部手机的号码 <Ref n="05" /></li>
+        </ul>
+        <AppLinks />
+      </div>
+    </div>
+
+    <div style="margin-top:20px">
+      <div class="callout reveal">
+        <strong>上网卡和抽票用的号码不一样</strong>
+        旅游 eSIM 只能上网看地图、聊微信，一般没有能收验证短信的号码。也别买“代接验证码”或者借别人身份的服务。走海外渠道的话，完全不用办日本号码。另外，电子票显示后<b>不要换 SIM 卡、换手机或重装 App</b>，详见<a href="#after">付款与取票</a>里的提醒。
+      </div>
+    </div>
+  </Sec>
+
+  <Sec id="apply" idx="06" title="申请抽选：海外渠道和国内渠道">
+    <div class="both reveal">
+      <b>两个渠道通用</b>
+      <span>张数填<b>整单总数</b>（含自己），最多 4 张</span>
+      <span>每人每场只能申请 <b>1 次</b></span>
+      <span>不要用浏览器「返回」键</span>
+      <span>看到<b>申请完成页和编号</b>才算成功</span>
+    </div>
+
+    <div class="vpn reveal">
+      <div class="vpn-ic" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="34" height="34"><circle cx="24" cy="24" r="18" fill="none" stroke="#fff" stroke-width="3"></circle><path d="M6 24h36M24 6c-6 6-6 30 0 36M24 6c6 6 6 30 0 36" fill="none" stroke="#fff" stroke-width="3"></path><circle cx="24" cy="24" r="6" fill="#ff3ac0"></circle></svg>
+      </div>
+      <div>
+        <strong>申请前，先切到日本的网络</strong>
+        <p>
+          在国内直接打开 Lawson（l-tike.com），经常很慢、打不开，或者填到一半报错（比如「認識できない操作がありました」）。建议申请前把 VPN／加速器切到<b>日本节点</b>，再打开 Lawson 网站。
+        </p>
+        <ul>
+          <li>从打开页面到看到申请完成页，<b>中途别切换节点、别换 Wi-Fi／流量</b>，网络突然变化容易被当成异常操作</li>
+          <li>银行的验证短信照常发到你的国内手机，不受影响</li>
+          <li>请遵守所在地的法律法规</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="channels">
+      <div class="tpanel p ch reveal" id="overseas">
+        <div class="tp-head">
+          <span class="tp-tag">海外</span>
+          <div>
+            <h3>海外渠道 · 纸票</h3>
+            <p>住在日本以外的观众。不需要日本手机号。</p>
+          </div>
+        </div>
+        <div class="ch-body">
+          <div class="crumbs" aria-label="官方入口路径">
+            <a href="https://spc.himehina.jp/LiveatBudokan27" target="_blank" rel="noopener">特设站</a>
+            <span>→</span>
+            <b class="jp">ローチケ最速先行</b>
+            <span>→</span>
+            <a href="https://l-tike.com/himehina/" target="_blank" rel="noopener">Lawson</a>
+            <span>→</span>
+            <b>For customers living outside Japan</b>
+          </div>
+          <p class="ch-links">FC 会员先看 <a href="https://himehina.jp/post/post-466/" target="_blank" rel="noopener">FC 最速先行公告 ↗</a>，国内／海外受付入口也可以从 <a href="https://l-tike.com/concert/mevent/?mid=496836" target="_blank" rel="noopener">Lawson（l-tike）受付页 ↗</a> 进入</p>
+          <ol class="is-steps">
+            <li><b>准备好：</b>常用邮箱、护照上的英文名、手机号、JCB／Amex 卡。要填护照号的话，照实填，别随便编</li>
+            <li><b>从官方入口进</b>，别点搜索广告或者群里来路不明的链接 <Ref n="02 03" /></li>
+            <li><b>看清场次：</b>HIMEHINA、2027/7/13、日本武道館。普通先行不用是 FC 会员 <Ref n="01 02" /></li>
+            <li><b>不用注册会员：</b>填邮箱、带国家代码的电话（86 开头），再自设一个 4 位 My Page 密码，以后用它们查结果</li>
+            <li><b>填申请人信息：</b>Given Name 填名、Surname 填姓，和护照拼音一致</li>
+            <li><b>填信用卡，只提交一次</b>。跳到银行验证页还没完，要等回到完成页</li>
+          </ol>
+          <p class="ch-note">纸票要在开演前到日本罗森／MINISTOP 的 Loppi 取出来，确认邮件和付款截图不是门票。见<a href="#after">付款与取票</a>。</p>
+          <a class="btn ch-cta" href="#walkthrough" data-guide="world">看海外渠道图解 ↓</a>
+        </div>
+      </div>
+
+      <div class="tpanel e ch reveal" id="jp-channel">
+        <div class="tp-head">
+          <span class="tp-tag">国内</span>
+          <div>
+            <h3>日本国内渠道 · 电子票</h3>
+            <p>需要日本号码和兼容手机。不要编造日本地址。</p>
+          </div>
+        </div>
+        <div class="ch-body">
+          <div class="crumbs" aria-label="入口">
+            <a href="https://l-tike.com/concert/mevent/?mid=496836" target="_blank" rel="noopener">Lawson（l-tike）受付页</a>
+            <span>·</span>
+            <b>L 代码 <span class="num">91037</span></b>
+            <span>·</span>
+            <b>用手机浏览器</b>
+          </div>
+          <ol class="is-steps">
+            <li><b>装好电子票 App：</b>安装「ローチケ電子チケット」（<a href="#phone">下载链接和日本区限制</a>），用 090/080/070/060 日本号码完成短信认证，确认手机兼容 <Ref n="05" /></li>
+            <li><b>注册 Lawson WEB 会员</b>，也要验证手机号。网站和 App 要分别验证一次 <Ref n="04 68" /></li>
+            <li><b>决定付款方式：</b>信用卡要开通 3D Secure 2.0、10/22–23 额度够；选便利店付款就先和在日本能帮你付款的朋友说好</li>
+            <li><b>照着下面的图解</b>填申请表，从「お申し込みはこちら」到「申込完了」一共 9 步</li>
+          </ol>
+          <a class="btn ch-cta" href="#walkthrough" data-guide="jp">看国内渠道图解 ↓</a>
+        </div>
+      </div>
+    </div>
+  </Sec>
+
+  <Sec id="walkthrough" idx="07" title="图解：一步步填写抽选申请">
+    <p class="lead reveal">
+      先在上面选渠道：<b>海外渠道（纸票）</b>或<b>日本国内渠道（电子票）</b>。下面是真实申请页面的截图，个人信息已经打了马赛克或者剪掉了。点截图上的<span class="dot-demo">1</span>圆点，可以看到每一处该怎么填。
+    </p>
+    <ScreenGuide client:visible />
+    <div class="split" style="margin-top:20px">
+      <figure class="err-shot reveal">
+        <img src="/ticket-guide/warn-error.webp" width="720" height="491" alt="Lawson 错误页：認識できない操作がありました" loading="lazy" />
+      </figure>
+      <div class="callout warn reveal">
+        <strong>看到这个页面＝操作中断了</strong>
+        出现「認識できない操作がありました」，一般是按了浏览器的「返回」键、在页面上停太久、同时开了好几个标签页，或者中途网络变了（见上面“先切到日本的网络”）。只能点「TOPへ」重新来。重新填之前，先去「マイページ」→「申込履歴」看看刚才是不是已经申请成功了，<b>别重复申请</b>（每人每场只能申请 1 次）。
+      </div>
+    </div>
+  </Sec>
+
+  <Sec id="after" idx="08" title="提交之后：付款，然后取票">
+    <div class="flow reveal">
+      {
+        statuses.map((s, i) => (
+          <div class={`flow-step ${s.forks ? 'split-step' : ''}`}>
+            <span class="flow-dot num">{i + 1}</span>
+            <b class="jp">{s.jp}</b>
+            <small>{s.cn}</small>
+            {s.forks && (
+              <span class="forks">
+                <span class="fork a">{s.forks[0]}</span>
+                <span class="fork b">{s.forks[1]}</span>
+              </span>
+            )}
+          </div>
+        ))
+      }
+    </div>
+
+    <h3 class="sub reveal"><span class="sub-no num">A</span>付款：两种方式都可以，看你需不需要“反悔”的余地</h3>
+    <div class="pay-compare">
+      <div class="pay-col credit reveal">
+        <span class="chip">省事 · クレジットカード</span>
+        <h3>中签就自动扣款</h3>
+        <div class="when">
+          <div><small>日本时间</small><b class="num">10/23 00:00 前后</b></div>
+          <div><small>北京时间</small><b class="num">10/22 23:00 前后</b></div>
+        </div>
+        <ul class="mini-list check">
+          <li>中签的话，<b>10/23 凌晨</b>前后扣钱，比 15:00 公布结果还早</li>
+          <li><b>没中签不扣款</b>；中签后不用再做任何付款操作</li>
+          <li>所以你可能先收到银行扣款短信，但最终结果还是去「マイページ」看</li>
+          <li>10/22 白天<b>先打电话通知银行</b>，确认卡有效、额度够、不会拦截境外交易（见下方提醒）</li>
+        </ul>
+        <p class="pay-con">⚠ 扣款后<b>不能取消</b>：签证没办下来或者去不了，也不能退（公演中止的情况除外）</p>
+      </div>
+      <div class="pay-col store reveal">
+        <span class="chip blue">可以反悔 · コンビニ入金</span>
+        <h3>中签后在期限内去 Loppi 付现金</h3>
+        <div class="when">
+          <div><small>地点</small><b>罗森／MINISTOP 的 Loppi</b></div>
+          <div><small>手续费</small><b class="num">¥330／单</b></div>
+        </div>
+        <ul class="mini-list check">
+          <li>「入金」这个步骤<b>只有选了便利店付款才有</b></li>
+          <li>中签后<b>到期不付，就等于放弃这次中签，不扣任何钱</b>。还不确定签证、假期的人适合选这个</li>
+          <li>人在国内的话，可以<b>请在日本的可信朋友代付</b>：把「お支払受付番号 <b class="num">20206</b>」和 10 位预约号码告诉对方，由对方在 Loppi 操作，拿凭条去收银台付现金（不能刷卡）</li>
+          <li>付完拿到的「領収書」是付款凭证，请朋友拍照发给你，原件保存到演出结束</li>
+        </ul>
+        <p class="pay-con">⚠ 入金期限一过，中签就作废、不能补救。提前和代付的朋友约好日期，避开最后一天</p>
+      </div>
+    </div>
+
+    <BankAlert />
+
+    <h3 class="sub reveal"><span class="sub-no num">B</span>発券（取票）：电子票和纸票不一样</h3>
+    <div class="issue">
+      <div class="is-col reveal">
+        <div class="is-head e"><span class="chip blue">电子票</span><b>不用去任何地方取票</b></div>
+        <ol class="is-steps">
+          <li><b class="num">2027/6/29(火) 12:00</b> 起，票会显示在 Lawson 电子票 App 里</li>
+          <li>确认张数；要给同行者「分配」的，在 App 里按指引操作</li>
+          <li>当天在 App 里显示「入場チェック画面」，由工作人员<b>当面确认</b>：滑动撕票（スワイプもぎり）或在屏幕上盖章（スタンプ）。没有二维码，截图不能用。<a href="/show-day/#entry">看入场图解 →</a></li>
+        </ol>
+        <p class="is-warn">⚠ 票显示以后：不要换 SIM 卡、不要换手机、不要删除 Lawson App（见下方提醒）</p>
+      </div>
+      <div class="is-col reveal">
+        <div class="is-head p"><span class="chip">纸票</span><b>开演前必须去罗森把票取出来</b></div>
+        <ol class="is-steps">
+          <li>到日本后，去<b>罗森／MINISTOP</b> 店里的 <b>Loppi</b> 机器</li>
+          <li>按屏幕提示输入订单通知里的号码（预约号码等），打印出申请凭条</li>
+          <li>在规定时间内（一般 30 分钟）把凭条拿到收银台，换成<b>实体纸票</b></li>
+          <li>当场看看日期和张数对不对，然后放进防水袋收好</li>
+        </ol>
+        <p class="pay-con">⚠ 一定要在<b>演出开始前</b>取好。最好到东京第一天就去取，别拖到 7/13 当天。能取票的时间看订单通知 <Ref n="72" /></p>
+      </div>
+    </div>
+
+    <ETicketAlert />
+
+    <div class="rows reveal" style="margin-top:20px">
+      <div><dt>申请完成／待抽选</dt><dd>记下预约号码，确认邮箱能收到信。用信用卡的，卡里额度留够。</dd></div>
+      <div><dt>10/23 凌晨收到扣款短信</dt><dd>多半是中了！不过还是等 15:00 以后去「マイページ」确认。<Ref n="69" /></dd></div>
+      <div><dt>中签（信用卡）</dt><dd>钱已经扣了，接下来等取票就行。这时候还看不到座位号，很正常，别再买一次。</dd></div>
+      <div><dt>中签（便利店）</dt><dd>决定去：在入金期限内去 Loppi 付现金，或请在日本的朋友代付。决定不去：不付款，中签自动作废。</dd></div>
+      <div><dt>未中签</dt><dd>不扣钱。可以等后面的官方抽选，或者看群里有没有人放票，不过不一定还有机会。</dd></div>
+      <div><dt>演出前</dt><dd>电子票：6/29 12:00 后在 App 确认。纸票：到日本后先去 Loppi 取票。</dd></div>
+    </div>
+  </Sec>
+
+  <Sec id="companions" idx="09" title="从群友那里拿票：电子票和纸票分开看">
+    <p class="lead reveal">
+      自己不会操作、或者没有合适的卡，可以等群里的“老司机”放票。先问清楚是<b>电子票</b>还是<b>纸票</b>，这两种拿票、进场的方式完全不一样。
+    </p>
+
+    <div class="table-wrap reveal vs">
+      <table>
+        <thead>
+          <tr><th></th><th><span class="chip blue">电子票</span></th><th><span class="chip">纸票</span></th></tr>
+        </thead>
+        <tbody>
+          <tr><th>票在哪里</th><td>申请人的 Lawson 电子票 App 里</td><td>在 Loppi 取出来的实体纸票</td></tr>
+          <tr><th>怎么交给我</th><td>不能直接转交，只能「同時入場」或「分配」到你的手机</td><td><b>可以直接把纸票交给你</b></td></tr>
+          <tr><th>能不能分开入场</th><td>同時入場：必须和申请人一起<br />分配：可以分开</td><td><b>可以</b>，各自拿纸票入场</td></tr>
+          <tr><th>我要准备什么</th><td>同時入場：什么都不用<br />分配：日本号码 + App</td><td>不用日本号码，也不用 App</td></tr>
+          <tr><th>什么时候拿到</th><td>6/29 12:00 以后</td><td>有人在 Loppi 取票之后（开演前）</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tpanel e reveal">
+      <div class="tp-head">
+        <span class="tp-tag">电子票</span>
+        <div>
+          <h3>日本国内渠道 · ローチケ電子チケット</h3>
+          <p>票在申请人手机的 App 里。这场可以用下面两种方式入场，选一种：<Ref n="04 07" /></p>
+        </div>
+      </div>
+      <div class="entry-ways">
+        <div class="ew">
+          <div class="ew-art" aria-hidden="true">
+            <svg viewBox="0 0 260 130">
+              <rect x="20" y="20" width="44" height="80" rx="8" fill="#1e1530"></rect>
+              <rect x="25" y="28" width="34" height="58" rx="4" fill="#ff7fd2"></rect>
+              <text x="42" y="62" font-size="11" fill="#fff" text-anchor="middle" font-weight="700" font-family="sans-serif">×4</text>
+              <g fill="#3fb9ef">
+                <circle cx="100" cy="50" r="12"></circle><rect x="88" y="64" width="24" height="34" rx="10"></rect>
+                <circle cx="135" cy="50" r="12"></circle><rect x="123" y="64" width="24" height="34" rx="10"></rect>
+                <circle cx="170" cy="50" r="12"></circle><rect x="158" y="64" width="24" height="34" rx="10"></rect>
+              </g>
+              <path d="M200 30 h40 v80 h-40z" fill="none" stroke="#c0158c" stroke-width="3" stroke-dasharray="6 5"></path>
+              <text x="220" y="75" font-size="12" fill="#c0158c" text-anchor="middle" font-weight="700" font-family="sans-serif">入口</text>
+              <path d="M70 112 H196" stroke="#ff3ac0" stroke-width="3" marker-end="url(#ew-a)"></path>
+              <defs><marker id="ew-a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8z" fill="#ff3ac0"></path></marker></defs>
+            </svg>
+          </div>
+          <span class="chip">方式 A</span>
+          <h3>同時入場：和申请人一起进场</h3>
+          <p class="small">所有票留在申请人的手机里，入场时申请人一次出示全部票，同行者跟着一起进。</p>
+          <dl class="ew-facts">
+            <div><dt>你需要</dt><dd><b>不需要</b>日本号码，也不用装 App</dd></div>
+            <div><dt>入场时</dt><dd>所有人先在<b>入口外</b>集合，再一起进场</dd></div>
+            <div><dt>风险</dt><dd>申请人迟到、走散或者手机没电，大家都进不去</dd></div>
+          </dl>
+        </div>
+        <div class="ew">
+          <div class="ew-art" aria-hidden="true">
+            <svg viewBox="0 0 260 130">
+              <rect x="20" y="25" width="44" height="80" rx="8" fill="#1e1530"></rect>
+              <rect x="25" y="33" width="34" height="58" rx="4" fill="#ff7fd2"></rect>
+              <rect x="196" y="25" width="44" height="80" rx="8" fill="#1e1530"></rect>
+              <rect x="201" y="33" width="34" height="58" rx="4" fill="#8fdcff"></rect>
+              <text x="218" y="66" font-size="9" fill="#1e1530" text-anchor="middle" font-weight="700" font-family="sans-serif">080…</text>
+              <path d="M70 65 C110 20 150 20 190 65" stroke="#3fb9ef" stroke-width="3" fill="none" stroke-dasharray="5 6" class="ew-fly"></path>
+              <rect x="112" y="30" width="36" height="22" rx="4" fill="#ff3ac0"></rect>
+              <text x="130" y="45" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" font-family="sans-serif">TICKET</text>
+            </svg>
+          </div>
+          <span class="chip blue">方式 B</span>
+          <h3>分配：把票发到你的手机</h3>
+          <p class="small">申请人在 App 里把同行票分配到你登记的手机号码上，入场时各自出示自己手机上的票。</p>
+          <dl class="ew-facts">
+            <div><dt>你需要</dt><dd>和申请人一样的条件：智能手机 + Lawson 电子票 App + 完成短信认证的 090/080/070/060 日本号码（CMLink、Cuniq JP、ifmobile 等）</dd></div>
+            <div><dt>交接</dt><dd>把你认证过的号码告诉申请人；6/29 12:00 后申请人在 App 里分配，你确认收到</dd></div>
+            <div><dt>入场时</dt><dd>可以分开入场</dd></div>
+            <div><dt>注意</dt><dd>收到后<b>不要换手机、SIM／eSIM，也不要重装 App</b></dd></div>
+          </dl>
+        </div>
+      </div>
+      <p class="tp-warn">⚠ 电子票的限制：申请人<b>本人那一张不能分配给别人</b>，申请人必须本人到场；截图、录屏的票进不去。<Ref n="05 06 07" /></p>
+    </div>
+
+    <div class="tpanel p reveal">
+      <div class="tp-head">
+        <span class="tp-tag">纸票</span>
+        <div>
+          <h3>实体纸票 · 可以转交，可以分开入场</h3>
+          <p>纸票拿在手里就能进场，交接简单，你也不需要日本号码或 App。</p>
+        </div>
+      </div>
+      <div class="paper-flow">
+        <div class="pf"><span class="num">1</span><b>有人去 Loppi 取票</b><small>持有预约号码的人（通常是申请人）到日本后，在罗森／MINISTOP 的 Loppi 取出整单纸票</small></div>
+        <i aria-hidden="true">→</i>
+        <div class="pf"><span class="num">2</span><b>当面把纸票交给你</b><small>约好在东京见面交接，当场核对日期、席位和张数</small></div>
+        <i aria-hidden="true">→</i>
+        <div class="pf"><span class="num">3</span><b>你自己拿票入场</b><small>不需要和申请人一起，按票面的门和时间入场</small></div>
+      </div>
+      <ul class="mini-list check" style="margin-top:14px">
+        <li>纸票一定要在<b>开演前</b>从 Loppi 取出来，问清楚对方打算哪天取、在哪里交接</li>
+        <li>拿到后放进防水袋，<b>不要提前撕副券</b>；纸票丢失或损坏一般没法补发</li>
+        <li>纸票照片不要发到群里，交接前不要先付全款给不认识的人</li>
+      </ul>
+    </div>
+
+    <div class="split" style="margin-top:24px">
+      <div class="reveal">
+        <div class="callout warn">
+          <strong>先问清楚是哪种名额</strong>
+          是已经中签、付好钱的票，还是“帮你抽抽看”？群里说的“出票”，经常是在官方发票之前。群友再熟练，主办方和群主也不会替他担保。
+        </div>
+        <ul class="mini-list check">
+          <li><b>哪种票：</b>电子票还是纸票？</li>
+          <li><b>电子票：</b>是同時入場还是分配？分配的话，我要准备日本号码吗？申请人确定到场吗？</li>
+          <li><b>纸票：</b>谁、哪天去 Loppi 取票？在哪里、什么时候交给我？</li>
+          <li><b>有没有凭证：</b>请对方发打了码的中签／付款截图，看看日期、席种和张数</li>
+          <li><b>花多少钱：</b>票价 ¥11,000 加手续费，要升级的话再加升级费；按什么汇率换成人民币</li>
+          <li><b>去不了怎么办：</b>签证没过或者演出取消，钱怎么退、损失谁出</li>
+        </ul>
+      </div>
+      <div class="msg reveal">
+        <p class="msg-label">可以直接复制发给群友</p>
+        <div class="bubble">
+          我第一次赴日，想找 7 月 13 日武道馆的 1 个同行名额。请问是否已中签付清？是电子票还是纸票？电子票的话是同時入場还是分配；纸票的话什么时候、在哪里交给我？总费用多少？我会按本场规则准备资料。
+        </div>
+        <div class="callout warn small">
+          <strong>这两件事别做</strong>
+          借账号、借护照、买票面截图，这些都不是正常的交接方式。完整的预约号码、App 登录信息也别发到群里。<Ref n="05 07" />
+        </div>
+      </div>
+    </div>
+  </Sec>
+</Guide>
+
+<style>
+  .ticket-hero {
+    display: grid;
+    gap: 20px;
+  }
+
+  @media (min-width: 900px) {
+    .ticket-hero {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: center;
+    }
+    .ticket-hero > p {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .tk {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    border-radius: 22px;
+    overflow: hidden;
+    background: var(--grad);
+    color: #fff;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .tk-main {
+    padding: 22px;
+  }
+
+  .tk .eyebrow {
+    color: #fff;
+    opacity: 0.85;
+  }
+
+  .tk h3 {
+    font-size: 1.5rem;
+    font-weight: 900;
+  }
+
+  .tk-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .tk-grid small {
+    display: block;
+    font: 600 0.68rem var(--font-display);
+    letter-spacing: 0.14em;
+    opacity: 0.8;
+  }
+
+  .tk-stub {
+    width: 96px;
+    border-left: 2px dashed rgb(255 255 255 / 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgb(255 255 255 / 0.12);
+    text-align: center;
+    font-size: 0.8rem;
+  }
+
+  .tk-stub b {
+    font-size: 2rem;
+    line-height: 1.1;
+  }
+
+  .lottery {
+    display: grid;
+    gap: 12px;
+    margin-top: 24px;
+    align-items: stretch;
+  }
+
+  @media (min-width: 760px) {
+    .lottery {
+      grid-template-columns: 1fr auto 1fr;
+    }
+  }
+
+  .lot-item {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+
+  .lot-item h4 {
+    margin: 8px 0 2px;
+  }
+
+  .big {
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin: 0;
+  }
+
+  .lot-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .lot-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.86rem;
+    text-decoration: none;
+    color: #fff;
+    transition: transform 0.2s;
+  }
+
+  .lot-link:hover {
+    transform: translateY(-2px);
+  }
+
+  .lot-link.fc {
+    background: var(--pink);
+  }
+
+  .lot-link.lt {
+    background: var(--blue-ink);
+  }
+
+  .ch-links {
+    margin: -4px 0 14px;
+    font-size: 0.86rem;
+    color: var(--ink-2);
+  }
+
+  .lot-arrow {
+    align-self: center;
+    font-size: 1.6rem;
+    color: var(--pink);
+    text-align: center;
+  }
+
+  .paths {
+    display: grid;
+    gap: 12px;
+  }
+
+  .path {
+    display: flex;
+    gap: 14px;
+    padding: 16px;
+    border-radius: var(--radius-sm);
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+
+  .path p {
+    margin: 2px 0 0;
+    font-size: 0.92rem;
+    color: var(--ink-2);
+  }
+
+  .path-tag {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font: 800 1.2rem var(--font-display);
+    color: #fff;
+    background: var(--pink);
+  }
+
+  .path-tag.blue {
+    background: var(--blue);
+  }
+
+  .path-tag.gray {
+    background: var(--ink-3);
+  }
+
+  .cards-visual {
+    position: relative;
+    height: 330px;
+    max-width: 420px;
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .cc {
+    position: absolute;
+    width: 300px;
+    max-width: 82%;
+    aspect-ratio: 1.586;
+    border-radius: 16px;
+    padding: 16px 18px;
+    color: #fff;
+    box-shadow: 0 18px 40px -16px rgb(30 21 48 / 0.5);
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    transition: transform 0.35s;
+  }
+
+  .cc:hover {
+    transform: translateY(-8px) rotate(0deg) !important;
+    z-index: 5;
+  }
+
+  .cc-cmb {
+    left: 0;
+    top: 0;
+    background: linear-gradient(135deg, #e6322d, #9c1b20);
+    transform: rotate(-6deg);
+  }
+
+  .cc-boc {
+    right: 0;
+    top: 90px;
+    background: linear-gradient(135deg, #c8102e, #6d0a1a);
+    transform: rotate(4deg);
+  }
+
+  .cc-amex {
+    left: 20px;
+    top: 170px;
+    background: linear-gradient(135deg, #3fb9ef, #1665a8);
+    transform: rotate(-2deg);
+  }
+
+  .cc-bank {
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .cc-chip {
+    width: 38px;
+    height: 28px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #ffe7a0, #d6a740);
+    align-self: center;
+  }
+
+  .cc-no {
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+  }
+
+  .cc-brand {
+    position: absolute;
+    right: 16px;
+    bottom: 12px;
+    font-weight: 900;
+    font-size: 1.3rem;
+    font-style: italic;
+    letter-spacing: 0.04em;
+  }
+
+  .phone-art svg {
+    max-height: 420px;
+    margin-inline: auto;
+    filter: drop-shadow(0 24px 40px rgb(30 21 48 / 0.25));
+  }
+
+  .carriers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 14px 0 18px;
+  }
+
+  .carrier {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 14px 6px;
+    border-radius: 14px;
+    background: #fff;
+    border: 1px solid var(--line);
+    text-align: center;
+  }
+
+  .carrier b {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .carrier small {
+    color: var(--ink-3);
+    font-size: 0.75rem;
+  }
+
+  .crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    background: var(--ink);
+    color: #fff;
+    margin-bottom: 18px;
+    font-size: 0.92rem;
+  }
+
+  .crumbs a {
+    color: var(--blue);
+  }
+
+  .crumbs span {
+    color: var(--pink);
+  }
+
+  .flow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 0;
+    position: relative;
+  }
+
+  .flow-step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 6px;
+  }
+
+  .flow-step::after {
+    content: '';
+    position: absolute;
+    top: 26px;
+    left: calc(50% + 24px);
+    right: calc(-50% + 24px);
+    height: 3px;
+    background: var(--grad);
+    border-radius: 3px;
+  }
+
+  .flow-step:last-child::after {
+    display: none;
+  }
+
+  .flow-dot {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #fff;
+    border: 3px solid var(--pink);
+    font-weight: 800;
+    color: var(--pink-ink);
+    margin-bottom: 6px;
+  }
+
+  .flow-step:last-child .flow-dot {
+    background: var(--grad);
+    border: 0;
+    color: #fff;
+  }
+
+  .flow-step small {
+    color: var(--ink-3);
+  }
+
+  .msg {
+    background: var(--grad-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+
+  .msg-label {
+    font-size: 0.82rem;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+
+  .bubble {
+    background: #95ec69;
+    color: #10230a;
+    padding: 14px 16px;
+    border-radius: 16px 4px 16px 16px;
+    margin-left: 12%;
+    font-size: 0.95rem;
+    box-shadow: var(--shadow);
+    user-select: all;
+  }
+  .dot-demo {
+    display: inline-grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--pink);
+    color: #fff;
+    font: 800 0.75rem var(--font-display);
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px var(--pink);
+    margin: 0 4px;
+    vertical-align: 1px;
+  }
+
+  .err-shot {
+    margin: 0;
+  }
+
+  .err-shot img {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    margin-inline: auto;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+
+  .flow-step .forks {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 6px;
+  }
+
+  .fork {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .fork.a {
+    background: var(--pink-soft);
+    color: var(--pink-ink);
+  }
+
+  .fork.b {
+    background: var(--blue-soft);
+    color: var(--blue-ink);
+  }
+
+  .split-step .flow-dot {
+    background: var(--grad);
+    border: 0;
+    color: #fff;
+  }
+
+  .pay-compare {
+    display: grid;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  @media (min-width: 900px) {
+    .pay-compare {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .pay-col {
+    padding: 20px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+
+  .pay-col.credit {
+    border: 2px solid var(--pink);
+    box-shadow: 0 0 0 4px var(--pink-soft);
+  }
+
+  .pay-col.store {
+    background: #fcfbfd;
+  }
+
+  .pay-col h3 {
+    margin: 10px 0 12px;
+  }
+
+  .when {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .when div {
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: var(--grad-soft);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .credit .when div {
+    background: var(--grad);
+    color: #fff;
+  }
+
+  .when small {
+    font-size: 0.75rem;
+    opacity: 0.85;
+  }
+
+  .when b {
+    font-size: 1.05rem;
+  }
+
+
+  .ttype {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    margin-bottom: 16px;
+  }
+
+  .tt {
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+
+  .tt h3 {
+    margin: 8px 0 4px;
+  }
+
+  .tt p {
+    margin: 0;
+    color: var(--ink-2);
+  }
+
+  .entry-ways {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+  }
+
+  .ew {
+    padding: 20px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+
+  .ew-art {
+    border-radius: 14px;
+    background: var(--grad-soft);
+    padding: 8px;
+    margin-bottom: 12px;
+  }
+
+  .ew-art svg {
+    width: 100%;
+    max-height: 140px;
+  }
+
+  .ew-fly {
+    animation: ew-dash 1.2s linear infinite;
+  }
+
+  @keyframes ew-dash {
+    to {
+      stroke-dashoffset: -22;
+    }
+  }
+
+  .ew h3 {
+    margin: 8px 0 4px;
+  }
+
+  .ew > p {
+    color: var(--ink-2);
+  }
+
+  .ew-facts {
+    margin: 12px 0 0;
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .ew-facts div {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.9rem;
+  }
+
+  .ew-facts dt {
+    font-weight: 700;
+    color: var(--ink-3);
+  }
+
+  .ew-facts dd {
+    margin: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ew-fly {
+      animation: none;
+    }
+  }
+  .sub {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.15rem;
+    margin: 32px 0 14px;
+  }
+
+  .sub-no {
+    flex: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: var(--ink);
+    color: var(--pink);
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+  }
+
+  .pay-col.store {
+    border: 2px solid var(--blue);
+    box-shadow: 0 0 0 4px var(--blue-soft);
+    background: #fff;
+  }
+
+  .store .when div {
+    background: linear-gradient(120deg, #3fb9ef, #6fd0fb);
+    color: #fff;
+  }
+
+  .pay-con {
+    margin: 12px 0 0;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: var(--warn-soft);
+    color: #9a3a06;
+    font-size: 0.88rem;
+  }
+
+  .issue {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  }
+
+  .is-col {
+    padding: 20px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+
+  .is-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 3px solid var(--blue);
+  }
+
+  .is-head.p {
+    border-bottom-color: var(--pink);
+  }
+
+  .is-warn {
+    margin: 12px 0 0;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: var(--warn-soft);
+    color: var(--warn);
+    font-weight: 700;
+    font-size: 0.88rem;
+  }
+
+  .is-steps {
+    margin: 0;
+    padding-left: 1.3em;
+    display: grid;
+    gap: 8px;
+    font-size: 0.94rem;
+  }
+
+  .vs {
+    margin-bottom: 20px;
+  }
+
+  .vs table th:first-child {
+    width: 130px;
+  }
+
+  .vs tbody th {
+    background: #faf7fd;
+    white-space: normal;
+  }
+
+  .tpanel {
+    border-radius: var(--radius);
+    border: 2px solid var(--blue);
+    background: #fff;
+    overflow: hidden;
+    margin-top: 20px;
+  }
+
+  .tpanel.p {
+    border-color: var(--pink);
+  }
+
+  .tp-head {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding: 16px 20px;
+    background: var(--blue-soft);
+  }
+
+  .tpanel.p .tp-head {
+    background: var(--pink-soft);
+  }
+
+  .tp-head h3 {
+    margin: 0;
+  }
+
+  .tp-head p {
+    margin: 2px 0 0;
+    font-size: 0.92rem;
+    color: var(--ink-2);
+  }
+
+  .tp-tag {
+    flex: none;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: var(--blue);
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.05rem;
+  }
+
+  .tpanel.p .tp-tag {
+    background: var(--pink);
+  }
+
+  .tpanel .entry-ways,
+  .tpanel .paper-flow,
+  .tpanel .mini-list {
+    margin-inline: 20px;
+  }
+
+  .tpanel .entry-ways {
+    margin-top: 16px;
+  }
+
+  .tpanel .ew {
+    box-shadow: none;
+  }
+
+  .tp-warn {
+    margin: 16px 20px 20px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: var(--warn-soft);
+    color: #9a3a06;
+    font-size: 0.9rem;
+  }
+
+  .paper-flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .pf {
+    flex: 1 1 200px;
+    display: flex;
+    flex-direction: column;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+  }
+
+  .pf .num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--pink);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+
+  .pf small {
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+
+  .paper-flow > i {
+    align-self: center;
+    font-style: normal;
+    font-weight: 800;
+    color: var(--pink);
+  }
+
+  .tpanel.p .mini-list {
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 640px) {
+    .paper-flow > i {
+      display: none;
+    }
+    .tp-head {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+  .both {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    background: var(--ink);
+    color: #fff;
+    font-size: 0.88rem;
+    margin-bottom: 16px;
+  }
+
+  .both > b {
+    color: var(--pink);
+    margin-right: 4px;
+  }
+
+  .both span {
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.1);
+  }
+
+  .channels {
+    display: grid;
+    gap: 16px;
+  }
+
+  @media (min-width: 900px) {
+    .channels {
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+    }
+  }
+
+  .tpanel.ch {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* two channel panels side by side: share header height via subgrid */
+  @media (min-width: 900px) {
+    .channels {
+      grid-template-rows: auto 1fr;
+    }
+    .tpanel.ch {
+      display: grid;
+      grid-row: span 2;
+      grid-template-rows: subgrid;
+      row-gap: 0;
+    }
+  }
+
+  .tpanel.ch .ch-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tpanel.ch .ch-cta {
+    margin-top: auto;
+    align-self: flex-start;
+  }
+
+  .tpanel.ch .ch-note {
+    margin-bottom: 16px;
+  }
+
+  .tpanel.ch .tp-head {
+    min-height: 96px;
+  }
+
+  .tpanel.ch {
+    margin-top: 0;
+    scroll-margin-top: 90px;
+  }
+
+  .ch-body {
+    padding: 16px 20px 20px;
+  }
+
+  .ch-body .crumbs {
+    font-size: 0.84rem;
+    padding: 10px 12px;
+    margin-bottom: 14px;
+  }
+
+  .ch-note {
+    margin: 14px 0 0;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: var(--pink-soft);
+    font-size: 0.88rem;
+  }
+
+  .ch-cta {
+    margin-top: 16px;
+  }
+
+  .pay-flow {
+    margin-top: 20px;
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+
+  .pay-flow h3 {
+    margin-bottom: 12px;
+  }
+
+  .ds {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .ds-i {
+    flex: 1 1 140px;
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    background: #fff;
+    border: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ds-i .num {
+    font-weight: 800;
+    color: var(--pink-ink);
+  }
+
+  .ds-i small {
+    color: var(--ink-3);
+  }
+
+  .ds-i.bank {
+    background: var(--blue-soft);
+    border-color: #c8eafa;
+  }
+
+  .ds-i.done {
+    background: var(--grad);
+    color: #fff;
+    border: 0;
+  }
+
+  .ds-i.done .num,
+  .ds-i.done small {
+    color: #fff;
+  }
+
+  .ds-ar {
+    align-self: center;
+    font-style: normal;
+    color: var(--pink);
+    font-weight: 800;
+  }
+
+  @media (max-width: 640px) {
+    .ds-ar {
+      display: none;
+    }
+  }
+  .vpn {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    background: linear-gradient(120deg, #e8f6fd, #fff);
+    border: 2px solid var(--blue);
+  }
+
+  .vpn-ic {
+    flex: none;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: var(--blue-ink);
+    display: grid;
+    place-items: center;
+  }
+
+  .vpn strong {
+    display: block;
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+  }
+
+  .vpn p {
+    margin: 0 0 6px;
+    font-size: 0.93rem;
+  }
+
+  .vpn ul {
+    margin: 0;
+    padding-left: 1.2em;
+    display: grid;
+    gap: 3px;
+    font-size: 0.9rem;
+    color: var(--ink-2);
+  }
+
+  @media (max-width: 520px) {
+    .vpn {
+      flex-direction: column;
+    }
+  }
+</style>

@@ -1,0 +1,18 @@
+---
+import { sources } from '../data/sources';
+interface Props {
+  n: string | string[];
+}
+const ids = (Array.isArray(Astro.props.n) ? Astro.props.n : Astro.props.n.split(/[ ,]+/)).filter(Boolean);
+---
+
+{
+  ids.map((n) => {
+    const s = sources.find((x) => x.n === n);
+    return (
+      <a class="ref" href={`/sources/#s${n}`} title={s ? `${s.title}：${s.desc}` : undefined}>
+        [{n}]
+      </a>
+    );
+  })
+}

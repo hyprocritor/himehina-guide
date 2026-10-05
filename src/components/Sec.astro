@@ -1,0 +1,20 @@
+---
+interface Props {
+  id: string;
+  idx?: string;
+  title: string;
+  lead?: string;
+}
+const { id, idx, title, lead } = Astro.props;
+---
+
+<section class="section" id={id}>
+  <div class="wrap">
+    <div class="section-head reveal">
+      {idx && <span class="idx">{idx}</span>}
+      <h2>{title}</h2>
+    </div>
+    {lead && <p class="lead reveal">{lead}</p>}
+    <slot />
+  </div>
+</section>

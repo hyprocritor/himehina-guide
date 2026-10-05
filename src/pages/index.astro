@@ -1,0 +1,574 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Ref from '../components/Ref.astro';
+import BudokanArt from '../components/art/BudokanArt.astro';
+import Countdown from '../components/islands/Countdown.tsx';
+import { sections, EVENT } from '../data/sections';
+
+const lines = [
+  { k: '证件', t: '先办护照', d: '还没有护照的话，现在就去预约，别等到要交签证了才想起来。', href: '/passport/', icon: 'passport' },
+  { k: '签证', t: '问问签证', d: '找你所在领区的指定旅行社，先问问自己能办哪种签证、要什么材料。', href: '/visa/', icon: 'visa' },
+  { k: '门票', t: '抽票或跟群友', d: '自己去海外渠道抽，或者找靠谱、本人也会去的群友一起。', href: '/tickets/', icon: 'ticket' },
+  { k: '机酒', t: '订机票酒店', d: '演出前后各留一晚。先问清签证对机酒有什么要求，再下单。', href: '/flights-hotels/', icon: 'plane' },
+  { k: '钱与网', t: '钱和手机', d: '准备好能用的银行卡、一点日元现金，还有在日本上网的办法。', href: '/money/', icon: 'card' },
+] as const;
+
+const timeline = [
+  { when: '现在 → 10/18', what: '去预约护照；问问签证；抽票或者盯着群里的票；跟同伴把预算谈好', hot: true },
+  { when: '10/23 前后', what: '查抽选结果；确认扣款或去付款；把订单信息存好' },
+  { when: '门票确认后', what: '定好去几天；问清签证对机酒的要求；先订能免费取消的酒店' },
+  { when: '2027 春', what: '再看一遍签证政策和护照有效期；问旅行社什么时候能交材料' },
+  { when: '出发前 4–8 周', what: '正式办签证；检查机票、酒店上的名字和护照一样' },
+  { when: '演出前约 2 周', what: '留意发票通知；准备取票；看看物贩和现场有没有新规定' },
+  { when: '出发前一周', what: '再确认航班和航站楼，看天气；填好 VJW，买保险，收拾行李' },
+  { when: '7/13 当天', what: '轻装去会场；当晚住在东京，不赶飞机', hot: true },
+];
+
+const docs = [
+  { name: '护照', use: '出国用的身份证', color: 'blue' },
+  { name: '签证', use: '让你能去日本', color: 'pink' },
+  { name: 'Visit Japan Web', use: '提前在网上填入境申报', color: 'blue' },
+  { name: '演出门票', use: '进场用', color: 'pink' },
+];
+---
+
+<Base title="HIMEHINA 武道馆 2027｜首次赴日观演完整攻略">
+  <section class="home-hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">A First-Timer's Handbook · 首次赴日观演攻略</p>
+        <h1>
+          <span class="grad-text">HIMEHINA</span><br />
+          日本武道馆 2027
+        </h1>
+        <p class="hero-sub">
+          写给<strong>从没出过国、第一次去日本、第一次看 Live</strong>的大陆观众。<br />
+          从办护照、签证、订机酒，到落地东京、走进武道馆，再开开心心回家。
+        </p>
+        <div class="facts">
+          <div><small>日期</small><b class="num">2027.07.13</b><span>{EVENT.weekday}</span></div>
+          <div><small>会场</small><b>日本武道館</b><span>东京·九段下</span></div>
+          <div><small>开场／开演</small><b class="num">16:30 / 17:30</b><span>暂定 · 日本时间</span></div>
+          <div><small>一般指定席</small><b class="num">¥11,000</b><span>日元·含税</span></div>
+        </div>
+        <div class="cta">
+          <a class="btn" href="/start/">我是新手，从这里开始 →</a>
+          <a class="btn ghost" href="/tickets/">直接看抽票</a>
+        </div>
+        <p class="entry-links">
+          抽选受付中（截止 10/18 23:59 JST）：
+          <a href="https://himehina.jp/post/post-466/" target="_blank" rel="noopener">FC 最速先行 ↗</a>
+          <a href="https://l-tike.com/concert/mevent/?mid=496836" target="_blank" rel="noopener">Lawson（l-tike）受付页 ↗</a>
+        </p>
+      </div>
+      <div class="hero-visual">
+        <BudokanArt />
+        <div class="cd-wrap">
+          <Countdown client:load />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="idx">5</span>
+        <h2>要准备的五件事</h2>
+      </div>
+      <p class="lead reveal">
+        不用一下子把日本旅行全弄明白。把这五件事一件一件办好就行。不能退款的东西，等确定能去了再付钱。
+      </p>
+      <div class="lines">
+        {
+          lines.map((l, i) => (
+            <a class="line-card reveal" href={l.href} style={`transition-delay:${i * 60}ms`}>
+              <span class="line-no num">{String(i + 1).padStart(2, '0')}</span>
+              <Icon name={l.icon} size={44} />
+              <span class="chip">{l.k}</span>
+              <b>{l.t}</b>
+              <p>{l.d}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="reveal">
+        <div class="section-head">
+          <span class="idx">4</span>
+          <h2>四样东西，一样都不能少</h2>
+        </div>
+        <p class="lead">
+          它们各管各的：中了票，签证不一定能过；有了签证，入境申报还得另外填。<Ref n="11 14 66" />
+        </p>
+        <div class="callout tip">
+          <strong>新手这样安排最省心</strong>
+          提前一两天到东京，全程住同一家酒店，演出当晚也住东京；现金和银行卡都带一些。不会日语也没关系，把酒店地址和订单截图存在手机里，有问题就找机场、车站、酒店或会场的工作人员。
+        </div>
+      </div>
+      <div class="docs reveal">
+        {
+          docs.map((d, i) => (
+            <div class={`doc doc-${d.color}`} style={`--r:${(i - 1.5) * 4}deg`}>
+              <span class="num">0{i + 1}</span>
+              <b>{d.name}</b>
+              <small>{d.use}</small>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="chapters">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="idx">10</span>
+        <h2>全部章节</h2>
+      </div>
+      <div class="cats">
+        {
+          sections.map((s) => (
+            <a class={`cat reveal tone-${s.tone}`} href={`/${s.slug}/`}>
+              <div class="cat-icon" transition:name={`icon-${s.slug}`}>
+                <Icon name={s.icon} size={52} />
+              </div>
+              <div>
+                <p class="eyebrow" transition:name={`en-${s.slug}`}>
+                  {s.no} / {s.en}
+                </p>
+                <h3 transition:name={`title-${s.slug}`}>{s.title}</h3>
+                <p class="cat-blurb">{s.blurb}</p>
+              </div>
+              <span class="cat-arrow" aria-hidden="true">
+                →
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="idx">→</span>
+        <h2>从现在到演出日</h2>
+      </div>
+      <p class="lead reveal">下面是建议的时间安排，具体还要看签证、酒店和航班的实际情况。</p>
+      <ol class="tl">
+        {
+          timeline.map((t) => (
+            <li class={`reveal ${t.hot ? 'hot' : ''}`}>
+              <span class="tl-when num">{t.when}</span>
+              <span class="tl-what">{t.what}</span>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="trip reveal">
+        <h3>建议行程：5 天 4 晚</h3>
+        <div class="trip-days">
+          <div><b class="num">7/11</b><small>周日</small><span>抵达入住</span></div>
+          <div><b class="num">7/12</b><small>周一</small><span>轻松游览·取票</span></div>
+          <div class="show"><b class="num">7/13</b><small>周二</small><span>演出日 ★</span></div>
+          <div><b class="num">7/14</b><small>周三</small><span>东京游览</span></div>
+          <div><b class="num">7/15</b><small>周四</small><span>返程</span></div>
+        </div>
+        <p class="small muted">
+          假期不够的话，7/12–7/14（3 天 2 晚）也行，就是有点赶。演出前后别再塞大阪、京都这种远的地方。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="callout warn reveal">
+        <strong>付钱之前想一想</strong>
+        中了票，签证也可能没过；签证过了，演出也可能有变化。买不能退的东西前，先想想万一去不了会损失多少。另外记得先问旅行社：你能办哪种签证，机酒是不是要由他们来订。<Ref
+          n="09 11"
+        />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .home-hero {
+    background:
+      radial-gradient(60% 80% at 0% 0%, #ffe0f4 0%, transparent 60%),
+      radial-gradient(60% 80% at 100% 10%, #dcf3ff 0%, transparent 60%), var(--bg);
+    padding-block: 40px 24px;
+  }
+
+  .hero-grid {
+    display: grid;
+    gap: 32px;
+    align-items: center;
+  }
+
+  @media (min-width: 960px) {
+    .hero-grid {
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(2.5rem, 7.5vw, 4.4rem);
+    line-height: 1.05;
+    margin: 10px 0 18px;
+  }
+
+  .hero-sub {
+    font-size: 1.08rem;
+    color: var(--ink-2);
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin: 22px 0;
+  }
+
+  @media (min-width: 560px) {
+    .facts {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .facts div {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .facts small {
+    color: var(--ink-3);
+    font-size: 0.75rem;
+  }
+
+  .facts b {
+    font-size: 1.02rem;
+  }
+
+  .facts span {
+    font-size: 0.75rem;
+    color: var(--pink-ink);
+  }
+
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .entry-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+    margin-top: 14px;
+    font-size: 0.88rem;
+    color: var(--ink-2);
+  }
+
+  .entry-links a {
+    font-weight: 700;
+    color: var(--pink-ink);
+  }
+
+  .hero-visual {
+    position: relative;
+  }
+
+  .cd-wrap {
+    margin-top: -48px;
+    margin-inline: 16px;
+    position: relative;
+  }
+
+  .lines {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+  }
+
+  .line-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+    text-decoration: none;
+    color: var(--ink);
+    box-shadow: var(--shadow);
+    transition:
+      transform 0.25s,
+      box-shadow 0.25s,
+      opacity 0.6s;
+  }
+
+  .line-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .line-card .chip {
+    align-self: flex-start;
+  }
+
+  .line-card b {
+    font-size: 1.08rem;
+  }
+
+  .line-card p {
+    font-size: 0.9rem;
+    color: var(--ink-2);
+    margin: 0;
+  }
+
+  .line-no {
+    position: absolute;
+    right: 16px;
+    top: 10px;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #f1ebf8;
+  }
+
+  .docs {
+    max-width: 460px;
+    width: 100%;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 14px;
+    padding: 10px;
+  }
+
+  .doc {
+    aspect-ratio: 1.45;
+    border-radius: 18px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: #fff;
+    transform: rotate(var(--r));
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.3s;
+  }
+
+  .doc:hover {
+    transform: rotate(0) scale(1.04);
+  }
+
+  .doc-blue {
+    background: linear-gradient(140deg, #6fd0fb, #1b8fcf);
+  }
+
+  .doc-pink {
+    background: linear-gradient(140deg, #ff7fd2, #e0209f);
+  }
+
+  .doc .num {
+    font-weight: 800;
+    opacity: 0.6;
+    margin-bottom: auto;
+  }
+
+  .doc b {
+    font-size: 1.15rem;
+  }
+
+  .doc small {
+    opacity: 0.92;
+  }
+
+  .cats {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr));
+  }
+
+  .cat {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    align-items: start;
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+    text-decoration: none;
+    color: var(--ink);
+    transition:
+      transform 0.25s,
+      border-color 0.25s,
+      box-shadow 0.25s,
+      opacity 0.6s;
+  }
+
+  .cat:hover {
+    transform: translateY(-3px);
+    border-color: var(--pink);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .cat-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    display: grid;
+    place-items: center;
+    background: var(--grad-soft);
+  }
+
+  .cat h3 {
+    margin: 0 0 2px;
+    font-size: 1.15rem;
+    width: fit-content;
+  }
+
+  .cat .eyebrow {
+    margin: 0;
+    width: fit-content;
+  }
+
+  .cat-blurb {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+
+  .cat-arrow {
+    align-self: center;
+    font-size: 1.3rem;
+    color: var(--ink-3);
+    transition: transform 0.25s;
+  }
+
+  .cat:hover .cat-arrow {
+    transform: translateX(4px);
+    color: var(--pink);
+  }
+
+  .tl {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 22px;
+    border-left: 3px solid transparent;
+    border-image: var(--grad) 1;
+    display: grid;
+    gap: 14px;
+  }
+
+  .tl li {
+    position: relative;
+    display: grid;
+    gap: 2px 18px;
+  }
+
+  @media (min-width: 700px) {
+    .tl li {
+      grid-template-columns: 150px 1fr;
+    }
+  }
+
+  .tl li::before {
+    content: '';
+    position: absolute;
+    left: -31px;
+    top: 7px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid var(--blue);
+  }
+
+  .tl li.hot::before {
+    border-color: var(--pink);
+    background: var(--pink);
+    box-shadow: 0 0 0 6px rgb(255 58 192 / 0.18);
+  }
+
+  .tl-when {
+    font-weight: 800;
+    color: var(--ink);
+  }
+
+  .tl li.hot .tl-when {
+    color: var(--pink-ink);
+  }
+
+  .tl-what {
+    color: var(--ink-2);
+  }
+
+  .trip {
+    margin-top: 32px;
+    padding: 22px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+
+  .trip-days {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin: 12px 0;
+  }
+
+  .trip-days div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 12px 4px;
+    border-radius: 14px;
+    background: var(--blue-soft);
+  }
+
+  .trip-days div.show {
+    background: var(--grad);
+    color: #fff;
+    transform: scale(1.06);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .trip-days b {
+    font-size: 1.15rem;
+  }
+
+  .trip-days small {
+    font-size: 0.72rem;
+    opacity: 0.75;
+  }
+
+  .trip-days span {
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+</style>

@@ -1,0 +1,348 @@
+---
+import Guide from '../layouts/Guide.astro';
+import Sec from '../components/Sec.astro';
+import Ref from '../components/Ref.astro';
+import Icon from '../components/Icon.astro';
+
+const journey = [
+  { icon: 'passport', t: '办护照', s: '7–20 天', href: '/passport/' },
+  { icon: 'ticket', t: '抽票／找同行', s: '截止 10/18', href: '/tickets/' },
+  { icon: 'visa', t: '办签证', s: '出发前 4–8 周', href: '/visa/' },
+  { icon: 'plane', t: '订机酒', s: '先订可取消的', href: '/flights-hotels/' },
+  { icon: 'card', t: '卡·现金·网络', s: '出发前一周', href: '/money/' },
+  { icon: 'train', t: '落地·去酒店', s: '7/11 抵达', href: '/transport/' },
+  { icon: 'stage', t: '武道馆！', s: '7/13 17:30', href: '/show-day/' },
+] as const;
+
+const now = [
+  { t: '办护照', d: '没有护照就先去预约。单位有出国备案要求的，先找单位审批。别等到要交签证了才去办。', r: '65 67', href: '/passport/' },
+  { t: '问签证', d: '看看你住的地方归哪个领区，再问旅行社你能办哪种签证、要准备什么。', href: '/visa/' },
+  { t: '抽票', d: '自己去海外渠道申请，或者找靠谱、本人也会去的群友带你。提交了申请只是参加抽选，中了才有票。', href: '/tickets/' },
+  { t: '机票酒店', d: '演出前后各留一晚。问清签证对机酒的要求再订。只是来看演出的话，待在东京就好，不用跑别的城市。', href: '/flights-hotels/' },
+  { t: '钱和手机', d: '准备好能在日本用的银行卡和一点现金，再想好在日本怎么上网。', href: '/money/' },
+];
+---
+
+<Guide
+  slug="start"
+  lead="一次国都没出过？没关系，照着下面的顺序一步一步来就行。"
+  toc={[
+    { id: 'journey', label: '整趟旅程' },
+    { id: 'now', label: '现在先做什么' },
+    { id: 'docs', label: '四种文件' },
+    { id: 'jst', label: '时间与时区' },
+  ]}
+>
+  <Sec id="journey" idx="01" title="整趟旅程，一张图看完">
+    <ol class="journey reveal">
+      {
+        journey.map((j, i) => (
+          <li style={`--i:${i}`}>
+            <a href={j.href}>
+              <span class="j-icon">
+                <Icon name={j.icon} size={40} />
+              </span>
+              <b>{j.t}</b>
+              <small>{j.s}</small>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+    <div class="callout ok reveal">
+      <strong>第一次去日本，按这个顺序最稳</strong>
+      办好护照 → 问清签证 → 抽票或找群友 → 付款、取票 → 订机酒、办签证 → 提前到东京 → 演出当晚住东京。
+    </div>
+  </Sec>
+
+  <Sec id="now" idx="02" title="现在可以先做的事">
+    <div class="grid grid-2">
+      {
+        now.map((n, i) => (
+          <div class="card now reveal">
+            <span class="now-no num">{i + 1}</span>
+            <div>
+              <h3>{n.t}</h3>
+              <p class="small">
+                {n.d}
+                {n.r && <Ref n={n.r} />}
+              </p>
+              <a class="now-link small" href={n.href}>
+                详细看这一章 →
+              </a>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <div class="callout warn reveal">
+      <strong>护照现在就能办，签证先别急</strong>
+      护照一办能用好几年，但单次旅游签证一般只能在 3 个月内用。演出在 2027 年 7 月，签证等到 2027 年 5 月前后再办。<Ref n="09 65" />
+    </div>
+  </Sec>
+
+  <Sec id="docs" idx="03" title="四样东西，一样都不能少">
+    <div class="docs-grid">
+      <div class="dg reveal">
+        <span class="dg-art blue"><Icon name="passport" size={56} /></span>
+        <b>护照</b>
+        <p>出国用的身份证。在本地公安出入境窗口办。</p>
+      </div>
+      <div class="dg reveal">
+        <span class="dg-art pink"><Icon name="visa" size={56} /></span>
+        <b>签证 / eVISA</b>
+        <p>有了它才能去日本。大陆护照要提前通过指定旅行社办。</p>
+      </div>
+      <div class="dg reveal">
+        <span class="dg-art blue"><Icon name="check" size={56} /></span>
+        <b>Visit Japan Web</b>
+        <p>出发前在网上填好入境和海关申报，落地后给工作人员看二维码就行。它不是签证。<Ref n="14" /></p>
+      </div>
+      <div class="dg reveal">
+        <span class="dg-art pink"><Icon name="ticket" size={56} /></span>
+        <b>演出门票</b>
+        <p>进场用的。海外渠道是纸票，日本国内渠道是电子票。付款截图不能当票用。</p>
+      </div>
+    </div>
+    <div class="callout tip reveal">
+      <strong>新手这样安排最省心</strong>
+      提前到东京，全程住同一家酒店，演出当晚也住东京，现金和银行卡都带一些。不会日语也能去：把地址和订单存在手机里，有问题就找机场、车站、酒店或会场的工作人员。
+    </div>
+  </Sec>
+
+  <Sec id="jst" idx="04" title="时间：日本比北京快 1 小时">
+    <div class="clocks reveal">
+      <div class="clock">
+        <small>北京时间 CST</small>
+        <b class="num">16:30</b>
+        <span>UTC+8</span>
+      </div>
+      <div class="clock-arrow num">+1h</div>
+      <div class="clock jp-clock">
+        <small>日本时间 JST</small>
+        <b class="num">17:30</b>
+        <span>UTC+9 · 开演</span>
+      </div>
+    </div>
+    <p class="reveal">
+      演出时间、抽票截止时间、票务通知，用的都是日本时间。机票上写的是当地时间（出发地／到达地）。例如抽选截止“10/18 23:59 JST”，就是北京时间
+      <b>10/18 22:59</b>。
+    </p>
+    <div class="callout reveal">
+      <strong>文中的小编号</strong>
+      正文里的 <a class="ref" href="/sources/" style="vertical-align:baseline">[01]</a> 这样的小编号可以点，会跳到对应的官方来源。政策随时可能变，出发前最好点进去再看一眼。
+    </div>
+  </Sec>
+</Guide>
+
+<style>
+  .journey {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+    gap: 10px;
+    counter-reset: j;
+  }
+
+  .journey li {
+    position: relative;
+  }
+
+  .journey a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 4px;
+    padding: 18px 8px 14px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    text-decoration: none;
+    height: 100%;
+    transition:
+      transform 0.25s,
+      border-color 0.25s;
+  }
+
+  .journey a:hover {
+    transform: translateY(-4px);
+    border-color: var(--pink);
+  }
+
+  .journey li:last-child a {
+    background: var(--grad);
+    color: #fff;
+    border: 0;
+  }
+
+  .journey li:last-child small {
+    color: #fff;
+  }
+
+  .j-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    background: var(--grad-soft);
+    margin-bottom: 4px;
+  }
+
+  .journey li:last-child .j-icon {
+    background: #fff;
+  }
+
+  .journey small {
+    color: var(--pink-ink);
+    font-size: 0.78rem;
+  }
+
+  .now {
+    display: flex;
+    gap: 16px;
+    align-items: stretch;
+    text-decoration: none;
+    color: var(--ink);
+    transition:
+      transform 0.25s,
+      border-color 0.25s,
+      opacity 0.6s;
+  }
+
+  /* pin the "详细看这一章" link to the bottom so it lines up across cards */
+  .now > div {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .now > div > p {
+    flex: 1;
+  }
+
+  .now-link {
+    align-self: flex-start;
+  }
+
+  .now:hover {
+    transform: translateY(-3px);
+    border-color: var(--blue);
+  }
+
+  .now-no {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--grad);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+  }
+
+  .now h3 {
+    margin-bottom: 4px;
+  }
+
+  .now p {
+    color: var(--ink-2);
+  }
+
+  .docs-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  }
+
+  .dg {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+
+  .dg b {
+    display: block;
+    font-size: 1.1rem;
+    margin: 12px 0 4px;
+  }
+
+  .dg p {
+    color: var(--ink-2);
+    font-size: 0.92rem;
+    margin: 0;
+  }
+
+  .dg-art {
+    width: 76px;
+    height: 76px;
+    border-radius: 22px;
+    display: grid;
+    place-items: center;
+  }
+
+  .dg-art.blue {
+    background: var(--blue-soft);
+  }
+
+  .dg-art.pink {
+    background: var(--pink-soft);
+  }
+
+  .clocks {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .clock {
+    width: 170px;
+    padding: 18px;
+    border-radius: 24px;
+    background: #fff;
+    border: 1px solid var(--line);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow);
+  }
+
+  .clock b {
+    font-size: 2.4rem;
+    line-height: 1.1;
+  }
+
+  .clock small,
+  .clock span {
+    color: var(--ink-3);
+    font-size: 0.8rem;
+  }
+
+  .jp-clock {
+    background: var(--grad);
+    color: #fff;
+    border: 0;
+  }
+
+  .jp-clock small,
+  .jp-clock span {
+    color: #fff;
+    opacity: 0.9;
+  }
+
+  .clock-arrow {
+    font-weight: 800;
+    color: var(--pink-ink);
+    font-size: 1.2rem;
+  }
+</style>

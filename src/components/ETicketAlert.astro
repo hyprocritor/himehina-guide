@@ -1,0 +1,76 @@
+---
+import Ref from './Ref.astro';
+---
+
+<div class="eta reveal" role="note">
+  <div class="eta-ic" aria-hidden="true">
+    <svg viewBox="0 0 48 48" width="40" height="40">
+      <rect x="12" y="4" width="24" height="40" rx="5" fill="#fff"></rect>
+      <rect x="16" y="10" width="16" height="24" rx="2" fill="#ffe0cc"></rect>
+      <rect x="20" y="14" width="8" height="10" rx="1.5" fill="#e8590c"></rect>
+      <circle cx="24" cy="39" r="2" fill="#e8590c"></circle>
+      <path d="M6 6 42 42" stroke="#fff" stroke-width="4" stroke-linecap="round"></path>
+    </svg>
+  </div>
+  <div class="eta-body">
+    <strong>电子票显示在 App 里以后，不要动手机、SIM 卡和 App！</strong>
+    <ul>
+      <li><b>不要取出或更换 SIM 卡</b>，也不要切换或迁移 eSIM</li>
+      <li><b>不要换手机</b>，也不要恢复出厂设置</li>
+      <li><b>不要删除或重装 Lawson 电子票 App</b>，不要解除认证</li>
+    </ul>
+    <p>这样做票可能直接消失，很难找回来。真要换手机或换卡，一定要在票显示之前（2027/6/29 12:00 前）按 Lawson 的官方步骤操作。出了问题先找 Lawson 客服，别自己反复重装。<Ref n="06 07" /></p>
+  </div>
+</div>
+
+<style>
+  .eta {
+    display: flex;
+    gap: 16px;
+    padding: 18px 20px;
+    margin: 18px 0;
+    border-radius: var(--radius);
+    background: var(--warn);
+    color: #fff;
+    box-shadow: 0 14px 34px -16px rgb(232 89 12 / 0.7);
+  }
+
+  .eta-ic {
+    flex: none;
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: rgb(255 255 255 / 0.18);
+    display: grid;
+    place-items: center;
+  }
+
+  .eta strong {
+    display: block;
+    font-size: 1.08rem;
+    margin-bottom: 6px;
+  }
+
+  .eta ul {
+    margin: 0 0 8px;
+    padding-left: 1.2em;
+    display: grid;
+    gap: 2px;
+  }
+
+  .eta p {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.95;
+  }
+
+  .eta :global(.ref) {
+    color: #ffe0cc;
+  }
+
+  @media (max-width: 520px) {
+    .eta {
+      flex-direction: column;
+    }
+  }
+</style>

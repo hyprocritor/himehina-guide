@@ -1,0 +1,830 @@
+---
+import Guide from '../layouts/Guide.astro';
+import Sec from '../components/Sec.astro';
+import Ref from '../components/Ref.astro';
+import AirportRoute from '../components/islands/AirportRoute.tsx';
+
+const airport = [
+  { t: '找航班和柜台', jp: 'チェックインカウンター', d: '看大屏幕上你的航班在哪个柜台。代码共享航班，去实际执飞的航空公司柜台。' },
+  { t: '值机 Check-in', jp: 'チェックイン', d: '给柜台看护照和签证（电子签要联网打开），拿到登机牌。' },
+  { t: '托运 Bag drop', jp: '手荷物預け', d: '交大箱子，留好行李条。护照、手机、药和充电宝别放箱子里。' },
+  { t: '边检·海关·安检', jp: '保安検査・出国審査', d: '跟着“国际出发”的牌子走，护照和登机牌拿在手上。' },
+  { t: '先找登机口 Gate', jp: '搭乗口', d: '过完检查先确认登机口，再去吃饭购物。登机口可能会变。' },
+  { t: '登机', jp: '搭乗', d: '按登机牌上的分组排队。快落地时再看一眼酒店地址。' },
+];
+
+const arrive = [
+  { t: '入境审查', jp: '入国審査', d: '下飞机跟着 Arrivals／入国 的牌子走，排队按指纹、拍照' },
+  { t: '取托运行李', jp: '手荷物受取所', d: '找航班对应的转盘，行李有问题马上去行李服务柜台' },
+  { t: '检疫·海关', jp: '検疫・税関', d: '出示 Visit Japan Web 二维码或纸质申报' },
+  { t: '到达大厅', jp: '到着ロビー', d: '在这里开通上网、取日元、买交通卡，然后去酒店' },
+];
+
+const toVenue = [
+  { from: '神保町', line: '半藏门线', c: '#8f76d6', dir: '涩谷方向', d: '坐一站就到，近的话走过去也行' },
+  { from: '饭田桥', line: '东西线', c: '#009bbf', dir: '西船桥方向', d: '一站到九段下' },
+  { from: '新宿', line: '都营新宿线', c: '#6cbb5a', dir: '本八幡方向', d: '新宿站很大，跟着“都営新宿線”的牌子找站台' },
+  { from: '涩谷', line: '半藏门线', c: '#8f76d6', dir: '押上方向', d: '直达九段下' },
+  { from: '东京站附近', line: '东西线', c: '#009bbf', dir: '中野方向', d: '先走到大手町再坐；地下通道很长，多留时间' },
+];
+---
+
+<Guide
+  slug="transport"
+  lead="从第一次坐国际航班、在日本入境、去酒店、坐地铁，到走进武道馆，每一步都按顺序写好了。"
+  toc={[
+    { id: 'depart', label: '出发机场' },
+    { id: 'arrive', label: '日本入境' },
+    { id: 'airport', label: '机场 → 酒店' },
+    { id: 'ic', label: 'IC 卡与地铁' },
+    { id: 'venue', label: '到武道馆' },
+  ]}
+>
+  <Sec id="depart" idx="01" title="第一次坐国际航班：进了机场做什么">
+    <p class="lead reveal">第一次坐国际航班，建议起飞前 3 小时到机场，别跑错航站楼。各航空公司的截止时间不一样，看你的机票说明。<Ref n="77" /></p>
+    <div class="flowline">
+      {
+        airport.map((a, i) => (
+          <div class="fl reveal">
+            <span class="fl-n num">{i + 1}</span>
+            <b>{a.t}</b>
+            {a.jp && <span class="jpk" lang="ja">{a.jp}</span>}
+            <p>{a.d}</p>
+          </div>
+        ))
+      }
+    </div>
+    <p class="small muted reveal" style="margin-top:10px">带 <span class="jpk" lang="ja">日文</span> 标签的，是日本机场里的写法。回国那天在日本机场值机、过安检时，对照着找就行。</p>
+
+    <div class="split" style="margin-top:28px">
+      <div class="bp reveal" aria-label="登机牌示意图">
+        <div class="bp-main">
+          <div class="bp-top">
+            <span>BOARDING PASS</span><span class="num">✈</span>
+          </div>
+          <div class="bp-route">
+            <div><small>FROM</small><b class="num">PVG</b></div>
+            <span class="bp-plane">— ✈ —</span>
+            <div><small>TO</small><b class="num">HND</b></div>
+          </div>
+          <div class="bp-grid">
+            <div class="hl"><small>FLIGHT</small><b class="num">XX 000</b><i>1</i></div>
+            <div class="hl"><small>DATE</small><b class="num">11JUL</b><i>2</i></div>
+            <div class="hl"><small>GATE</small><b class="num">D52</b><i>3</i></div>
+            <div class="hl"><small>BOARDING</small><b class="num">13:20</b><i>4</i></div>
+            <div class="hl"><small>SEAT</small><b class="num">32K</b><i>5</i></div>
+            <div><small>NAME</small><b class="num">WANG/XIAOMING</b></div>
+          </div>
+        </div>
+        <div class="bp-stub">
+          <div class="barcode" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="reveal">
+        <h3>登机牌上先找这五项</h3>
+        <ol class="mini-list">
+          <li><b>Flight</b> <span class="jpk" lang="ja">便名</span>：航班号</li>
+          <li><b>Date</b> <span class="jpk" lang="ja">搭乗日</span>：日期</li>
+          <li><b>Gate</b> <span class="jpk" lang="ja">搭乗口</span>：登机口</li>
+          <li><b>Boarding time</b> <span class="jpk" lang="ja">搭乗時刻</span>：登机时间（比起飞早）</li>
+          <li><b>Seat</b> <span class="jpk" lang="ja">座席番号</span>：座位号</li>
+        </ol>
+        <p class="small muted">手机里的订单不是登机牌。过了安检也别逛太久，晚到登机口一样上不了飞机。（图上的信息都是编的。）</p>
+        <div class="callout">
+          <strong>转机时多问一句</strong>
+          值机时问一句：“行李直挂到东京吗？中途要不要取箱子、重新值机或者入境？”
+        </div>
+      </div>
+    </div>
+  </Sec>
+
+  <Sec id="arrive" idx="02" title="从出发机场到日本入境">
+    <div class="split">
+      <div class="reveal">
+        <div class="vjw">
+          <div class="vjw-qr" aria-hidden="true">
+            {Array.from({ length: 49 }, (_, i) => <i class={(i * 7 + (i % 5)) % 3 === 0 ? 'on' : ''} />)}
+          </div>
+          <div>
+            <b>出发前：准备 Visit Japan Web</b>
+            <p class="small">在日本数字厅的官网上填好个人信息、航班、住宿和申报，确认能打开二维码。它只是用来入境申报的，不是签证。<Ref n="14" /></p>
+          </div>
+        </div>
+        <ol class="arrive">
+          {
+            arrive.map((a) => (
+              <li>
+                <b>
+                  {a.t}
+                  {a.jp && <span class="jpk" lang="ja">{a.jp}</span>}
+                </b>
+                <span>{a.d}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+      <div class="reveal">
+        <div class="callout">
+          <strong>被问到来意，如实回答</strong>
+          就说来东京旅游、看 HIMEHINA 的演出，再说清楚待几天、住哪里、哪天走。有签证也要过这一关，照实说就好。<Ref n="11" />
+        </div>
+        <div class="callout warn">
+          <strong>食物和药品</strong>
+          肉干、香肠这些肉制品，就算真空包装、煮熟了、是送人的，也要检疫。最省事的办法是别带。药品要看成分，有些在日本是禁止带的。<Ref n="28 29 30" />
+        </div>
+        <div class="callout tip">
+          <strong>第一天别排太满</strong>
+          入境、取行李、买票要多久都说不准。接机、吃饭别订得太紧。
+        </div>
+      </div>
+    </div>
+  </Sec>
+
+  <Sec id="airport" idx="03" title="机场 → 酒店：按酒店最近的车站选路线">
+    <AirportRoute client:visible />
+    <div class="grid grid-2" style="margin-top:16px">
+      <div class="callout reveal">
+        <strong>“最快 XX 分钟”只算坐车的时间</strong>
+        还要加上下飞机、入境、取行李、等车、在车站里走路、最后找酒店的时间。另外，电车直通到地铁线上，也不代表地铁通票能坐全程。<Ref n="15 20" />
+      </div>
+      <div class="callout warn reveal">
+        <strong>深夜落地</strong>
+        先查查落地后还有没有电车、巴士，没有的话就住机场酒店或者打正规出租车。东京的电车半夜会停，晚到要提前告诉酒店。
+      </div>
+    </div>
+  </Sec>
+
+  <Sec id="ic" idx="04" title="东京坐车：一张 IC 卡解决大部分问题">
+    <div class="split">
+      <div class="suica reveal" aria-label="Welcome Suica 卡示意">
+        <div class="ic-card">
+          <span class="ic-name num">Suica</span>
+          <span class="ic-sub">Welcome Suica · 示意图</span>
+          <span class="ic-bal num">¥ 2,000</span>
+          <div class="ic-tap"><span></span><span></span><span></span></div>
+        </div>
+        <div class="ic-facts">
+          <span class="chip blue">28 天有效</span>
+          <span class="chip blue">无押金</span>
+          <span class="chip warn">余额一般不退</span>
+          <span class="chip warn">现金日元充值</span>
+        </div>
+      </div>
+      <div class="reveal">
+        <p>
+          <b>Suica／PASMO 是充值卡，坐一次扣一次钱。</b>进站、出站都刷同一张卡（用手机进站，就用手机出站）。每人一张，不能一张卡给大家轮流刷。<Ref n="21 22" />
+        </p>
+        <div class="rows small">
+          <div><dt>实体 Welcome Suica</dt><dd>最省事，在机场或 JR 的售票处就能买</dd></div>
+          <div><dt>iPhone 里的 Suica</dt><dd>iPhone 8 以后的机型都能用，见下方说明</dd></div>
+          <div><dt>Tokyo Subway Ticket</dt><dd>24 小时 ¥1,000／48 小时 ¥1,500／72 小时 ¥2,000。只能坐地铁（东京 Metro 和都营），JR 和机场线不行 <Ref n="20" /></dd></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="iphone-suica reveal">
+      <div class="is-phone" aria-hidden="true">
+        <div class="is-screen">
+          <span class="is-wallet">Wallet</span>
+          <div class="is-card"><b>Suica</b><small>¥ 3,000</small></div>
+        </div>
+      </div>
+      <div class="is-body">
+        <span class="chip ok">iPhone 用户看这里</span>
+        <h3>大部分 iPhone 可以直接当 Suica 刷</h3>
+        <p>
+          <b>iPhone 8 及以后的机型</b>（国行也行），把 Suica 加进「钱包（Wallet）」App 后，进出站把手机靠近闸机就行，不用解锁、不用打开 App。Apple Watch Series 3 以后也可以。
+        </p>
+        <ol class="is-steps">
+          <li><b>方法 A：Welcome Suica Mobile</b>（JR 东日本给游客的官方 App）：在 App 里开卡，不用押金，180 天有效。只有 iPhone 能用。</li>
+          <li><b>方法 B：钱包 App</b>：打开「钱包」→ 右上角「+」→「交通卡」→ 选 Suica，按提示充值添加。Apple ID 要开启双重认证。</li>
+        </ol>
+        <p class="is-warn">
+          ⚠ 用 Apple Pay 充值时，绑定的国内银联卡可能付不了。准备一张 Visa／Mastercard／JCB／Amex 卡，或者到日本后在便利店收银台用现金充（说「Suica にチャージお願いします」）。
+        </p>
+        <p class="is-warn">
+          ⚠ 安卓手机大多不支持（日本版机型除外），用实体卡就好。
+        </p>
+        <div class="is-links">
+          <a href="https://support.apple.com/zh-cn/108772" target="_blank" rel="noopener">Apple 官方：把交通卡添加到钱包 ↗</a>
+          <a href="https://www.jreast.co.jp/multi/wsmlp/" target="_blank" rel="noopener">JR 东日本：Welcome Suica Mobile ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="reveal" style="margin-top:28px">每次坐车前，问自己这五个问题</h3>
+    <div class="five reveal">
+      <div><span class="num">1</span><span>进哪条线<span class="jpk" lang="ja">〇〇線</span></span></div>
+      <div><span class="num">2</span><span>往哪个方向<span class="jpk" lang="ja">〇〇方面・〇〇行き</span></span></div>
+      <div><span class="num">3</span><span>哪个站台<span class="jpk" lang="ja">〇番線・のりば</span></span></div>
+      <div><span class="num">4</span><span>这班停不停<span class="jpk" lang="ja">各駅停車・快速・急行</span></span></div>
+      <div><span class="num">5</span><span>从哪个出口出<span class="jpk" lang="ja">〇番出口</span></span></div>
+    </div>
+    <div class="callout tip reveal">
+      <strong>刷卡失败或坐错站</strong>
+      别慌，去闸机 <span class="jpk" lang="ja">改札</span> 旁边的人工窗口 <span class="jpk" lang="ja">有人改札</span> 。钱不够就充值 <span class="jpk" lang="ja">チャージ</span> 或者用补票机补票 <span class="jpk" lang="ja">精算機</span> ，别跟在别人后面挤过去。手机没网的话，把要去的站名给工作人员看。
+    </div>
+  </Sec>
+
+  <Sec id="venue" idx="05" title="到日本武道馆：最后一段路">
+    <div class="split">
+      <div class="venue-map reveal">
+        <svg viewBox="0 0 520 380" role="img" aria-label="九段下站 2 号出口到日本武道馆步行示意图">
+          <rect width="520" height="380" rx="20" fill="#f2fbf4"></rect>
+          <!-- park -->
+          <path d="M210 20 H500 V360 H260 C230 300 220 200 210 20Z" fill="#dff3e4"></path>
+          <text x="400" y="340" font-size="12" fill="#1f9d6b">北之丸公园</text>
+          <!-- moat -->
+          <path d="M200 20 C214 120 222 240 250 360" stroke="#9fdcf6" stroke-width="22" fill="none"></path>
+          <text x="166" y="300" font-size="11" fill="#0a76a8" transform="rotate(-78 166 300)">护城河</text>
+          <!-- road -->
+          <path d="M0 140 L520 120" stroke="#fff" stroke-width="28"></path>
+          <path d="M0 140 L520 120" stroke="#e9e2f2" stroke-width="2" stroke-dasharray="10 8"></path>
+          <text x="20" y="118" font-size="11" fill="#7a7190">靖国通</text>
+          <!-- station -->
+          <rect x="50" y="160" width="120" height="44" rx="12" fill="#1e1530"></rect>
+          <text x="110" y="187" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">九段下站</text>
+          <circle cx="160" cy="156" r="15" fill="#ff3ac0"></circle>
+          <text x="160" y="161" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">2</text>
+          <circle cx="76" cy="156" r="13" fill="#3fb9ef"></circle>
+          <text x="76" y="161" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">4</text>
+          <!-- gate -->
+          <rect x="226" y="100" width="40" height="30" rx="4" fill="#c79a5a"></rect>
+          <text x="246" y="94" text-anchor="middle" font-size="11" fill="#7a5a2a">田安门</text>
+          <!-- walking path -->
+          <path class="walk" d="M160 150 C190 136 220 128 246 118 C300 104 330 120 360 170" stroke="#ff3ac0" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="2 10"></path>
+          <!-- budokan -->
+          <g transform="translate(380 200)">
+            <polygon points="-50,-20 -20,-50 20,-50 50,-20 50,20 20,50 -20,50 -50,20" fill="#fff" stroke="#3fb9ef" stroke-width="5"></polygon>
+            <polygon points="-26,-10 -10,-26 10,-26 26,-10 26,10 10,26 -10,26 -26,10" fill="#e2f5fd"></polygon>
+            <circle r="5" fill="#ffd36b"></circle>
+            <text y="74" text-anchor="middle" font-size="14" font-weight="800" fill="#1e1530">日本武道館</text>
+          </g>
+          <g transform="translate(300 60)">
+            <rect x="-48" y="-16" width="96" height="30" rx="15" fill="#fff" stroke="#ff3ac0"></rect>
+            <text text-anchor="middle" y="4" font-size="12" font-weight="700" fill="#c0158c">步行约 5 分钟</text>
+          </g>
+        </svg>
+        <p class="small muted" style="text-align:center">示意图，不按实际比例；当天跟随工作人员指引</p>
+      </div>
+      <div class="reveal">
+        <div class="addr">
+          <p class="eyebrow">会场地址卡 · 导航请输入全名</p>
+          <b lang="ja">日本武道館</b>
+          <p lang="ja">〒102-8321 東京都千代田区北の丸公園 2 番 3 号</p>
+          <p lang="en" class="small">Nippon Budokan, 2-3 Kitanomaru-koen, Chiyoda-ku, Tokyo</p>
+        </div>
+        <p>
+          最简单的走法：<b>九段下站 2 号出口出来，走 5 分钟左右</b>。人多的时候也可以走 4 号出口。这 5 分钟只是走路，排队、验票、找座位的时间另算。<Ref n="23" />
+        </p>
+        <div class="callout warn">
+          <strong>九段下不是 JR 站</strong>
+          只有地铁东西线、半藏门线和都营新宿线停。坐 JR 的话一般在水道桥或饭田桥下，再走过去会远一些。
+        </div>
+      </div>
+    </div>
+
+    <h3 class="reveal" style="margin-top:24px">从酒店区域出发</h3>
+    <div class="tv">
+      {
+        toVenue.map((t) => (
+          <div class="tv-i reveal" style={`--c:${t.c}`}>
+            <b>{t.from}</b>
+            <span class="tv-line">
+              {t.line} · {t.dir}
+            </span>
+            <span class="tv-arrow">→ 九段下</span>
+            <p>{t.d}</p>
+          </div>
+        ))
+      }
+    </div>
+    <div class="grid grid-2" style="margin-top:16px">
+      <div class="callout tip reveal">
+        <strong>多留 20–30 分钟</strong>
+        出站、走路、找入口都要时间。要取票、买周边，或者需要无障碍协助的，再多留一些。
+      </div>
+      <div class="callout warn reveal">
+        <strong>不要拖行李箱去会场</strong>
+        先放酒店。车站的储物柜很可能满了，会场也不一定能寄存。武道馆没有观众停车位，坐电车去最方便。<Ref n="23" />
+      </div>
+    </div>
+  </Sec>
+</Guide>
+
+<style>
+  .flowline {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
+  }
+
+  .fl {
+    position: relative;
+    padding: 16px;
+    border-radius: var(--radius-sm);
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+
+  .fl-n {
+    display: inline-grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--grad);
+    color: #fff;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .fl b {
+    display: block;
+  }
+
+  .fl p {
+    font-size: 0.86rem;
+    color: var(--ink-2);
+    margin: 4px 0 0;
+    line-height: 1.55;
+  }
+
+  .bp {
+    display: grid;
+    grid-template-columns: 1fr 70px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    background: #fff;
+    max-width: 520px;
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .bp-main {
+    padding: 18px;
+  }
+
+  .bp-top {
+    display: flex;
+    justify-content: space-between;
+    font: 800 0.8rem var(--font-display);
+    letter-spacing: 0.2em;
+    color: #fff;
+    background: var(--grad);
+    margin: -18px -18px 14px;
+    padding: 12px 18px;
+  }
+
+  .bp-route {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .bp-route b {
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  .bp-route small,
+  .bp-grid small {
+    display: block;
+    font: 600 0.62rem var(--font-display);
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+  }
+
+  .bp-plane {
+    color: var(--pink);
+  }
+
+  .bp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .bp-grid > div {
+    position: relative;
+    padding: 4px 8px;
+    border-radius: 8px;
+  }
+
+  .bp-grid .hl {
+    outline: 2px dashed rgb(255 58 192 / 0.45);
+    background: rgb(255 58 192 / 0.06);
+  }
+
+  .bp-grid i {
+    position: absolute;
+    top: -8px;
+    right: -6px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--pink);
+    color: #fff;
+    font: 800 0.65rem/18px var(--font-display);
+    text-align: center;
+    font-style: normal;
+  }
+
+  .bp-grid b {
+    font-size: 0.95rem;
+  }
+
+  .bp-stub {
+    border-left: 2px dashed var(--line);
+    background: #faf7fd;
+    display: grid;
+    place-items: center;
+  }
+
+  .barcode {
+    width: 34px;
+    height: 80%;
+    background: repeating-linear-gradient(0deg, var(--ink) 0 2px, transparent 2px 4px, var(--ink) 4px 5px, transparent 5px 8px);
+  }
+
+  .vjw {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding: 16px;
+    border-radius: var(--radius);
+    background: var(--grad-soft);
+    border: 1px solid var(--line);
+    margin-bottom: 16px;
+  }
+
+  .vjw p {
+    margin: 4px 0 0;
+  }
+
+  .vjw-qr {
+    flex: none;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    width: 76px;
+    height: 76px;
+    padding: 6px;
+    background: #fff;
+    border-radius: 10px;
+  }
+
+  .vjw-qr i {
+    background: #f1ecf7;
+    border-radius: 1px;
+  }
+
+  .vjw-qr i.on {
+    background: var(--ink);
+  }
+
+  .arrive {
+    list-style: none;
+    padding: 0 0 0 24px;
+    margin: 0;
+    border-left: 3px solid var(--blue);
+    display: grid;
+    gap: 14px;
+  }
+
+  .arrive li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .arrive li::before {
+    content: '';
+    position: absolute;
+    left: -33px;
+    top: 5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid var(--blue);
+  }
+
+  .arrive span {
+    color: var(--ink-2);
+    font-size: 0.92rem;
+  }
+
+  .suica {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .ic-card {
+    position: relative;
+    width: 300px;
+    max-width: 100%;
+    aspect-ratio: 1.586;
+    border-radius: 18px;
+    background:
+      radial-gradient(circle at 80% 20%, rgb(255 255 255 / 0.45), transparent 40%),
+      repeating-linear-gradient(115deg, transparent 0 18px, rgb(255 255 255 / 0.06) 18px 36px),
+      linear-gradient(135deg, #8ee05a, #2fb34a 50%, #138a36);
+    box-shadow: var(--shadow-lg);
+    padding: 18px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ic-name {
+    font-weight: 800;
+    font-size: 1.3rem;
+  }
+
+  .ic-sub {
+    font-size: 0.72rem;
+    opacity: 0.85;
+  }
+
+  .ic-bal {
+    margin-top: auto;
+    font-weight: 800;
+    font-size: 1.5rem;
+  }
+
+  .ic-tap {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .ic-tap span {
+    position: absolute;
+    inset: 0;
+    border: 3px solid rgb(255 255 255 / 0.85);
+    border-radius: 50%;
+    animation: tap 2s ease-out infinite;
+  }
+
+  .ic-tap span:nth-child(2) {
+    animation-delay: 0.6s;
+  }
+
+  .ic-tap span:nth-child(3) {
+    animation-delay: 1.2s;
+  }
+
+  @keyframes tap {
+    from {
+      transform: scale(0.3);
+      opacity: 1;
+    }
+    to {
+      transform: scale(1.4);
+      opacity: 0;
+    }
+  }
+
+  .ic-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .five {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+    gap: 8px;
+    margin: 12px 0;
+  }
+
+  .five div {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    font-weight: 600;
+  }
+
+  .five .num {
+    width: 28px;
+    height: 28px;
+    flex: none;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    background: var(--ink);
+    color: var(--pink);
+    font-weight: 800;
+  }
+
+  .venue-map {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 12px;
+  }
+
+  .venue-map svg {
+    width: 100%;
+    font-family: var(--font-cn);
+  }
+
+  .walk {
+    animation: march 1.2s linear infinite;
+  }
+
+  @keyframes march {
+    to {
+      stroke-dashoffset: -24;
+    }
+  }
+
+  .addr {
+    padding: 18px;
+    border-radius: var(--radius);
+    background: var(--ink);
+    color: #fff;
+    margin-bottom: 16px;
+  }
+
+  .addr .eyebrow {
+    color: var(--pink);
+    margin: 0 0 6px;
+  }
+
+  .addr b {
+    font-size: 1.6rem;
+  }
+
+  .addr p {
+    margin: 4px 0 0;
+  }
+
+  .tv {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    margin-top: 12px;
+  }
+
+  .tv-i {
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-left: 6px solid var(--c);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tv-i b {
+    font-size: 1.05rem;
+  }
+
+  .tv-line {
+    font-size: 0.85rem;
+    color: var(--c);
+    font-weight: 700;
+  }
+
+  .tv-arrow {
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .tv-i p {
+    margin: 4px 0 0;
+    font-size: 0.84rem;
+    color: var(--ink-2);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .walk,
+    .ic-tap span {
+      animation: none;
+    }
+  }
+  .iphone-suica {
+    display: grid;
+    gap: 20px;
+    align-items: center;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: var(--radius);
+    background: linear-gradient(120deg, #f0fbea, #fff);
+    border: 2px solid #8ee05a;
+  }
+
+  @media (min-width: 760px) {
+    .iphone-suica {
+      grid-template-columns: 160px 1fr;
+    }
+  }
+
+  .is-phone {
+    width: 150px;
+    margin-inline: auto;
+    padding: 9px;
+    border-radius: 30px;
+    background: var(--ink);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .is-screen {
+    height: 250px;
+    border-radius: 22px;
+    background: #fff;
+    padding: 18px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .is-wallet {
+    font: 800 1rem var(--font-display);
+  }
+
+  .is-card {
+    aspect-ratio: 1.586;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #8ee05a, #2fb34a 50%, #138a36);
+    color: #fff;
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .is-card b {
+    font: 800 1.05rem var(--font-display);
+  }
+
+  .is-card small {
+    font: 700 0.75rem var(--font-display);
+    align-self: flex-end;
+  }
+
+  .is-card.dim {
+    background: linear-gradient(135deg, #e6e1ee, #cfc6dc);
+    margin-top: -38px;
+    position: relative;
+    z-index: -1;
+    transform: scale(0.92);
+  }
+
+  .is-body h3 {
+    margin: 8px 0 6px;
+  }
+
+  .is-body p {
+    font-size: 0.94rem;
+  }
+
+  .is-steps {
+    margin: 0 0 10px;
+    padding-left: 1.3em;
+    display: grid;
+    gap: 6px;
+    font-size: 0.93rem;
+  }
+
+  .is-warn {
+    margin: 6px 0;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: var(--warn-soft);
+    color: #8a3205;
+    font-size: 0.88rem !important;
+  }
+
+  .is-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .is-links a {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid #b9e6a1;
+    color: #138a36;
+    font-weight: 700;
+    font-size: 0.86rem;
+    text-decoration: none;
+  }
+</style>

@@ -1,0 +1,100 @@
+---
+import Ref from './Ref.astro';
+---
+
+<div class="bka reveal" role="note">
+  <div class="bka-ic" aria-hidden="true">
+    <svg viewBox="0 0 48 48" width="40" height="40">
+      <path d="M24 5 6 14v4h36v-4z" fill="#fff"></path>
+      <rect x="10" y="20" width="5" height="16" rx="1" fill="#fff"></rect>
+      <rect x="21.5" y="20" width="5" height="16" rx="1" fill="#fff"></rect>
+      <rect x="33" y="20" width="5" height="16" rx="1" fill="#fff"></rect>
+      <rect x="6" y="38" width="36" height="5" rx="1.5" fill="#fff"></rect>
+      <circle cx="38" cy="12" r="8" fill="#ffd36b"></circle>
+      <path d="M38 8v5M38 15.5v.5" stroke="#1e1530" stroke-width="2.4" stroke-linecap="round"></path>
+    </svg>
+  </div>
+  <div class="bka-body">
+    <strong>扣款前先通知银行，免得被风控拦截</strong>
+    <p class="bka-lead">
+      中签的扣款发生在<b>当落公布日凌晨（日本 10/23 00:00 前后＝北京 10/22 23:00 前后）</b>。半夜突然来一笔日本的日元扣款，有些银行会当成可疑交易直接拦下来。<b>扣款失败可能导致中签无效。</b>
+    </p>
+    <ol>
+      <li><b>10/22 白天</b>打信用卡背面的客服电话，或者在银行 App 里联系客服</li>
+      <li>告诉银行：<span class="bka-say">“10 月 22 日深夜到 23 日，会有一笔日本 Lawson Entertainment（ローソンエンタテインメント）的日元网上扣款，是我本人的交易，请不要拦截。”</span></li>
+      <li>顺便确认<b>境外网上支付已开通</b>、<b>额度够</b>（按你申请的合计金额准备，例如国内电子票 4 张是 ¥47,960 日元），卡没有被冻结</li>
+      <li>当晚<b>手机保持开机</b>，能收到银行的验证短信或电话，被拦截时第一时间回复确认</li>
+    </ol>
+    <p class="bka-foot">
+      如果当天还是收到“交易失败”的短信，先登录 Lawson 的「マイページ」查看申请状态，再联系银行和 Lawson 客服。<Ref n="69 70" />
+    </p>
+  </div>
+</div>
+
+<style>
+  .bka {
+    display: flex;
+    gap: 16px;
+    padding: 18px 20px;
+    margin: 18px 0;
+    border-radius: var(--radius);
+    background: linear-gradient(120deg, #3a2c55, #1e1530);
+    color: #fff;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .bka-ic {
+    flex: none;
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--pink), var(--blue));
+    display: grid;
+    place-items: center;
+  }
+
+  .bka strong {
+    display: block;
+    font-size: 1.08rem;
+    color: #ffd36b;
+    margin-bottom: 6px;
+  }
+
+  .bka-lead {
+    margin: 0 0 10px;
+    font-size: 0.94rem;
+  }
+
+  .bka ol {
+    margin: 0 0 10px;
+    padding-left: 1.3em;
+    display: grid;
+    gap: 6px;
+    font-size: 0.93rem;
+  }
+
+  .bka-say {
+    display: block;
+    margin-top: 4px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: rgb(255 255 255 / 0.1);
+    border-left: 3px solid var(--pink);
+  }
+
+  .bka-foot {
+    margin: 0;
+    font-size: 0.86rem;
+    opacity: 0.85;
+  }
+
+  .bka :global(.ref) {
+    color: #cbbfe0;
+  }
+
+  @media (max-width: 520px) {
+    .bka {
+      flex-direction: column;
+    }
+  }
+</style>

@@ -1,0 +1,402 @@
+---
+import Guide from '../layouts/Guide.astro';
+import Sec from '../components/Sec.astro';
+import Ref from '../components/Ref.astro';
+---
+
+<Guide
+  slug="passport"
+  lead="第一次办护照？这页就是写给你的。护照在本地公安出入境窗口办，跟日本使领馆没关系，也不用先有日本签证。"
+  toc={[
+    { id: 'apply', label: '怎么办' },
+    { id: 'time', label: '要多久' },
+    { id: 'limits', label: '有没有限制' },
+    { id: 'names', label: '英文姓名怎么填' },
+  ]}
+>
+  <Sec id="apply" idx="01" title="第一次办护照：五步">
+    <div class="split">
+      <ol class="steps">
+        <li class="reveal">
+          <strong>查询与预约</strong>
+          <p>在国家移民管理局的政务服务平台，或者本地公安的官方公众号／App 上，查办证大厅地址、预约时间和要带的材料。不在户籍地办的话，先打电话问问附近的窗口能不能办、还要补什么。</p>
+        </li>
+        <li class="reveal">
+          <strong>准备材料</strong>
+          <p>身份证（临时身份证也行）、证件照、申请表，再加上你这种情况需要的补充材料。很多大厅可以现场拍照，照片要求按当地清单来。<Ref n="65" /></p>
+        </li>
+        <li class="reveal">
+          <strong>本人到窗口</strong>
+          <p>第一次办必须本人去，现场录指纹、签名，说明是去旅游就行。网上预约成功只是约上了号，护照还没办好。</p>
+        </li>
+        <li class="reveal">
+          <strong>缴费并保存回执</strong>
+          <p>护照工本费 <b class="num">120 元</b>，拍照、邮寄要另付钱。受理回执收好，之后用它查进度、取护照。<Ref n="65" /></p>
+        </li>
+        <li class="reveal">
+          <strong>拿到后检查一遍</strong>
+          <p>去窗口取，或者选邮寄到家。拿到后看一眼姓名拼音、出生日期和有效期。有错找办证大厅改，千万别自己涂改。<Ref n="65 66" /></p>
+        </li>
+      </ol>
+      <div class="pp-wrap reveal">
+        <div class="pp-cover">
+          <span class="pp-emblem" aria-hidden="true">★</span>
+          <b>中华人民共和国</b>
+          <b>护照</b>
+          <small>PASSPORT</small>
+        </div>
+        <p class="small muted" style="text-align:center;margin-top:12px">
+          出国旅游就可以申请，不看学历、收入，也不要求以前出过国。<Ref n="65 66" />
+        </p>
+      </div>
+    </div>
+  </Sec>
+
+  <Sec id="time" idx="02" title="要提前多久？">
+    <div class="bars reveal" role="img" aria-label="护照办理时长对比：户籍地 7 个工作日，跨省异地 20 日">
+      <div class="bar-row">
+        <span>户籍地受理</span>
+        <div class="bar"><i style="--w:35%"></i><b class="num">7 个工作日内</b></div>
+      </div>
+      <div class="bar-row">
+        <span>跨省异地申请</span>
+        <div class="bar"><i class="b2" style="--w:100%"></i><b class="num">20 日</b></div>
+      </div>
+      <div class="bar-row">
+        <span>预约 + 邮寄缓冲</span>
+        <div class="bar"><i class="b3" style="--w:30%"></i><b>另外留</b></div>
+      </div>
+    </div>
+    <p class="small muted reveal">跨省异地办是“20 天”，不是“20 个工作日”。遇到特殊情况还可能更久，早点办最稳。<Ref n="65" /></p>
+    <div class="grid grid-2">
+      <div class="callout warn reveal">
+        <strong>买了演出票，不能拿来申请加急</strong>
+        加急只给有紧急情况的人，比如出国奔丧、探望危重病人。看演出不算，所以别拖。
+      </div>
+      <div class="callout reveal">
+        <strong>有效期</strong>
+        未满 16 岁一般 5 年，16 岁以上一般 10 年。别信“几天保证出证”的说法，时间以办证大厅为准。
+      </div>
+    </div>
+  </Sec>
+
+  <Sec id="limits" idx="03" title="我能办护照吗？">
+    <p class="lead reveal">绝大多数人都能正常办。少数情况需要多准备材料，极少数情况法律上不让办或者不让出境。看看你属于哪一种：</p>
+    <div class="tiers">
+      <div class="tier ok reveal">
+        <span class="chip ok">一般可以办</span>
+        <h3>第一次出国的普通人</h3>
+        <p>没出过国、学生、自由职业、暂时没工作，都可以正常办。护照不看存款和收入，那是日本签证才看的。<Ref n="65 66" /></p>
+      </div>
+      <div class="tier mid reveal">
+        <span class="chip blue">要多准备一些</span>
+        <h3>未满 16 岁、单位有出国审批、现役军人</h3>
+        <p>未成年人要父母（监护人）陪着去，带上户口本等关系证明，孩子本人也得到场。在单位有出国备案的人、现役军人，先找单位人事走审批，别绕过去。<Ref n="65" /></p>
+      </div>
+      <div class="tier no reveal">
+        <span class="chip warn">可能办不了或出不去</span>
+        <h3>身份有问题、用假材料、涉及案件</h3>
+        <p>比如正在服刑、是刑事案件的嫌疑人，或者法院因为没结的民事案件限制出境。这些情况就算手里有护照，也可能在边检被拦下。具体看《出境入境管理法》第十二条。<Ref n="66 67" /></p>
+      </div>
+    </div>
+    <div class="callout warn reveal">
+      <strong>拒绝“内部通道”</strong>
+      别买假材料，也别花钱找人“解除限制”“查出境名单”，基本都是骗局。材料不齐，按窗口的补件通知补上就行；真的不给办，会给你书面通知。
+    </div>
+  </Sec>
+
+  <Sec id="names" idx="04" title="英文表格怎么填：照着护照抄">
+    <p class="lead reveal">订票、签证、机票、酒店，填姓名和证件信息时都照着护照资料页抄。下面是一张示意资料页，字母 A～E 对应右边的说明。</p>
+    <div class="split">
+      <div class="datapage reveal" aria-label="护照资料页示意图（虚构信息）">
+        <div class="dp-head">
+          <span>护照 PASSPORT</span><span class="num">CHN</span>
+        </div>
+        <div class="dp-body">
+          <div class="dp-photo" aria-hidden="true">
+            <svg viewBox="0 0 60 72"><circle cx="30" cy="26" r="13" fill="#d8cfe6"></circle><path d="M6 72c2-18 12-24 24-24s22 6 24 24z" fill="#d8cfe6"></path></svg>
+          </div>
+          <dl>
+            <div class="hl a"><dt>姓 / Surname</dt><dd>WANG</dd><i>A</i></div>
+            <div class="hl b"><dt>名 / Given names</dt><dd>XIAOMING</dd><i>B</i></div>
+            <div><dt>国籍 / Nationality</dt><dd>CHINESE</dd></div>
+            <div class="hl c"><dt>出生日期 / Date of birth</dt><dd class="num">01 JAN 2000</dd><i>C</i></div>
+            <div class="hl d"><dt>有效期至 / Date of expiry</dt><dd class="num">01 JAN 2036</dd><i>D</i></div>
+            <div class="hl e"><dt>护照号 / Passport No.</dt><dd class="num">E00000000</dd><i>E</i></div>
+          </dl>
+        </div>
+        <div class="dp-mrz num">P&lt;CHNWANG&lt;&lt;XIAOMING&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</div>
+        <p class="dp-note">示例为虚构信息，不是你的个人信息</p>
+      </div>
+      <div class="rows reveal">
+        <div><dt><span class="tagk">A</span> Surname / Last name <span class="jpk" lang="ja">姓・セイ</span></dt><dd>就是“姓”。照护照填 WANG，别用英文名或自己拼的拼音。</dd></div>
+        <div><dt><span class="tagk">B</span> Given name(s) <span class="jpk" lang="ja">名・メイ</span></dt><dd>就是“名”。填 XIAOMING，别拆成 XIAO MING（除非护照上就是分开的）。</dd></div>
+        <div><dt><span class="tagk">C</span> Date of birth <span class="jpk" lang="ja">生年月日</span></dt><dd>出生日期。注意表格要的是“年-月-日”还是“日/月/年”，别填成签发日期。</dd></div>
+        <div><dt><span class="tagk">D</span> Expiry date <span class="jpk" lang="ja">有効期限</span></dt><dd>护照到期日。换了新护照的话，之前填过的地方都要改。</dd></div>
+        <div><dt><span class="tagk">E</span> Passport number <span class="jpk" lang="ja">旅券番号</span></dt><dd>护照号码，不是身份证号。</dd></div>
+        <div><dt>Country of residence <span class="jpk" lang="ja">居住国</span></dt><dd>你现在住的国家，一般填 China。只有写着 Hotel in Japan <span class="jpk" lang="ja">日本の滞在先</span> 的栏才填日本酒店。</dd></div>
+        <div><dt>Phone / Country code <span class="jpk" lang="ja">電話番号・国番号</span></dt><dd>区号和号码分两栏的话，号码那栏就别再加 +86 了。</dd></div>
+        <div><dt>Cardholder / Billing <span class="jpk" lang="ja">カード名義人・請求先住所</span></dt><dd>照你在银行登记的姓名和地址填，不是看演出的人，也不是酒店地址。</dd></div>
+      </div>
+    </div>
+    <div class="grid grid-2" style="margin-top:20px">
+      <div class="callout reveal">
+        <strong>片假名不能随便编</strong>
+        日本表格里的「セイ／メイ」「フリガナ」是填姓名读音的。照页面说明填，不懂就问客服，别自己把中文名翻成日语读音，更不能拿它代替护照姓名。
+      </div>
+      <div class="callout warn reveal">
+        <strong>共享攻略，不共享身份信息</strong>
+        护照照片、完整护照号、卡背面的安全码、短信验证码，都别发到群里。
+      </div>
+    </div>
+  </Sec>
+</Guide>
+
+<style>
+  .pp-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pp-cover {
+    width: 220px;
+    aspect-ratio: 0.7;
+    border-radius: 12px 18px 18px 12px;
+    background: linear-gradient(160deg, #a3122a, #5c0715);
+    color: #f6d47c;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    box-shadow:
+      inset 8px 0 0 rgb(0 0 0 / 0.15),
+      0 30px 50px -20px rgb(92 7 21 / 0.6);
+    transform: rotate(-4deg);
+    transition: transform 0.4s;
+  }
+
+  .pp-cover:hover {
+    transform: rotate(0) scale(1.03);
+  }
+
+  .pp-emblem {
+    font-size: 3.4rem;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .pp-cover b {
+    letter-spacing: 0.2em;
+  }
+
+  .pp-cover small {
+    letter-spacing: 0.4em;
+    font-family: var(--font-display);
+    margin-top: 6px;
+  }
+
+  .bars {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .bar-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 12px;
+    align-items: center;
+    font-size: 0.9rem;
+  }
+
+  .bar {
+    position: relative;
+    height: 36px;
+    border-radius: 10px;
+    background: #f1ecf7;
+    overflow: hidden;
+  }
+
+  .bar i {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: var(--w);
+    background: var(--blue);
+    border-radius: 10px;
+    transform-origin: left;
+    animation: grow 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .bar i.b2 {
+    background: var(--pink);
+  }
+
+  .bar i.b3 {
+    background: repeating-linear-gradient(45deg, #d9d1e6 0 6px, #ece6f4 6px 12px);
+  }
+
+  .bar b {
+    position: relative;
+    line-height: 36px;
+    padding-left: 12px;
+    color: #fff;
+    font-size: 0.88rem;
+    text-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
+  }
+
+  .bar-row:last-child .bar b {
+    color: var(--ink-2);
+    text-shadow: none;
+  }
+
+  @keyframes grow {
+    from {
+      transform: scaleX(0);
+    }
+  }
+
+  .tiers {
+    display: grid;
+    gap: 12px;
+  }
+
+  .tier {
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-left-width: 6px;
+  }
+
+  .tier.ok {
+    border-left-color: var(--ok);
+  }
+
+  .tier.mid {
+    border-left-color: var(--blue);
+  }
+
+  .tier.no {
+    border-left-color: var(--warn);
+  }
+
+  .tier h3 {
+    margin: 8px 0 4px;
+    font-size: 1.05rem;
+  }
+
+  .tier p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 0.93rem;
+  }
+
+  .datapage {
+    border-radius: 18px;
+    background: linear-gradient(135deg, #fdf6ff, #eaf7ff);
+    border: 1px solid #e0d6ee;
+    padding: 16px;
+    box-shadow: var(--shadow-lg);
+    font-family: var(--font-display), var(--font-cn);
+  }
+
+  .dp-head {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--ink-3);
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+  }
+
+  .dp-body {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 14px;
+  }
+
+  .dp-photo {
+    border-radius: 8px;
+    background: #f3eef9;
+    padding: 8px 8px 0;
+    align-self: start;
+  }
+
+  .datapage dl {
+    margin: 0;
+    display: grid;
+    gap: 4px;
+  }
+
+  .datapage dl > div {
+    position: relative;
+    padding: 3px 8px;
+    border-radius: 8px;
+  }
+
+  .datapage dt {
+    font-size: 0.66rem;
+    color: var(--ink-3);
+  }
+
+  .datapage dd {
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-size: 0.95rem;
+  }
+
+  .datapage .hl {
+    background: rgb(255 58 192 / 0.08);
+    outline: 2px dashed rgb(255 58 192 / 0.4);
+  }
+
+  .datapage .hl i,
+  .tagk {
+    font-style: normal;
+    display: inline-grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--pink);
+    color: #fff;
+    font: 800 0.7rem var(--font-display);
+  }
+
+  .datapage .hl i {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    translate: 0 -50%;
+  }
+
+  .tagk {
+    margin-right: 4px;
+    vertical-align: 1px;
+  }
+
+  .dp-mrz {
+    margin-top: 12px;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-2);
+    word-break: break-all;
+  }
+
+  .dp-note {
+    font-size: 0.72rem;
+    color: var(--ink-3);
+    margin: 6px 0 0;
+    text-align: right;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bar i {
+      animation: none;
+    }
+  }
+</style>
