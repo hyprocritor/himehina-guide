@@ -98,6 +98,50 @@
   font-weight: 700;
 }
 
+.cd-cal {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 0.8rem;
+}
+.cd-cal-h {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-2);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.cd-cal ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.cd-cal li {
+  display: inline-flex;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.cd-cal a {
+  padding: 4px 10px;
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+.cd-cal a:hover {
+  background: var(--pink-soft);
+}
+.cd-cal a.cd-cal-g {
+  border-left: 1px solid var(--line-2);
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
 /* ───────── Ticket route quiz ───────── */
 .tr {
   background: var(--surface);

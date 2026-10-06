@@ -1,0 +1,53 @@
+---
+import Glyph from './Glyph.astro';
+import { calById, googleUrl } from '../data/calendar';
+
+interface Props {
+  id: string;
+  label?: string;
+}
+const { id, label = '提醒我' } = Astro.props;
+const e = calById(id);
+---
+
+<span class="atc">
+  <a class="atc-btn" href={`/cal/${id}.ics`} download={`${id}.ics`} title={`${e.title}（手机／电脑日历）`}>
+    <Glyph name="calendar" />
+    {label}
+  </a>
+  <a class="atc-g" href={googleUrl(e)} target="_blank" rel="noopener" title="添加到 Google 日历">Google 日历 <Glyph name="external" /></a>
+</span>
+
+<style>
+  .atc {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+    margin-top: 12px;
+  }
+
+  .atc-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1.5px solid currentColor;
+    font-weight: 700;
+    font-size: 0.86rem;
+    color: inherit;
+    text-decoration: none;
+    transition: transform 0.2s;
+  }
+
+  .atc-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .atc-g {
+    font-size: 0.82rem;
+    color: inherit;
+    opacity: 0.75;
+  }
+</style>

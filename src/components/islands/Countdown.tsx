@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import Glyph from './Glyph';
+import { CAL_EVENTS, googleUrl } from '../../data/calendar';
 
 type Milestone = { label: string; iso: string; note: string };
 
@@ -32,6 +34,7 @@ export default function Countdown() {
 
   const current = now === null ? milestones[0] : (milestones.find((m) => Date.parse(m.iso) > now) ?? milestones.at(-1)!);
   const p = parts(now === null ? 0 : Date.parse(current.iso) - now);
+  const reminders = CAL_EVENTS.filter((e) => now === null || Date.parse(e.start) > now);
 
   return (
     <div className="cd" aria-live="polite">
@@ -66,6 +69,25 @@ export default function Countdown() {
           );
         })}
       </ol>
+      {reminders.length > 0 && (
+        <div className="cd-cal">
+          <span className="cd-cal-h">
+            <Glyph name="calendar" /> 加到日历提醒我
+          </span>
+          <ul>
+            {reminders.map((e) => (
+              <li key={e.id}>
+                <a href={`/cal/${e.id}.ics`} download={`${e.id}.ics`} title={`${e.title}（手机／电脑日历）`}>
+                  {e.short}
+                </a>
+                <a className="cd-cal-g" href={googleUrl(e)} target="_blank" rel="noopener" title="添加到 Google 日历">
+                  Google
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

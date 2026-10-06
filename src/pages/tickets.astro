@@ -8,6 +8,7 @@ import ScreenGuide from '../components/islands/ScreenGuide.tsx';
 import UpgradeNotice from '../components/UpgradeNotice.astro';
 import ETicketAlert from '../components/ETicketAlert.astro';
 import BankAlert from '../components/BankAlert.astro';
+import AddToCal from '../components/AddToCal.astro';
 import AppLinks from '../components/AppLinks.astro';
 
 const toc = [
@@ -80,6 +81,7 @@ const statuses = [
           <a class="lot-link fc" href="https://himehina.jp/post/post-466/" target="_blank" rel="noopener">FC 最速先行公告 <Glyph name="external" /></a>
           <a class="lot-link lt" href="https://l-tike.com/concert/mevent/?mid=496836" target="_blank" rel="noopener">Lawson（l-tike）受付页 <Glyph name="external" /></a>
         </div>
+        <AddToCal id="lottery-deadline" label="截止前提醒我" />
       </div>
       <div class="lot-arrow" aria-hidden="true"><Glyph name="arrow-right" /></div>
       <div class="lot-item">
@@ -87,6 +89,7 @@ const statuses = [
         <h4>当落公布</h4>
         <p class="num big">2026/10/23</p>
         <p class="small muted">国内渠道大约 15:00 出结果；海外渠道看邮件通知 <Ref n="01 04" /></p>
+        <AddToCal id="lottery-result" label="出结果时提醒我" />
       </div>
     </div>
 
@@ -636,10 +639,18 @@ const statuses = [
   @media (min-width: 900px) {
     .ticket-hero {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      align-items: center;
+      align-items: start;
+      grid-template-rows: auto 1fr;
+    }
+    /* table spans both rows on the right; the source note sits under the ticket */
+    .ticket-hero > .rows {
+      grid-column: 2;
+      grid-row: 1 / span 2;
     }
     .ticket-hero > p {
-      grid-column: 1 / -1;
+      grid-column: 1;
+      grid-row: 2;
+      margin: 0;
     }
   }
 
@@ -712,10 +723,27 @@ const statuses = [
   }
 
   .lot-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 18px 20px;
+  }
+
+  .lot-item > p {
+    margin: 0;
+  }
+
+  .lot-item .big {
+    margin: 4px 0;
+  }
+
+  /* reminder row sits at the bottom so both cards line up */
+  .lot-item :global(.atc) {
+    margin-top: auto;
+    padding-top: 14px;
   }
 
   .lot-item h4 {

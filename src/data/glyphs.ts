@@ -1,6 +1,7 @@
 // Small UI glyphs (Lucide-style, 24×24, stroke 2). Used instead of emoji / Unicode symbols.
 export const GLYPHS = {
   check: ['M20 6 9 17l-5-5'],
+  calendar: ['M8 2v4', 'M16 2v4', 'M3 10h18', 'M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z'],
   x: ['M18 6 6 18', 'm6 6 12 12'],
   'arrow-right': ['M5 12h14', 'm12 5 7 7-7 7'],
   'arrow-left': ['m12 19-7-7 7-7', 'M19 12H5'],
