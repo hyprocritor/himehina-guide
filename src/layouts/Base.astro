@@ -145,6 +145,13 @@ const cur = sections.find((s) => s.slug === current);
           <p class="foot-desc">
             由粉丝整理的非官方攻略，和主办方、Lawson、使领馆、旅行社都没有关系。资料整理于 {EVENT.checked}，规定可能会变，出发前请再看一眼<a href="/sources/">官方来源</a>。
           </p>
+          <div class="foot-live">
+            <iframe
+              data-live-widget="https://trace.auv.lu/widget/ab81ab67dbf4?variant=inline"
+              title="Live visitors"
+              loading="lazy"
+              scrolling="no"></iframe>
+          </div>
         </div>
 
         <nav class="foot-nav" aria-label="页脚章节导航">
@@ -255,7 +262,23 @@ const cur = sections.find((s) => s.slug === current);
         document.addEventListener('astro:page-load', onScroll);
       }
 
+      // Realtime visitor widget: follow the site theme (auto = system setting).
+      const darkMq = matchMedia('(prefers-color-scheme: dark)');
+      function syncLiveWidget() {
+        const f = document.querySelector<HTMLIFrameElement>('[data-live-widget]');
+        if (!f) return;
+        const t = document.documentElement.dataset.theme;
+        const theme = t === 'dark' || (t !== 'light' && darkMq.matches) ? 'dark' : 'light';
+        const src = `${f.dataset.liveWidget}&theme=${theme}`;
+        // Matching color-scheme keeps the iframe background transparent.
+        f.style.colorScheme = theme;
+        if (f.getAttribute('src') !== src) f.setAttribute('src', src);
+      }
+      new MutationObserver(syncLiveWidget).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+      darkMq.addEventListener('change', syncLiveWidget);
+
       function setup() {
+        syncLiveWidget();
         wireHeader();
         openMenu(false);
 
@@ -955,6 +978,17 @@ const cur = sections.find((s) => s.slug === current);
 
   .foot-nav a:hover {
     color: var(--pink-ink);
+  }
+
+  .foot-live {
+    margin-top: 14px;
+  }
+
+  .foot-live iframe {
+    display: block;
+    border: 0;
+    width: 220px;
+    height: 36px;
   }
 
   .foot-bottom {
