@@ -235,49 +235,48 @@ const statuses = [
     lead="Lawson 的电子票 App 要用 090／080／070 开头的日本号码收短信验证。国内号码、050 号码、只能上网的旅游卡都不行。"
   >
     <div class="split rev">
-      <div class="phone-art reveal">
-        <svg viewBox="0 0 260 400" role="img" aria-label="手机收到 Lawson 认证短信示意">
-          <defs>
-            <linearGradient id="ph-g" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#ff3ac0"></stop>
-              <stop offset="1" stop-color="#3fb9ef"></stop>
-            </linearGradient>
-          </defs>
-          <rect x="40" y="10" width="180" height="370" rx="30" fill="#1e1530"></rect>
-          <rect x="50" y="22" width="160" height="346" rx="22" fill="#fcfaff"></rect>
-          <rect x="105" y="30" width="50" height="10" rx="5" fill="#1e1530"></rect>
-          <text x="62" y="68" font-size="10" fill="#7a7190" font-family="sans-serif">SIM · 日本号码</text>
-          <rect x="62" y="78" width="136" height="38" rx="10" fill="url(#ph-g)"></rect>
-          <text x="130" y="102" font-size="15" fill="#fff" text-anchor="middle" font-weight="700" font-family="sans-serif">080-XXXX-XXXX</text>
-          <text x="62" y="140" font-size="10" fill="#7a7190" font-family="sans-serif">SMS · 刚刚</text>
-          <rect x="62" y="148" width="136" height="64" rx="12" fill="#e2f5fd"></rect>
-          <text x="72" y="168" font-size="10" fill="#1e1530" font-family="sans-serif">【ローチケ】認証コード</text>
-          <text x="72" y="188" font-size="16" fill="#0a76a8" font-weight="700" font-family="sans-serif" letter-spacing="3">482913</text>
-          <text x="72" y="204" font-size="9" fill="#7a7190" font-family="sans-serif">示意画面</text>
-          <rect x="62" y="228" width="136" height="44" rx="12" fill="#fff" stroke="#ebe5f3"></rect>
-          <circle cx="82" cy="250" r="10" fill="#ff3ac0"></circle>
-          <text x="98" y="248" font-size="10" fill="#1e1530" font-weight="700" font-family="sans-serif">ローチケ電子チケット</text>
-          <text x="98" y="262" font-size="9" fill="#1f9d6b" font-family="sans-serif">認証済み</text>
-          <path d="M88 254l3 3 5-6" fill="none" stroke="#1f9d6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
-          <g font-family="sans-serif" font-size="11" font-weight="700">
-            <rect x="62" y="290" width="40" height="22" rx="11" fill="#e6f7ef"></rect>
-            <text x="82" y="305" text-anchor="middle" fill="#1f9d6b">090</text>
-            <rect x="110" y="290" width="40" height="22" rx="11" fill="#e6f7ef"></rect>
-            <text x="130" y="305" text-anchor="middle" fill="#1f9d6b">080</text>
-            <rect x="158" y="290" width="40" height="22" rx="11" fill="#e6f7ef"></rect>
-            <text x="178" y="305" text-anchor="middle" fill="#1f9d6b">070</text>
-            <rect x="62" y="320" width="64" height="22" rx="11" fill="#fff3e8"></rect>
-            <text x="94" y="335" text-anchor="middle" fill="#e8590c">050 ×</text>
-            <rect x="134" y="320" width="64" height="22" rx="11" fill="#fff3e8"></rect>
-            <text x="166" y="335" text-anchor="middle" fill="#e8590c">纯流量 ×</text>
-          </g>
-        </svg>
+      <div class="phone-col reveal">
+        <div class="phone-art">
+          <svg viewBox="0 0 260 400" role="img" aria-label="手机收到 Lawson 认证短信示意">
+            <defs>
+              <linearGradient id="ph-g" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#ff3ac0"></stop>
+                <stop offset="1" stop-color="#3fb9ef"></stop>
+              </linearGradient>
+            </defs>
+            <rect x="40" y="10" width="180" height="370" rx="30" fill="#1e1530"></rect>
+            <rect x="50" y="22" width="160" height="346" rx="22" fill="#fcfaff"></rect>
+            <rect x="105" y="30" width="50" height="10" rx="5" fill="#1e1530"></rect>
+            <text x="62" y="68" font-size="10" fill="#7a7190" font-family="sans-serif">SIM · 日本号码</text>
+            <rect x="62" y="78" width="136" height="38" rx="10" fill="url(#ph-g)"></rect>
+            <text x="130" y="102" font-size="15" fill="#fff" text-anchor="middle" font-weight="700" font-family="sans-serif">080-XXXX-XXXX</text>
+            <text x="62" y="140" font-size="10" fill="#7a7190" font-family="sans-serif">SMS · 刚刚</text>
+            <rect x="62" y="148" width="136" height="64" rx="12" fill="#e2f5fd"></rect>
+            <text x="72" y="168" font-size="10" fill="#1e1530" font-family="sans-serif">【ローチケ】認証コード</text>
+            <text x="72" y="188" font-size="16" fill="#0a76a8" font-weight="700" font-family="sans-serif" letter-spacing="3">482913</text>
+            <text x="72" y="204" font-size="9" fill="#7a7190" font-family="sans-serif">示意画面</text>
+            <rect x="62" y="228" width="136" height="44" rx="12" fill="#fff" stroke="#ebe5f3"></rect>
+            <circle cx="82" cy="250" r="10" fill="#ff3ac0"></circle>
+            <text x="98" y="248" font-size="10" fill="#1e1530" font-weight="700" font-family="sans-serif">ローチケ電子チケット</text>
+            <text x="109" y="262" font-size="9" fill="#1f9d6b" font-family="sans-serif">認証済み</text>
+            <path d="M98.5 258.5l2.5 2.5 4.5-5" fill="none" stroke="#1f9d6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+            <g font-family="sans-serif" font-size="11" font-weight="700">
+              <rect x="62" y="290" width="40" height="22" rx="11" fill="#e6f7ef"></rect>
+              <text x="82" y="305" text-anchor="middle" fill="#1f9d6b">090</text>
+              <rect x="110" y="290" width="40" height="22" rx="11" fill="#e6f7ef"></rect>
+              <text x="130" y="305" text-anchor="middle" fill="#1f9d6b">080</text>
+              <rect x="158" y="290" width="40" height="22" rx="11" fill="#e6f7ef"></rect>
+              <text x="178" y="305" text-anchor="middle" fill="#1f9d6b">070</text>
+              <rect x="62" y="320" width="64" height="22" rx="11" fill="#fff3e8"></rect>
+              <text x="94" y="335" text-anchor="middle" fill="#e8590c">050 ×</text>
+              <rect x="134" y="320" width="64" height="22" rx="11" fill="#fff3e8"></rect>
+              <text x="166" y="335" text-anchor="middle" fill="#e8590c">纯流量 ×</text>
+            </g>
+          </svg>
+        </div>
       </div>
       <div class="reveal">
-        <div class="callout tip">
-          <strong>本站推荐的号码方案</strong>
-          打算走日本国内渠道抽票的话，推荐办 <b>CMLink</b>、<b>Cuniq JP</b> 或 <b>ifmobile</b> 的日本号码。因为 Lawson 只认能收日本短信的 090／080／070 号码。
-        </div>
+        <h3>本站推荐的号码方案</h3>
         <div class="carriers">
           <div class="carrier"><b>CMLink</b><small>中国移动国际</small></div>
           <div class="carrier"><b>Cuniq JP</b><small>中国联通国际</small></div>
@@ -291,8 +290,11 @@ const statuses = [
           <li>号码能一直用到演出结束，别中途停机</li>
           <li>申请时填的号码，就是装 App、收电子票的那部手机的号码 <Ref n="05" /></li>
         </ul>
-        <AppLinks />
       </div>
+    </div>
+
+    <div class="phone-apps reveal">
+      <AppLinks />
     </div>
 
     <div style="margin-top:20px">
@@ -914,6 +916,10 @@ const statuses = [
     font-size: 1.3rem;
     font-style: italic;
     letter-spacing: 0.04em;
+  }
+
+  .phone-apps {
+    margin-top: 24px;
   }
 
   .phone-art svg {
