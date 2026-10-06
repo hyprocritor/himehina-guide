@@ -1,5 +1,4 @@
 ---
-import Ref from './Ref.astro';
 ---
 
 <div class="up reveal">
@@ -29,13 +28,10 @@ import Ref from './Ref.astro';
         </ul>
       </div>
     </div>
-    <p class="up-tip">
-      <b>现在能做的：</b>先拿到普通门票；多留一点预算；和一起买票的群友先商量好“升不升、钱怎么分”。留意<a
-        href="https://spc.himehina.jp/LiveatBudokan27"
-        target="_blank"
-        rel="noopener">武道馆特设站</a
-      >的公告。<b>官方还没公布之前，说能“代办升级”的都别信</b>。<Ref n="02" />
-    </p>
+    <div class="callout warn up-ch">
+      <strong>FC 和 Lawson 一般渠道的升级可能不一样</strong>
+      从 FC 最速先行买的票和从 Lawson 一般先行（含海外渠道）买的票，升级的价格、内容、申请方式都可能分开公布，规则也可能不同。
+    </div>
   </div>
 </div>
 
@@ -137,9 +133,9 @@ import Ref from './Ref.astro';
     gap: 4px;
   }
 
-  .up-tip {
-    margin: 0;
-    font-size: 0.93rem;
+
+  .up-ch {
+    margin-bottom: 0;
   }
 
   @media (prefers-reduced-motion: reduce) {
