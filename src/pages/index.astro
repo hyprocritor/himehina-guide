@@ -1,4 +1,5 @@
 ---
+import SecLink from '../components/SecLink.astro';
 import Glyph from '../components/Glyph.astro';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
@@ -72,11 +73,12 @@ const docs = [
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="prep">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="idx">5</span>
         <h2>要准备的五件事</h2>
+        <SecLink id="prep" title="要准备的五件事" />
       </div>
       <p class="lead reveal">
         不用一下子把日本旅行全弄明白。把这五件事一件一件办好就行。不能退款的东西，等确定能去了再付钱。
@@ -97,12 +99,13 @@ const docs = [
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="essentials">
     <div class="wrap split">
       <div class="reveal">
         <div class="section-head">
           <span class="idx">4</span>
           <h2>四样东西，一样都不能少</h2>
+        <SecLink id="essentials" title="四样东西，一样都不能少" />
         </div>
         <p class="lead">
           它们各管各的：中了票，签证不一定能过；有了签证，入境申报还得另外填。<Ref n="11 14 66" />
@@ -131,6 +134,7 @@ const docs = [
       <div class="section-head reveal">
         <span class="idx">10</span>
         <h2>全部章节</h2>
+        <SecLink id="chapters" title="全部章节" />
       </div>
       <div class="cats">
         {
@@ -156,11 +160,12 @@ const docs = [
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="timeline">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="idx"><Glyph name="arrow-right" /></span>
         <h2>从现在到演出日</h2>
+        <SecLink id="timeline" title="从现在到演出日" />
       </div>
       <p class="lead reveal">下面是建议的时间安排，具体还要看签证、酒店和航班的实际情况。</p>
       <ol class="tl">

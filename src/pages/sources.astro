@@ -1,4 +1,5 @@
 ---
+import SecLink from '../components/SecLink.astro';
 import Guide from '../layouts/Guide.astro';
 import { sources, sourceGroups } from '../data/sources';
 
@@ -11,11 +12,12 @@ const groups = sourceGroups.map((g) => ({
 <Guide slug="sources" lead="本站的资料整理于 2026 年 10 月 4 日。签证政策一切以使领馆官网为准。出发前，建议点进来源再看一遍最新信息。">
   {
     groups.map((g, gi) => (
-      <section class="section">
+      <section class="section" id={`g${gi + 1}`}>
         <div class="wrap">
           <div class="section-head reveal">
             <span class="idx">{String(gi + 1).padStart(2, '0')}</span>
             <h2>{g.label}</h2>
+            <SecLink id={`g${gi + 1}`} title={g.label} />
           </div>
           <ol class="src">
             {g.items.map((s) => (

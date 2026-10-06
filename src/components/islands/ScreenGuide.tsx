@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import Glyph from './Glyph';
 
 type Spot = { x: number; y: number; t: string; d: string };
-type Shot = { src: string; w: number; h: number; alt: string; spots: Spot[] };
+type Shot = { src: string; w: number; h: number; alt: string; spots: Spot[]; route?: string };
 type Step = { title: string; jp: string; shots: Shot[]; note?: string; warn?: string };
 
-const S = (src: string, w: number, h: number, alt: string, spots: Spot[]): Shot => ({ src: `/ticket-guide/${src}.webp`, w, h, alt, spots });
+const S = (src: string, w: number, h: number, alt: string, spots: Spot[], route?: string): Shot => ({ src: `/ticket-guide/${src}.webp`, w, h, alt, spots, route });
 
 const jpSteps: Step[] = [
   {
@@ -129,18 +129,19 @@ const jpSteps: Step[] = [
 
 const worldSteps: Step[] = [
   {
-    title: '从特设站进入海外受付，点「Entry」',
-    jp: 'FC最速先行／海外',
+    title: '进入海外受付：FC 和 Lawson 的入口不一样',
+    jp: 'FC最速先行／ローチケ最速先行',
     shots: [
       S('w0-site', 313, 121, '武道馆特设站上的海外受付入口', [
         { x: 90, y: 75, t: '点「受付画面へ遷移」', d: '在武道馆特设站找到「▼FC最速先行／海外」，点下面的「受付画面へ遷移」（跳转到受付页面）。' },
-      ]),
-      S('w1-list', 1000, 194, '海外受付的公演列表', [
-        { x: 51, y: 64, t: '确认 Applications Open', d: '受付期间 2026/10/4(Sun) 21:00〜10/18(Sun) 23:59，日本时间。北京时间截止是 10/18 22:59。' },
-        { x: 82, y: 82, t: '点「Entry」', d: '确认是 2027/7/13(Tue)、Nippon Budokan，Sales Method 显示 Drawing（抽选）。' },
-      ]),
+      ], 'FC 最速先行'),
+      S('w1b-lawson', 900, 660, 'Lawson（l-tike）HIMEHINA 页面上的海外入口', [
+        { x: 97, y: 42, t: '这个是国内渠道', d: '红色 HIMEHINA 卡片里的「祝ヒメヒナ武道館ローチケ最速先行」→「選択する」是日本国内渠道，要日本手机号。住在海外的别点这里。' },
+        { x: 69, y: 76, t: 'Lawson 最速先行的海外入口', d: '走 Lawson 最速先行的话，在 Lawson 的 HIMEHINA 页面往下拉，找到「For customers living outside Japan」。' },
+        { x: 92, y: 92, t: '点「Click here to apply…」', d: '点蓝色按钮「Click here to apply and confirm your application」进入海外受付，以后查申请结果也从这里进。' },
+      ], 'Lawson 最速先行'),
     ],
-    note: '海外渠道的页面是英文的，也不用注册 Lawson 会员。申请时填的邮箱、电话和自己设的 4 位密码，就是以后查结果用的账号密码。',
+    note: 'FC 最速先行从武道馆特设站进，Lawson 最速先行从 Lawson 的 HIMEHINA 页面进，两个入口不一样，按你要申请的那一轮，在上面切换。进去以后先同意利用规约，再在公演列表里选场次。海外渠道的页面是英文的，也不用注册 Lawson 会员。申请时填的邮箱、电话和自己设的 4 位密码，就是以后查结果用的账号密码。',
   },
   {
     title: '同意利用规约',
@@ -148,7 +149,17 @@ const worldSteps: Step[] = [
     shots: [
       S('w2-terms', 916, 420, '利用规约同意页', [
         { x: 50, y: 71, t: '勾选「Agree」', d: '勾上就是同意使用规则，上面两个链接可以点开看原文。' },
-        { x: 83, y: 87, t: '点「Next」', d: '进入选席页面。' },
+        { x: 83, y: 87, t: '点「Next」', d: '进入公演列表，选要申请的那一场。' },
+      ]),
+    ],
+  },
+  {
+    title: '选公演，点「Entry」',
+    jp: 'Performance list',
+    shots: [
+      S('w1-list', 1000, 194, '海外受付的公演列表', [
+        { x: 51, y: 64, t: '确认 Applications Open', d: '受付期间 2026/10/4(Sun) 21:00〜10/18(Sun) 23:59，日本时间。北京时间截止是 10/18 22:59。' },
+        { x: 82, y: 82, t: '点「Entry」', d: '确认是 2027/7/13(Tue)、Nippon Budokan，Sales Method 显示 Drawing（抽选）。' },
       ]),
     ],
   },
@@ -250,11 +261,13 @@ export default function ScreenGuide() {
   const [ch, setCh] = useState<Channel>('world');
   const [i, setI] = useState(0);
   const [spot, setSpot] = useState<string | null>(null);
+  const [route, setRoute] = useState(0);
   const top = useRef<HTMLDivElement>(null);
   const { steps, frame } = guides[ch];
   const step = steps[i];
 
-  useEffect(() => setSpot(null), [i, ch]);
+  useEffect(() => setSpot(null), [i, ch, route]);
+  useEffect(() => setRoute(0), [i, ch]);
 
   // Links elsewhere on the page (e.g. "看图解") can pick a channel via data-guide.
   useEffect(() => {
@@ -280,8 +293,13 @@ export default function ScreenGuide() {
     top.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  // Steps with more than one entrance show one route at a time.
+  const routes = [...new Set(step.shots.map((s) => s.route).filter((r): r is string => !!r))];
+  const curRoute = routes.length ? routes[Math.min(route, routes.length - 1)] : null;
+  const shots = curRoute ? step.shots.filter((s) => s.route === curRoute) : step.shots;
+
   let counter = 0;
-  const numbered = step.shots.map((shot, si) => shot.spots.map((sp, pi) => ({ ...sp, key: `${si}-${pi}`, n: ++counter })));
+  const numbered = shots.map((shot, si) => shot.spots.map((sp, pi) => ({ ...sp, key: `${si}-${pi}`, n: ++counter })));
 
   return (
     <div className="sg" ref={top}>
@@ -307,10 +325,20 @@ export default function ScreenGuide() {
         <h3>{step.title}</h3>
       </div>
 
-      <div className={`sg-body ${frame}`} key={`${ch}-${i}`}>
+      {routes.length > 1 && (
+        <div className="sg-routes" role="tablist" aria-label="选择入口">
+          {routes.map((r, n) => (
+            <button key={r} type="button" role="tab" aria-selected={r === curRoute} className={r === curRoute ? 'on' : ''} onClick={() => setRoute(n)}>
+              {r}
+            </button>
+          ))}
+        </div>
+      )}
+
+      <div className={`sg-body ${frame}`} key={`${ch}-${i}-${curRoute}`}>
         <div className="sg-shots">
-          {step.shots.map((shot, si) => (
-            <figure className={frame === 'phone' ? 'sg-phone' : 'sg-browser'} key={shot.src} style={frame === 'browser' ? { maxWidth: shot.w } : undefined}>
+          {shots.map((shot, si) => (
+            <figure className={frame === 'phone' ? 'sg-phone' : 'sg-browser'} key={shot.src} style={frame === 'browser' ? { maxWidth: shot.h / shot.w > 0.5 ? Math.min(shot.w, 620) : shot.w } : undefined}>
               <div className="sg-frame">
                 {frame === 'browser' && (
                   <span className="sg-bar" aria-hidden="true">

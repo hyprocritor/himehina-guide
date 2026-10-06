@@ -1,0 +1,116 @@
+---
+import Glyph from './Glyph.astro';
+
+interface Props {
+  id: string;
+  title: string;
+}
+const { id, title } = Astro.props;
+---
+
+<a class="sec-link" href={`#${id}`} data-sec-link aria-label={`复制「${title}」这一节的链接`} title="复制这一节的链接">
+  <Glyph name="link" />
+  <span class="sec-link-tip" aria-hidden="true"><span class="t-idle">复制链接</span><span class="t-done">已复制</span><span class="t-fail">链接已在地址栏</span></span>
+</a>
+
+<script>
+  // One delegated listener survives ClientRouter page swaps.
+  const copy = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand('copy');
+      ta.remove();
+      return ok;
+    }
+  };
+
+  document.addEventListener('click', async (e) => {
+    const a = (e.target as Element).closest<HTMLAnchorElement>('[data-sec-link]');
+    if (!a) return;
+    e.preventDefault();
+    const url = new URL(a.getAttribute('href')!, location.href).href;
+    history.replaceState(history.state, '', url);
+    document.getElementById(decodeURIComponent(a.hash.slice(1)))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    a.dataset.state = (await copy(url)) ? 'copied' : 'failed';
+    setTimeout(() => delete a.dataset.state, 1800);
+  });
+</script>
+
+<style>
+  .sec-link {
+    position: relative;
+    align-self: center;
+    display: inline-grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    flex: none;
+    border-radius: 50%;
+    color: var(--ink-3);
+    font-size: 1.05rem;
+    text-decoration: none;
+    opacity: 0.55;
+    transition:
+      opacity 0.2s,
+      background 0.2s,
+      color 0.2s;
+  }
+
+  :global(.section-head:hover) .sec-link,
+  .sec-link:focus-visible,
+  .sec-link[data-state] {
+    opacity: 1;
+  }
+
+  .sec-link:hover {
+    background: var(--pink-soft);
+    color: var(--pink-ink);
+  }
+
+  .sec-link-tip {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 6px);
+    transform: translateX(-50%);
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--inverse);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .sec-link:hover .sec-link-tip,
+  .sec-link:focus-visible .sec-link-tip,
+  .sec-link[data-state] .sec-link-tip {
+    opacity: 1;
+  }
+
+  .t-done,
+  .t-fail,
+  .sec-link[data-state] .t-idle {
+    display: none;
+  }
+
+  .sec-link[data-state='copied'] .t-done,
+  .sec-link[data-state='failed'] .t-fail {
+    display: inline;
+  }
+
+  .sec-link[data-state='copied'] {
+    color: var(--ok);
+  }
+</style>
