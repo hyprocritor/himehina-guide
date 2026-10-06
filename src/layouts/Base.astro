@@ -55,7 +55,7 @@ const cur = sections.find((s) => s.slug === current);
           </span>
           <span class="brand-text">
             <b>HIMEHINA</b>
-            <small>武道馆赴日攻略</small>
+            <small><span class="bt-long">非官方 · 武道馆赴日攻略</span><span class="bt-short">非官方赴日攻略</span></small>
           </span>
         </a>
 
@@ -74,7 +74,7 @@ const cur = sections.find((s) => s.slug === current);
           </button>
           <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-btn>
             <span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>
-            目录
+            <span class="menu-label">目录</span>
           </button>
         </div>
       </div>
@@ -440,10 +440,45 @@ const cur = sections.find((s) => s.slug === current);
     color: var(--pink-ink);
   }
 
+  .bt-short {
+    display: none;
+  }
+
   @media (max-width: 520px) {
     .bar-date,
-    .brand-text small {
+    .bt-long {
       display: none;
+    }
+    .bt-short {
+      display: inline;
+    }
+    .brand {
+      gap: 8px;
+    }
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+    }
+    .brand-mark i {
+      width: 18px;
+      height: 18px;
+    }
+    .brand-text b {
+      font-size: 0.95rem;
+    }
+    .brand-text small {
+      font-size: 0.66rem;
+    }
+    .menu-btn {
+      padding: 8px 11px;
+    }
+    .menu-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
     }
     .here {
       font-size: 0.8rem;
