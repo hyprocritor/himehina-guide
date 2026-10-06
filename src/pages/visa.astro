@@ -1,4 +1,5 @@
 ---
+import Glyph from '../components/Glyph.astro';
 import Guide from '../layouts/Guide.astro';
 import Sec from '../components/Sec.astro';
 import Ref from '../components/Ref.astro';
@@ -64,7 +65,7 @@ const template = `我持中国大陆普通护照，实际常住____，户籍____
         <p class="small">要提前办签证。按你实际住的地方找对应领区的指定旅行社。<Ref n="08 40" /></p>
       </div>
       <div class="card who visa-free reveal">
-        <span class="chip ok">✓ 免签 · 每次最多 90 天</span>
+        <span class="chip ok"><Glyph name="check" /> 免签 · 每次最多 90 天</span>
         <h3>香港／澳门特区护照</h3>
         <p class="small">
           拿<b>香港特区护照</b>（或者有香港居留权的 BN(O) 护照）、<b>澳门特区护照</b>去日本旅游，<b>不用办签证</b>，每次最多待 90 天。买好机票酒店、填好 Visit Japan Web 就能出发。台湾护照（有身份证号的）也一样免签。
@@ -269,20 +270,20 @@ const template = `我持中国大陆普通护照，实际常住____，户籍____
       <div class="evisa reveal">
         <div class="ev-phone">
           <div class="ev-screen">
-            <span class="ev-wifi">● 联网中</span>
+            <span class="ev-wifi"><Glyph name="dot" /> 联网中</span>
             <b>JAPAN eVISA</b>
             <div class="ev-card">
               <small>Visa issuance notice</small>
-              <span class="ev-ok">✓ ISSUED</span>
+              <span class="ev-ok"><Glyph name="check" /> ISSUED</span>
               <div class="ev-lines"><i></i><i></i><i></i></div>
             </div>
           </div>
         </div>
         <div class="ev-vs">
-          <span class="chip ok">✓ 联网实时展示</span>
-          <span class="chip warn">✗ 截图</span>
-          <span class="chip warn">✗ PDF</span>
-          <span class="chip warn">✗ 打印件</span>
+          <span class="chip ok"><Glyph name="check" /> 联网实时展示</span>
+          <span class="chip warn"><Glyph name="x" /> 截图</span>
+          <span class="chip warn"><Glyph name="x" /> PDF</span>
+          <span class="chip warn"><Glyph name="x" /> 打印件</span>
         </div>
         <p class="small">
           电子签要在机场联网打开「Visa issuance notice」给工作人员看，截图不行。出发前先打开试一次，确保在<b>国内机场</b>也有网、手机有电。<Ref n="13" />

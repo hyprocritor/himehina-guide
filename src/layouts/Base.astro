@@ -1,4 +1,5 @@
 ---
+import Glyph from '../components/Glyph.astro';
 import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import '../styles/islands.css';
@@ -84,7 +85,7 @@ const cur = sections.find((s) => s.slug === current);
         <nav class="menu-panel" aria-label="全部章节">
           <div class="menu-head">
             <b>全部章节</b>
-            <button type="button" class="menu-x" aria-label="关闭目录" data-menu-close>✕</button>
+            <button type="button" class="menu-x" aria-label="关闭目录" data-menu-close><Glyph name="x" /></button>
           </div>
           <div class="menu-grid">
             <a href="/" data-slug="" class="mi home">
@@ -108,7 +109,7 @@ const cur = sections.find((s) => s.slug === current);
             }
           </div>
           <a class="menu-up" href="/tickets/#upgrade">
-            <span class="chip">待公布</span> 升级席会后续开放，细节还没公布 →
+            <span class="chip">待公布</span> 升级席会后续开放，细节还没公布 <Glyph name="arrow-right" />
           </a>
         </nav>
       </div>
@@ -119,9 +120,9 @@ const cur = sections.find((s) => s.slug === current);
         <span class="ub-dot" aria-hidden="true"></span>
         <p>
           <b>升级席（アップグレード）将后续开放</b><span class="ub-more">：价格、内容和申请方式都还没公布。</span>
-          <a href="/tickets/#upgrade">查看说明 →</a>
+          <a href="/tickets/#upgrade">查看说明 <Glyph name="arrow-right" /></a>
         </p>
-        <button type="button" class="ub-x" aria-label="不再显示此通知" data-upgrade-close>✕</button>
+        <button type="button" class="ub-x" aria-label="不再显示此通知" data-upgrade-close><Glyph name="x" /></button>
       </div>
     </div>
 

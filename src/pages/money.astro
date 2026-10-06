@@ -1,4 +1,5 @@
 ---
+import Glyph from '../components/Glyph.astro';
 import Guide from '../layouts/Guide.astro';
 import Sec from '../components/Sec.astro';
 import Ref from '../components/Ref.astro';
@@ -213,7 +214,7 @@ const nets = [
             </p>
             <div class="app-foot">
               {a.google && <span class="chip warn">要能上 Google</span>}
-              {a.href && <a href={a.href}>本站说明 →</a>}
+              {a.href && <a href={a.href}>本站说明 <Glyph name="arrow-right" /></a>}
             </div>
           </div>
         ))
@@ -437,8 +438,15 @@ const nets = [
   }
 
   .dcc-opt.good b::after {
-    content: ' ✓';
-    color: var(--ok);
+    content: '';
+    display: inline-block;
+    width: 0.9em;
+    height: 0.9em;
+    margin-left: 0.3em;
+    vertical-align: -0.1em;
+    background: var(--ok);
+    -webkit-mask: var(--glyph-check) center / contain no-repeat;
+    mask: var(--glyph-check) center / contain no-repeat;
   }
 
   .dcc-opt.bad {

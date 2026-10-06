@@ -561,10 +561,12 @@
   border-color: transparent;
 }
 .cl-list label.done .box::after {
-  content: '✓';
-  color: #fff;
-  font-size: 0.8rem;
-  font-weight: 900;
+  content: '';
+  width: 60%;
+  height: 60%;
+  background: #fff;
+  -webkit-mask: var(--glyph-check) center / contain no-repeat;
+  mask: var(--glyph-check) center / contain no-repeat;
 }
 .cl-list label.done span:last-child {
   color: var(--ink-3);

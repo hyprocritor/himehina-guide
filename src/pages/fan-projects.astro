@@ -1,0 +1,157 @@
+---
+import Guide from '../layouts/Guide.astro';
+import Sec from '../components/Sec.astro';
+import Glyph from '../components/Glyph.astro';
+
+// Add one entry per event once the organizers post details. Empty list → blurred placeholder.
+type FanEvent = {
+  title: string;
+  host?: string;
+  when?: string;
+  where?: string;
+  note?: string;
+  link?: string;
+};
+
+const flowerStands: FanEvent[] = [];
+const offKais: FanEvent[] = [];
+
+const groups = [
+  {
+    id: 'flower',
+    idx: '01',
+    title: '花篮（フラスタ）',
+    lead: '大家凑钱给演出送个花篮，名字会写在上面。',
+    events: flowerStands,
+  },
+  {
+    id: 'offkai',
+    idx: '02',
+    title: 'off 会（オフ会）',
+    lead: '演出前后约着一起吃个饭、聊聊天。',
+    events: offKais,
+  },
+];
+---
+
+<Guide
+  slug="fan-projects"
+  lead="群友自己组织的花篮和 off 会，想参加就报名，不参加也没关系。"
+  toc={groups.map((g) => ({ id: g.id, label: g.title }))}
+>
+  {
+    groups.map((g) => (
+      <Sec id={g.id} idx={g.idx} title={g.title} lead={g.lead}>
+        {g.events.length ? (
+          <div class="grid grid-2">
+            {g.events.map((e) => (
+              <div class="ev card reveal">
+                <b>{e.title}</b>
+                <dl>
+                  {e.host && (<div><dt>主催</dt><dd>{e.host}</dd></div>)}
+                  {e.when && (<div><dt>时间</dt><dd>{e.when}</dd></div>)}
+                  {e.where && (<div><dt>地点</dt><dd>{e.where}</dd></div>)}
+                </dl>
+                {e.note && <p>{e.note}</p>}
+                {e.link && (
+                  <a class="btn ev-cta" href={e.link} target="_blank" rel="noopener">
+                    去报名 <Glyph name="external" />
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="ev-tbd reveal">
+            <div class="grid grid-2" aria-hidden="true">
+              {[0, 1].map(() => (
+                <div class="ev card">
+                  <b>████████ 企划</b>
+                  <dl>
+                    <div><dt>主催</dt><dd>██████</dd></div>
+                    <div><dt>时间</dt><dd>2027/7/██ ██:██</dd></div>
+                    <div><dt>地点</dt><dd>████████████</dd></div>
+                  </dl>
+                  <p>██████████████████████</p>
+                </div>
+              ))}
+            </div>
+            <span class="ev-tbd-tag">还没开始，有消息了更新在这里</span>
+          </div>
+        )}
+      </Sec>
+    ))
+  }
+</Guide>
+
+<style>
+  .ev {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ev b {
+    font-size: 1.1rem;
+  }
+
+  .ev dl {
+    margin: 0;
+    display: grid;
+    gap: 4px;
+  }
+
+  .ev dl div {
+    display: flex;
+    gap: 12px;
+  }
+
+  .ev dt {
+    flex: 0 0 3em;
+    color: var(--ink-3);
+  }
+
+  .ev dd {
+    margin: 0;
+  }
+
+  .ev p {
+    margin: 0;
+    color: var(--ink-2);
+  }
+
+  .ev-cta {
+    align-self: flex-start;
+    margin-top: 6px;
+  }
+
+  .ev-tbd {
+    position: relative;
+    display: grid;
+    place-items: center;
+  }
+
+  .ev-tbd > .grid {
+    width: 100%;
+    filter: blur(5px);
+    opacity: 0.6;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .ev-tbd-tag {
+    position: absolute;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: var(--inverse);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: var(--shadow);
+  }
+
+  @media (max-width: 699px) {
+    .ev-tbd .card + .card {
+      display: none;
+    }
+  }
+</style>

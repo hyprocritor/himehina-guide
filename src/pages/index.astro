@@ -1,4 +1,5 @@
 ---
+import Glyph from '../components/Glyph.astro';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import Ref from '../components/Ref.astro';
@@ -53,13 +54,13 @@ const docs = [
           <div><small>一般指定席</small><b class="num">¥11,000</b><span>日元·含税</span></div>
         </div>
         <div class="cta">
-          <a class="btn" href="/start/">我是新手，从这里开始 →</a>
+          <a class="btn" href="/start/">我是新手，从这里开始 <Glyph name="arrow-right" /></a>
           <a class="btn ghost" href="/tickets/">直接看抽票</a>
         </div>
         <p class="entry-links">
           抽选受付中（截止 10/18 23:59 JST）：
-          <a href="https://himehina.jp/post/post-466/" target="_blank" rel="noopener">FC 最速先行 ↗</a>
-          <a href="https://l-tike.com/concert/mevent/?mid=496836" target="_blank" rel="noopener">Lawson（l-tike）受付页 ↗</a>
+          <a href="https://himehina.jp/post/post-466/" target="_blank" rel="noopener">FC 最速先行 <Glyph name="external" /></a>
+          <a href="https://l-tike.com/concert/mevent/?mid=496836" target="_blank" rel="noopener">Lawson（l-tike）受付页 <Glyph name="external" /></a>
         </p>
       </div>
       <div class="hero-visual">
@@ -146,7 +147,7 @@ const docs = [
                 <p class="cat-blurb">{s.blurb}</p>
               </div>
               <span class="cat-arrow" aria-hidden="true">
-                →
+                <Glyph name="arrow-right" />
               </span>
             </a>
           ))
@@ -158,7 +159,7 @@ const docs = [
   <section class="section">
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="idx">→</span>
+        <span class="idx"><Glyph name="arrow-right" /></span>
         <h2>从现在到演出日</h2>
       </div>
       <p class="lead reveal">下面是建议的时间安排，具体还要看签证、酒店和航班的实际情况。</p>
@@ -178,7 +179,7 @@ const docs = [
         <div class="trip-days">
           <div><b class="num">7/11</b><small>周日</small><span>抵达入住</span></div>
           <div><b class="num">7/12</b><small>周一</small><span>轻松游览·取票</span></div>
-          <div class="show"><b class="num">7/13</b><small>周二</small><span>演出日 ★</span></div>
+          <div class="show"><b class="num">7/13</b><small>周二</small><span>演出日 <Glyph name="star" /></span></div>
           <div><b class="num">7/14</b><small>周三</small><span>东京游览</span></div>
           <div><b class="num">7/15</b><small>周四</small><span>返程</span></div>
         </div>

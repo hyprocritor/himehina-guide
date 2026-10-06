@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import Glyph from './Glyph';
 
 type Spot = { x: number; y: number; t: string; d: string };
 type Shot = { src: string; w: number; h: number; alt: string; spots: Spot[] };
@@ -69,7 +70,7 @@ const jpSteps: Step[] = [
     shots: [
       S('s6-pay-a', 720, 1015, '取票与支付方式选择', [
         { x: 3, y: 20, t: '引取方法：電子チケット', d: '本场国内渠道只有电子票。每张另收电子票服务费 ¥110。' },
-        { x: 3, y: 61, t: 'クレジットカード（省事）', d: '中了自动扣钱，什么都不用管，但扣了就不能退。卡要开通 3D Secure 验证，推荐招行／中行的 JCB 卡或 Amex。' },
+        { x: 3, y: 61, t: 'クレジットカード（省事）', d: '中了自动扣钱，什么都不用管，但扣了就不能退。卡要开通 3D Secure 验证，推荐招行／中行的 JCB 卡或 Amex，部分 Visa 卡也能用。' },
         { x: 3, y: 68, t: 'コンビニ入金（可以反悔）', d: '中了以后，在期限内去罗森／MINISTOP 的 Loppi 付现金，每单多收 ¥330。不想要了不付就行，不扣钱。人在国内可以请日本的朋友帮忙付。' },
       ]),
       S('s6-pay-b', 720, 911, '电子票电话号码登记', [
@@ -101,7 +102,7 @@ const jpSteps: Step[] = [
     warn: '扣款前（北京时间 10/22 白天）记得打电话通知银行：深夜会有一笔日本 Lawson 的日元扣款，请不要拦截。',
     shots: [
       S('s8-card-a', 720, 1036, '信用卡输入页', [
-        { x: 52, y: 17, t: '可用的卡组织', d: 'VISA、JCB、Mastercard、Diners、AMEX。部分境外发行的卡可能用不了，推荐 JCB 或 Amex。' },
+        { x: 52, y: 17, t: '可用的卡组织', d: 'VISA、JCB、Mastercard、Diners、AMEX。部分境外发行的卡可能用不了，JCB 或 Amex 最稳，部分 Visa 卡也能用。' },
         { x: 3, y: 31, t: '「別のカードを使う」', d: '第一次用选这一项。' },
         { x: 60, y: 58, t: 'カード番号', d: '卡号，半角数字，不要空格。' },
         { x: 60, y: 69, t: 'カード名義人', d: '持卡人姓名，大写拼音，姓和名之间一个半角空格，例：ZHANG SAN。' },
@@ -216,7 +217,7 @@ const worldSteps: Step[] = [
         { x: 75, y: 84, t: '点「Credit Input」', d: '进入信用卡输入页。' },
       ]),
       S('w7-card', 1000, 330, '信用卡输入', [
-        { x: 46, y: 21, t: 'Card Number', d: '卡号，半角数字，不加空格。推荐招行／中行 JCB 或 Amex。' },
+        { x: 46, y: 21, t: 'Card Number', d: '卡号，半角数字，不加空格。推荐招行／中行 JCB 或 Amex，部分 Visa 卡也能用。海外渠道只能刷卡，没有便利店付款。' },
         { x: 57, y: 51, t: 'Cardholder', d: '持卡人姓名，大写拼音，用空格隔开，例：WANG XIAOMING。' },
         { x: 43, y: 70, t: 'Expiry Date', d: '按卡面上的到期月份、年份选择。' },
         { x: 37, y: 86, t: 'Security Code', d: '卡背面的 3 位数（Amex 是正面的 4 位）。之后可能跳到银行的 3D Secure 验证，完成后等页面自动跳回，看到完成页才算申请成功。' },
@@ -350,7 +351,7 @@ export default function ScreenGuide() {
                   <>
                     {' · '}
                     <a href={shot.src} target="_blank" rel="noopener">
-                      查看大图 ↗
+                      查看大图 <Glyph name="external" />
                     </a>
                   </>
                 )}
@@ -371,14 +372,14 @@ export default function ScreenGuide() {
               </li>
             ))}
           </ol>
-          {step.warn && <p className="sg-warn">⚠ {step.warn}</p>}
+          {step.warn && <p className="sg-warn"><Glyph name="alert" /> {step.warn}</p>}
           {step.note && <p className="sg-note">{step.note}</p>}
           <div className="sg-nav">
             <button type="button" className="btn ghost" onClick={() => go(i - 1)} disabled={i === 0}>
-              ← 上一步
+              <Glyph name="arrow-left" /> 上一步
             </button>
             <button type="button" className="btn" onClick={() => go(i + 1)} disabled={i === steps.length - 1}>
-              下一步 →
+              下一步 <Glyph name="arrow-right" />
             </button>
           </div>
         </div>

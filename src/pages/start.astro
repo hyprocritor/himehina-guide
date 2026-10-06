@@ -1,4 +1,5 @@
 ---
+import Glyph from '../components/Glyph.astro';
 import Guide from '../layouts/Guide.astro';
 import Sec from '../components/Sec.astro';
 import Ref from '../components/Ref.astro';
@@ -68,7 +69,7 @@ const now = [
                 {n.r && <Ref n={n.r} />}
               </p>
               <a class="now-link small" href={n.href}>
-                详细看这一章 →
+                详细看这一章 <Glyph name="arrow-right" />
               </a>
             </div>
           </div>

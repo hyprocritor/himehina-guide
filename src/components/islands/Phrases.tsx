@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Glyph from './Glyph';
 import { copyText } from './CopyBlock';
 
 const phrases = [
@@ -61,7 +62,7 @@ export default function Phrases() {
                   }
                 }}
               >
-                {copied === p.jp ? '✓ 已复制' : '复制'}
+                {copied === p.jp ? <><Glyph name="check" /> 已复制</> : '复制'}
               </button>
             </div>
           </div>

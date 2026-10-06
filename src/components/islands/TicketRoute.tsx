@@ -1,12 +1,13 @@
 import { useState } from 'react';
+import Glyph from './Glyph';
 
 type Answer = 'yes' | 'no' | null;
 
 const Q = [
   {
     id: 'card',
-    q: '你有能在日本网站付款的 JCB 或 Amex 卡吗？',
-    hint: '比如招行、中行的 JCB 卡，或者美国运通 Amex 卡。卡要开通境外网上支付和 3D Secure 验证。',
+    q: '你有能在日本网站付款的信用卡吗？',
+    hint: '招行、中行的 JCB 卡或美国运通 Amex 卡最稳；部分 Visa 卡也能用，比如工行星座卡（Visa）和一些境外银行发的 Visa 卡。卡要开通境外网上支付和 3D Secure 验证。',
   },
   {
     id: 'phone',
@@ -60,7 +61,8 @@ export default function TicketRoute() {
         title: '推荐：海外渠道（纸票）',
         body: [
           '不用日本手机号，直接从海外入口申请。',
-          '准备好邮箱、护照上的英文名、JCB／Amex 卡。',
+          '准备好邮箱、护照上的英文名、一张能用的信用卡（JCB／Amex 最稳，部分 Visa 也行）。',
+          '海外渠道只能刷卡付款，中签就自动扣款，没有便利店付款。',
           '中了以后，到日本在罗森的 Loppi 取纸票；纸票可以直接给朋友，各自进场。',
           '想走日本国内渠道的话，先办一个能收短信的 090／080／070 号码（CMLink、Cuniq JP、ifmobile 等）。',
         ],
@@ -103,7 +105,7 @@ export default function TicketRoute() {
           </ul>
           <div className="tr-btns">
             <a className="btn" href={result.link}>
-              {result.label} ↓
+              {result.label} <Glyph name="arrow-down" />
             </a>
             <button type="button" className="btn ghost" onClick={reset}>
               重新选择

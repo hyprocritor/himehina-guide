@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Glyph from './Glyph';
 
 type Stop = { n: string; c: string; note?: string };
 type Route = { title: string; fit: string; stops: Stop[]; warn?: string };
@@ -125,7 +126,7 @@ export default function AirportRoute() {
                 </li>
               ))}
             </ol>
-            {r.warn && <p className="ar-warn">⚠ {r.warn}</p>}
+            {r.warn && <p className="ar-warn"><Glyph name="alert" /> {r.warn}</p>}
           </div>
         ))}
       </div>

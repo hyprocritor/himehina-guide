@@ -1,4 +1,5 @@
 ---
+import Glyph from '../components/Glyph.astro';
 import Guide from '../layouts/Guide.astro';
 import Sec from '../components/Sec.astro';
 import Ref from '../components/Ref.astro';
@@ -183,7 +184,7 @@ const sites = [
             <div class="site-head">
               {x.url ? (
                 <a href={x.url} target="_blank" rel="noopener">
-                  {x.name} ↗
+                  {x.name} <Glyph name="external" />
                 </a>
               ) : (
                 <b>{x.name}</b>
@@ -364,7 +365,7 @@ const sites = [
       <div class="nt day"><b class="num">7/11</b><small>晚上航班落地</small></div>
       <div class="nt mid"><b class="num">00:00</b></div>
       <div class="nt day2"><b class="num">7/12 01:00</b><small>到前台</small></div>
-      <div class="nt-res">→ 通常要订的是 <b>7/11 这一晚</b>，并提前告诉酒店预计几点到</div>
+      <div class="nt-res"><Glyph name="arrow-right" /> 通常要订的是 <b>7/11 这一晚</b>，并提前告诉酒店预计几点到</div>
     </div>
     <p class="small reveal">
       反过来，7/12 一大早落地、只订了 7/12 晚上的话，早上是进不了房间的。可以问问酒店能不能提前入住（可能要加钱），或者先寄存行李。

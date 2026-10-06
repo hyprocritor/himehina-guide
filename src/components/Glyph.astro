@@ -1,0 +1,25 @@
+---
+import { GLYPHS, FILLED, type GlyphName } from '../data/glyphs';
+interface Props {
+  name: GlyphName;
+  class?: string;
+  label?: string;
+}
+const { name, class: cls, label } = Astro.props;
+const filled = FILLED.has(name);
+---
+
+<svg
+  class:list={['glyph', cls]}
+  viewBox="0 0 24 24"
+  fill={filled ? 'currentColor' : 'none'}
+  stroke={filled ? 'none' : 'currentColor'}
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden={label ? undefined : 'true'}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+>
+  {GLYPHS[name].map((d) => <path d={d} />)}
+</svg>

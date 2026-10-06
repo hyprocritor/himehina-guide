@@ -18,6 +18,7 @@ export type IconName =
   | 'card'
   | 'stage'
   | 'merch'
+  | 'bouquet'
   | 'check'
   | 'book';
 
@@ -104,8 +105,17 @@ export const sections: Section[] = [
     tone: 'mix',
   },
   {
-    slug: 'checklist',
+    slug: 'fan-projects',
     no: '09',
+    title: '应援企划',
+    en: 'Fan Projects',
+    blurb: '群友发起的花篮（フラスタ）众筹和 off 会，想参加再报名，不参加也没关系。',
+    icon: 'bouquet',
+    tone: 'pink',
+  },
+  {
+    slug: 'checklist',
+    no: '10',
     title: '清单与求助',
     en: 'Checklist & Help',
     blurb: '出发清单、预算计算器、日语求助卡、紧急电话。',
@@ -114,7 +124,7 @@ export const sections: Section[] = [
   },
   {
     slug: 'sources',
-    no: '10',
+    no: '11',
     title: '官方来源',
     en: 'Official Sources',
     blurb: '全部 79 个官方链接，出发前可以再查一遍。',

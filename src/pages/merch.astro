@@ -1,4 +1,5 @@
 ---
+import Glyph from '../components/Glyph.astro';
 import Guide from '../layouts/Guide.astro';
 import Sec from '../components/Sec.astro';
 import Ref from '../components/Ref.astro';
@@ -96,19 +97,19 @@ const refund = [
   <Sec id="rules" idx="02" title="拍照、应援棒和花篮：以这场的规定为准">
     <div class="rules">
       <div class="rule reveal">
-        <span class="r-ic no">📷</span>
+        <span class="r-ic no" aria-hidden="true"><Glyph name="camera-off" /></span>
         <b>演出中拍摄／录音</b>
         <p>没说可以拍，就别拍也别录。官方说某个环节可以拍时，再按规定拍。别人举着手机，不代表允许。</p>
       </div>
       <div class="rule reveal">
-        <span class="r-ic mid">✦</span>
+        <span class="r-ic mid" aria-hidden="true"><Glyph name="sparkle" /></span>
         <b>应援棒／应援物</b>
         <p>能带什么还没公布。先别准备会挡人视线的大横幅，也别带改装过的超亮灯。没有应援棒也一样能看。</p>
       </div>
       <div class="rule reveal">
-        <span class="r-ic mid">✿</span>
+        <span class="r-ic mid" aria-hidden="true"><Glyph name="flower" /></span>
         <b>花篮、礼物和寄送物品</b>
-        <p>等官方公布收不收、怎么收，再花钱。别直接寄到武道馆。</p>
+        <p>等官方公布收不收、怎么收，再花钱。别直接寄到武道馆。群友的花篮众筹见<a href="/fan-projects/#flower">应援企划</a>。</p>
       </div>
     </div>
     <p class="small muted reveal">拍照、录音、应援物、花篮礼物、中途出入这些规定，特设站目前还没全部公布。<Ref n="02" /></p>
@@ -271,25 +272,6 @@ const refund = [
 
   .r-ic.no {
     background: var(--warn);
-    position: relative;
-    font-size: 0;
-  }
-
-  .r-ic.no::before {
-    content: '';
-    width: 22px;
-    height: 16px;
-    border: 3px solid #fff;
-    border-radius: 4px;
-  }
-
-  .r-ic.no::after {
-    content: '';
-    position: absolute;
-    width: 34px;
-    height: 3px;
-    background: var(--surface);
-    transform: rotate(-45deg);
   }
 
   .r-ic.mid {

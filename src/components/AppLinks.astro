@@ -1,4 +1,5 @@
 ---
+import Glyph from './Glyph.astro';
 interface Props {
   compact?: boolean;
 }
@@ -33,7 +34,7 @@ const ANDROID = 'https://play.google.com/store/apps/details?id=jp.lhe.ebillet';
     </a>
   </div>
   <div class="apl-warn">
-    <b>⚠ 只在日本区上架</b>
+    <b><Glyph name="alert" /> 只在日本区上架</b>
     <ul>
       <li><b>iPhone：</b>中国区 App Store 搜不到，需要用<b>日本区 Apple ID</b> 登录 App Store 才能下载</li>
       <li><b>Android：</b>需要有 Google Play，并且账号地区是日本。国行安卓手机大多没有 Google Play 服务，可能装不上或用不了</li>

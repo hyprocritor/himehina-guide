@@ -6,15 +6,16 @@ interface Props {
   items: string[];
   note?: string;
   refs?: string;
+  badge?: string;
 }
-const { title, items, note, refs } = Astro.props;
+const { title, items, note, refs, badge = '官方还没公布' } = Astro.props;
 ---
 
 <div class="pn reveal" role="note">
   <div class="pn-badge">
     <span class="pn-dot" aria-hidden="true"></span>
     <b>COMING SOON</b>
-    <small>官方还没公布</small>
+    <small>{badge}</small>
   </div>
   <div class="pn-body">
     <strong>{title}</strong>

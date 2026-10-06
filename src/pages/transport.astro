@@ -1,4 +1,5 @@
 ---
+import Glyph from '../components/Glyph.astro';
 import Guide from '../layouts/Guide.astro';
 import Sec from '../components/Sec.astro';
 import Ref from '../components/Ref.astro';
@@ -54,17 +55,17 @@ const toVenue = [
         ))
       }
     </div>
-    <p class="small muted reveal" style="margin-top:10px">带 <span class="jpk" lang="ja">日文</span> 标签的，是日本机场里的写法。回国那天在日本机场值机、过安检时，对照着找就行。</p>
+    <p class="small muted reveal">带 <span class="jpk" lang="ja">日文</span> 标签的，是日本机场里的写法。回国那天在日本机场值机、过安检时，对照着找就行。</p>
 
     <div class="split" style="margin-top:28px">
       <div class="bp reveal" aria-label="登机牌示意图">
         <div class="bp-main">
           <div class="bp-top">
-            <span>BOARDING PASS</span><span class="num">✈</span>
+            <span>BOARDING PASS</span><span aria-hidden="true"><Glyph name="plane" /></span>
           </div>
           <div class="bp-route">
             <div><small>FROM</small><b class="num">PVG</b></div>
-            <span class="bp-plane">— ✈ —</span>
+            <span class="bp-plane" aria-hidden="true">— <Glyph name="plane" /> —</span>
             <div><small>TO</small><b class="num">HND</b></div>
           </div>
           <div class="bp-grid">
@@ -201,14 +202,14 @@ const toVenue = [
           <li><b>方法 B：钱包 App</b>：打开「钱包」→ 右上角「+」→「交通卡」→ 选 Suica，按提示充值添加。Apple ID 要开启双重认证。</li>
         </ol>
         <p class="is-warn">
-          ⚠ 用 Apple Pay 充值时，绑定的国内银联卡可能付不了。准备一张 Visa／Mastercard／JCB／Amex 卡，或者到日本后在便利店收银台用现金充（说「Suica にチャージお願いします」）。
+          <Glyph name="alert" /> 用 Apple Pay 充值时，绑定的国内银联卡可能付不了。准备一张 Visa／Mastercard／JCB／Amex 卡，或者到日本后在便利店收银台用现金充（说「Suica にチャージお願いします」）。
         </p>
         <p class="is-warn">
-          ⚠ 安卓手机大多不支持（日本版机型除外），用实体卡就好。
+          <Glyph name="alert" /> 安卓手机大多不支持（日本版机型除外），用实体卡就好。
         </p>
         <div class="is-links">
-          <a href="https://support.apple.com/zh-cn/108772" target="_blank" rel="noopener">Apple 官方：把交通卡添加到钱包 ↗</a>
-          <a href="https://www.jreast.co.jp/multi/wsmlp/" target="_blank" rel="noopener">JR 东日本：Welcome Suica Mobile ↗</a>
+          <a href="https://support.apple.com/zh-cn/108772" target="_blank" rel="noopener">Apple 官方：把交通卡添加到钱包 <Glyph name="external" /></a>
+          <a href="https://www.jreast.co.jp/multi/wsmlp/" target="_blank" rel="noopener">JR 东日本：Welcome Suica Mobile <Glyph name="external" /></a>
         </div>
       </div>
     </div>
@@ -294,7 +295,7 @@ const toVenue = [
             <span class="tv-line">
               {t.line} · {t.dir}
             </span>
-            <span class="tv-arrow">→ 九段下</span>
+            <span class="tv-arrow"><Glyph name="arrow-right" /> 九段下</span>
             <p>{t.d}</p>
           </div>
         ))

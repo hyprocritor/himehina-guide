@@ -1,4 +1,5 @@
 ---
+import Glyph from '../components/Glyph.astro';
 import Base from './Base.astro';
 import Icon from '../components/Icon.astro';
 import { sections, bySlug } from '../data/sections';
@@ -52,12 +53,12 @@ const next = sections[i + 1];
     {
       prev ? (
         <a class="pg prev" href={`/${prev.slug}/`}>
-          <small>← 上一章</small>
+          <small><Glyph name="arrow-left" /> 上一章</small>
           <b>{prev.title}</b>
         </a>
       ) : (
         <a class="pg prev" href="/">
-          <small>← 返回</small>
+          <small><Glyph name="arrow-left" /> 返回</small>
           <b>首页</b>
         </a>
       )
@@ -65,7 +66,7 @@ const next = sections[i + 1];
     {
       next && (
         <a class="pg next" href={`/${next.slug}/`}>
-          <small>下一章 →</small>
+          <small>下一章 <Glyph name="arrow-right" /></small>
           <b>{next.title}</b>
         </a>
       )

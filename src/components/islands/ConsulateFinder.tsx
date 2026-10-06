@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import Glyph from './Glyph';
 
 type District = {
   id: string;
@@ -198,7 +199,7 @@ export default function ConsulateFinder() {
             <h4>要注意</h4>
             <p>{selD.tip}</p>
             <a className="btn" href={selD.listUrl} target="_blank" rel="noopener">
-              查看官方指定旅行社名单 ↗
+              查看官方指定旅行社名单 <Glyph name="external" />
             </a>
             <p className="cf-src">
               来源 <a href={`/sources/#s${selD.ref}`}>[{selD.ref}]</a> · 看你实际住在哪，不看户口、起飞机场或店家在哪

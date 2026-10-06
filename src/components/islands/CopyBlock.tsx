@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Glyph from './Glyph';
 
 export async function copyText(text: string) {
   try {
@@ -28,7 +29,7 @@ export default function CopyBlock({ text, label = '复制' }: { text: string; la
     <div className="copyblock">
       <pre>{text}</pre>
       <button type="button" className="btn" onClick={onCopy}>
-        {state === 'ok' ? '✓ 已复制' : state === 'fail' ? '复制失败，请长按选择' : label}
+        {state === 'ok' ? <><Glyph name="check" /> 已复制</> : state === 'fail' ? '复制失败，请长按选择' : label}
       </button>
     </div>
   );

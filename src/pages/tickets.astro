@@ -1,4 +1,5 @@
 ---
+import Glyph from '../components/Glyph.astro';
 import Guide from '../layouts/Guide.astro';
 import Sec from '../components/Sec.astro';
 import Ref from '../components/Ref.astro';
@@ -25,7 +26,7 @@ const statuses = [
   { jp: '抽選受付', cn: '接受抽选申请' },
   { jp: '申込完了', cn: '申请已提交' },
   { jp: '当選／落選', cn: '中签／未中签' },
-  { jp: '決済／入金', cn: '扣款或便利店付款', forks: ['信用卡：自动扣款', '便利店：Loppi 入金'] },
+  { jp: '決済／入金', cn: '扣款或便利店付款', forks: ['信用卡：自动扣款', '便利店（仅国内渠道）：Loppi 入金'] },
   { jp: '発券', cn: '拿到能入场的票', forks: ['电子票：App 里显示', '纸票：开演前去 Loppi 取票'] },
   { jp: '入場', cn: '入场' },
 ];
@@ -76,11 +77,11 @@ const statuses = [
         <p class="num big">10/4 21:00 → 10/18 23:59</p>
         <p class="small muted">日本时间。北京时间截止是 <b>10 月 18 日 22:59</b></p>
         <div class="lot-links">
-          <a class="lot-link fc" href="https://himehina.jp/post/post-466/" target="_blank" rel="noopener">FC 最速先行公告 ↗</a>
-          <a class="lot-link lt" href="https://l-tike.com/concert/mevent/?mid=496836" target="_blank" rel="noopener">Lawson（l-tike）受付页 ↗</a>
+          <a class="lot-link fc" href="https://himehina.jp/post/post-466/" target="_blank" rel="noopener">FC 最速先行公告 <Glyph name="external" /></a>
+          <a class="lot-link lt" href="https://l-tike.com/concert/mevent/?mid=496836" target="_blank" rel="noopener">Lawson（l-tike）受付页 <Glyph name="external" /></a>
         </div>
       </div>
-      <div class="lot-arrow" aria-hidden="true">→</div>
+      <div class="lot-arrow" aria-hidden="true"><Glyph name="arrow-right" /></div>
       <div class="lot-item">
         <span class="chip blue">结果</span>
         <h4>当落公布</h4>
@@ -109,7 +110,7 @@ const statuses = [
           <span class="path-tag">A</span>
           <div>
             <b>海外渠道 · 纸票</b>
-            <p>给住在日本以外的人。<strong>不用日本手机号</strong>，有一张能用的 JCB／Amex 卡就行。</p>
+            <p>给住在日本以外的人。<strong>不用日本手机号</strong>，有一张能用的信用卡就行（JCB／Amex 最稳，部分 Visa 也可以）。<strong>只能刷卡付款</strong>，没有便利店付款。</p>
           </div>
         </div>
         <div class="path">
@@ -133,7 +134,7 @@ const statuses = [
   <Sec
     id="card"
     idx="04"
-    title="信用卡：推荐 JCB 或 Amex"
+    title="信用卡：这几种能用"
     lead="日本的票务网站对国外的卡挑得很，不少国内发的卡、借记卡、预付卡都付不了。手上有卡，也不一定能在日本网站上用。"
   >
     <div class="split">
@@ -160,7 +161,11 @@ const statuses = [
       <div class="reveal">
         <div class="callout tip">
           <strong>本站推荐</strong>
-          <b>招商银行或中国银行的 JCB 卡</b>，或者<b>美国运通（Amex）卡</b>。JCB 是日本自己的卡，在日本网站和商店基本都能用。
+          <ul class="mini-list check card-ok">
+            <li><b>招行／中行的 JCB 卡</b>：JCB 是日本自己的卡，最稳</li>
+            <li><b>美国运通（Amex）卡</b></li>
+            <li><b>部分 Visa 卡</b>（群友实测）：工行星座卡、一些境外银行发的 Visa</li>
+          </ul>
         </div>
         <h3>拿到卡后，打电话问银行这六件事</h3>
         <ol class="mini-list">
@@ -202,11 +207,11 @@ const statuses = [
       <h3>网上刷卡的流程（3D Secure 验证）</h3>
       <div class="ds" aria-label="3D Secure 付款流程">
         <div class="ds-i"><span class="num">1</span><b>票务网站</b><small>填卡号、有效期、安全码</small></div>
-        <i class="ds-ar">→</i>
+        <i class="ds-ar" aria-hidden="true"><Glyph name="arrow-right" /></i>
         <div class="ds-i bank"><span class="num">2</span><b>银行验证页</b><small>收短信，或在银行 App 里确认</small></div>
-        <i class="ds-ar">→</i>
+        <i class="ds-ar" aria-hidden="true"><Glyph name="arrow-right" /></i>
         <div class="ds-i"><span class="num">3</span><b>自动跳回</b><small>这时别关浏览器</small></div>
-        <i class="ds-ar">→</i>
+        <i class="ds-ar" aria-hidden="true"><Glyph name="arrow-right" /></i>
         <div class="ds-i done"><span class="num">4</span><b>申请完成页</b><small>看到编号才算成功</small></div>
       </div>
       <p class="small muted">
@@ -215,8 +220,8 @@ const statuses = [
     </div>
     <BankAlert />
     <div class="callout warn reveal">
-      <strong>不想被自动扣款？可以选便利店付款</strong>
-      选「コンビニ入金」的话，中签后要在入金期限内到日本罗森／MINISTOP 的 Loppi 付现金，人在国内的话，可以请在日本的朋友帮你付；到期不付就当放弃了，一分钱都不扣。注意付款期限很短，等你明年到了日本再付肯定来不及。详见下面的<a href="#after">付款与取票</a>。用家人的信用卡付的话，让家人自己输验证码，密码和验证码别给任何代办。
+      <strong>不想被自动扣款？国内渠道可以选便利店付款</strong>
+      <b>海外渠道只能用信用卡付款，没有便利店付款这个选项</b>，中签就自动扣款。走日本国内渠道的话，选「コンビニ入金」，中签后要在入金期限内到日本罗森／MINISTOP 的 Loppi 付现金，人在国内的话，可以请在日本的朋友帮你付；到期不付就当放弃了，一分钱都不扣。注意付款期限很短，等你明年到了日本再付肯定来不及。详见下面的<a href="#after">付款与取票</a>。用家人的信用卡付的话，让家人自己输验证码，密码和验证码别给任何代办。
     </div>
   </Sec>
 
@@ -249,7 +254,8 @@ const statuses = [
           <rect x="62" y="228" width="136" height="44" rx="12" fill="#fff" stroke="#ebe5f3"></rect>
           <circle cx="82" cy="250" r="10" fill="#ff3ac0"></circle>
           <text x="98" y="248" font-size="10" fill="#1e1530" font-weight="700" font-family="sans-serif">ローチケ電子チケット</text>
-          <text x="98" y="262" font-size="9" fill="#1f9d6b" font-family="sans-serif">✓ 認証済み</text>
+          <text x="98" y="262" font-size="9" fill="#1f9d6b" font-family="sans-serif">認証済み</text>
+          <path d="M88 254l3 3 5-6" fill="none" stroke="#1f9d6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
           <g font-family="sans-serif" font-size="11" font-weight="700">
             <rect x="62" y="290" width="40" height="22" rx="11" fill="#e6f7ef"></rect>
             <text x="82" y="305" text-anchor="middle" fill="#1f9d6b">090</text>
@@ -258,9 +264,9 @@ const statuses = [
             <rect x="158" y="290" width="40" height="22" rx="11" fill="#e6f7ef"></rect>
             <text x="178" y="305" text-anchor="middle" fill="#1f9d6b">070</text>
             <rect x="62" y="320" width="64" height="22" rx="11" fill="#fff3e8"></rect>
-            <text x="94" y="335" text-anchor="middle" fill="#e8590c">050 ✗</text>
+            <text x="94" y="335" text-anchor="middle" fill="#e8590c">050 ×</text>
             <rect x="134" y="320" width="64" height="22" rx="11" fill="#fff3e8"></rect>
-            <text x="166" y="335" text-anchor="middle" fill="#e8590c">纯流量 ✗</text>
+            <text x="166" y="335" text-anchor="middle" fill="#e8590c">纯流量 ×</text>
           </g>
         </svg>
       </div>
@@ -332,24 +338,24 @@ const statuses = [
         <div class="ch-body">
           <div class="crumbs" aria-label="官方入口路径">
             <a href="https://spc.himehina.jp/LiveatBudokan27" target="_blank" rel="noopener">特设站</a>
-            <span>→</span>
+            <span aria-hidden="true"><Glyph name="arrow-right" /></span>
             <b class="jp">ローチケ最速先行</b>
-            <span>→</span>
+            <span aria-hidden="true"><Glyph name="arrow-right" /></span>
             <a href="https://l-tike.com/himehina/" target="_blank" rel="noopener">Lawson</a>
-            <span>→</span>
+            <span aria-hidden="true"><Glyph name="arrow-right" /></span>
             <b>For customers living outside Japan</b>
           </div>
-          <p class="ch-links">FC 会员先看 <a href="https://himehina.jp/post/post-466/" target="_blank" rel="noopener">FC 最速先行公告 ↗</a>，国内／海外受付入口也可以从 <a href="https://l-tike.com/concert/mevent/?mid=496836" target="_blank" rel="noopener">Lawson（l-tike）受付页 ↗</a> 进入</p>
+          <p class="ch-links">FC 会员先看 <a href="https://himehina.jp/post/post-466/" target="_blank" rel="noopener">FC 最速先行公告 <Glyph name="external" /></a>，国内／海外受付入口也可以从 <a href="https://l-tike.com/concert/mevent/?mid=496836" target="_blank" rel="noopener">Lawson（l-tike）受付页 <Glyph name="external" /></a> 进入</p>
           <ol class="is-steps">
-            <li><b>准备好：</b>常用邮箱、护照上的英文名、手机号、JCB／Amex 卡。要填护照号的话，照实填，别随便编</li>
+            <li><b>准备好：</b>常用邮箱、护照上的英文名、手机号、一张能用的信用卡（JCB／Amex 最稳，部分 Visa 也行）。要填护照号的话，照实填，别随便编</li>
             <li><b>从官方入口进</b>，别点搜索广告或者群里来路不明的链接 <Ref n="02 03" /></li>
             <li><b>看清场次：</b>HIMEHINA、2027/7/13、日本武道館。普通先行不用是 FC 会员 <Ref n="01 02" /></li>
             <li><b>不用注册会员：</b>填邮箱、带国家代码的电话（86 开头），再自设一个 4 位 My Page 密码，以后用它们查结果</li>
             <li><b>填申请人信息：</b>Given Name 填名、Surname 填姓，和护照拼音一致</li>
-            <li><b>填信用卡，只提交一次</b>。跳到银行验证页还没完，要等回到完成页</li>
+            <li><b>填信用卡，只提交一次</b>。海外渠道只能刷卡，没有便利店付款。跳到银行验证页还没完，要等回到完成页</li>
           </ol>
           <p class="ch-note">纸票要在开演前到日本罗森／MINISTOP 的 Loppi 取出来，确认邮件和付款截图不是门票。见<a href="#after">付款与取票</a>。</p>
-          <a class="btn ch-cta" href="#walkthrough" data-guide="world">看海外渠道图解 ↓</a>
+          <a class="btn ch-cta" href="#walkthrough" data-guide="world">看海外渠道图解 <Glyph name="arrow-down" /></a>
         </div>
       </div>
 
@@ -375,7 +381,7 @@ const statuses = [
             <li><b>决定付款方式：</b>信用卡要开通 3D Secure 2.0、10/22–23 额度够；选便利店付款就先和在日本能帮你付款的朋友说好</li>
             <li><b>照着下面的图解</b>填申请表，从「お申し込みはこちら」到「申込完了」一共 9 步</li>
           </ol>
-          <a class="btn ch-cta" href="#walkthrough" data-guide="jp">看国内渠道图解 ↓</a>
+          <a class="btn ch-cta" href="#walkthrough" data-guide="jp">看国内渠道图解 <Glyph name="arrow-down" /></a>
         </div>
       </div>
     </div>
@@ -416,7 +422,7 @@ const statuses = [
       }
     </div>
 
-    <h3 class="sub reveal"><span class="sub-no num">A</span>付款：两种方式都可以，看你需不需要“反悔”的余地</h3>
+    <h3 class="sub reveal"><span class="sub-no num">A</span>付款：海外渠道只能刷卡；国内渠道还可以选便利店付款，留个“反悔”的余地</h3>
     <div class="pay-compare">
       <div class="pay-col credit reveal">
         <span class="chip">省事 · クレジットカード</span>
@@ -431,22 +437,23 @@ const statuses = [
           <li>所以你可能先收到银行扣款短信，但最终结果还是去「マイページ」看</li>
           <li>10/22 白天<b>先打电话通知银行</b>，确认卡有效、额度够、不会拦截境外交易（见下方提醒）</li>
         </ul>
-        <p class="pay-con">⚠ 扣款后<b>不能取消</b>：签证没办下来或者去不了，也不能退（公演中止的情况除外）</p>
+        <p class="pay-con"><Glyph name="alert" /> 扣款后<b>不能取消</b>：签证没办下来或者去不了，也不能退（公演中止的情况除外）</p>
       </div>
       <div class="pay-col store reveal">
-        <span class="chip blue">可以反悔 · コンビニ入金</span>
+        <span class="chip blue">仅国内渠道 · コンビニ入金</span>
         <h3>中签后在期限内去 Loppi 付现金</h3>
         <div class="when">
           <div><small>地点</small><b>罗森／MINISTOP 的 Loppi</b></div>
           <div><small>手续费</small><b class="num">¥330／单</b></div>
         </div>
         <ul class="mini-list check">
+          <li><b>只有日本国内渠道能选</b>，海外渠道没有这个付款方式</li>
           <li>「入金」这个步骤<b>只有选了便利店付款才有</b></li>
           <li>中签后<b>到期不付，就等于放弃这次中签，不扣任何钱</b>。还不确定签证、假期的人适合选这个</li>
           <li>人在国内的话，可以<b>请在日本的可信朋友代付</b>：把「お支払受付番号 <b class="num">20206</b>」和 10 位预约号码告诉对方，由对方在 Loppi 操作，拿凭条去收银台付现金（不能刷卡）</li>
           <li>付完拿到的「領収書」是付款凭证，请朋友拍照发给你，原件保存到演出结束</li>
         </ul>
-        <p class="pay-con">⚠ 入金期限一过，中签就作废、不能补救。提前和代付的朋友约好日期，避开最后一天</p>
+        <p class="pay-con"><Glyph name="alert" /> 入金期限一过，中签就作废、不能补救。提前和代付的朋友约好日期，避开最后一天</p>
       </div>
     </div>
 
@@ -459,9 +466,9 @@ const statuses = [
         <ol class="is-steps">
           <li><b class="num">2027/6/29(火) 12:00</b> 起，票会显示在 Lawson 电子票 App 里</li>
           <li>确认张数；要给同行者「分配」的，在 App 里按指引操作</li>
-          <li>当天在 App 里显示「入場チェック画面」，由工作人员<b>当面确认</b>：滑动撕票（スワイプもぎり）或在屏幕上盖章（スタンプ）。没有二维码，截图不能用。<a href="/show-day/#entry">看入场图解 →</a></li>
+          <li>当天在 App 里显示「入場チェック画面」，由工作人员<b>当面确认</b>：滑动撕票（スワイプもぎり）或在屏幕上盖章（スタンプ）。没有二维码，截图不能用。<a href="/show-day/#entry">看入场图解 <Glyph name="arrow-right" /></a></li>
         </ol>
-        <p class="is-warn">⚠ 票显示以后：不要换 SIM 卡、不要换手机、不要删除 Lawson App（见下方提醒）</p>
+        <p class="is-warn"><Glyph name="alert" /> 票显示以后：不要换 SIM 卡、不要换手机、不要删除 Lawson App（见下方提醒）</p>
       </div>
       <div class="is-col reveal">
         <div class="is-head p"><span class="chip">纸票</span><b>开演前必须去罗森把票取出来</b></div>
@@ -471,7 +478,7 @@ const statuses = [
           <li>在规定时间内（一般 30 分钟）把凭条拿到收银台，换成<b>实体纸票</b></li>
           <li>当场看看日期和张数对不对，然后放进防水袋收好</li>
         </ol>
-        <p class="pay-con">⚠ 一定要在<b>演出开始前</b>取好。最好到东京第一天就去取，别拖到 7/13 当天。能取票的时间看订单通知 <Ref n="72" /></p>
+        <p class="pay-con"><Glyph name="alert" /> 一定要在<b>演出开始前</b>取好。最好到东京第一天就去取，别拖到 7/13 当天。能取票的时间看订单通知 <Ref n="72" /></p>
       </div>
     </div>
 
@@ -566,7 +573,7 @@ const statuses = [
           </dl>
         </div>
       </div>
-      <p class="tp-warn">⚠ 电子票的限制：申请人<b>本人那一张不能分配给别人</b>，申请人必须本人到场；截图、录屏的票进不去。<Ref n="05 06 07" /></p>
+      <p class="tp-warn"><Glyph name="alert" /> 电子票的限制：申请人<b>本人那一张不能分配给别人</b>，申请人必须本人到场；截图、录屏的票进不去。<Ref n="05 06 07" /></p>
     </div>
 
     <div class="tpanel p reveal">
@@ -579,9 +586,9 @@ const statuses = [
       </div>
       <div class="paper-flow">
         <div class="pf"><span class="num">1</span><b>有人去 Loppi 取票</b><small>持有预约号码的人（通常是申请人）到日本后，在罗森／MINISTOP 的 Loppi 取出整单纸票</small></div>
-        <i aria-hidden="true">→</i>
+        <i aria-hidden="true"><Glyph name="arrow-right" /></i>
         <div class="pf"><span class="num">2</span><b>当面把纸票交给你</b><small>约好在东京见面交接，当场核对日期、席位和张数</small></div>
-        <i aria-hidden="true">→</i>
+        <i aria-hidden="true"><Glyph name="arrow-right" /></i>
         <div class="pf"><span class="num">3</span><b>你自己拿票入场</b><small>不需要和申请人一起，按票面的门和时间入场</small></div>
       </div>
       <ul class="mini-list check" style="margin-top:14px">
@@ -1668,5 +1675,8 @@ const statuses = [
     .vpn {
       flex-direction: column;
     }
+  }
+  .card-ok {
+    margin: 8px 0 0;
   }
 </style>
