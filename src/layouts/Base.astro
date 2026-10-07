@@ -5,6 +5,7 @@ import '../styles/global.css';
 import '../styles/islands.css';
 import Icon from '../components/Icon.astro';
 import { sections, EVENT } from '../data/sections';
+import { DEFAULT_LOCALE, LOCALES, isLocale, localizePath, stripLocale, type Locale } from '../i18n/locales';
 
 interface Props {
   title: string;
@@ -18,10 +19,16 @@ const {
 } = Astro.props;
 const fullTitle = current ? `${title}｜HIMEHINA 武道馆赴日攻略` : title;
 const cur = sections.find((s) => s.slug === current);
+
+const locale: Locale = isLocale(Astro.currentLocale) ? Astro.currentLocale : DEFAULT_LOCALE;
+const altLocale: Locale = locale === 'zh-hans' ? 'zh-hant' : 'zh-hans';
+const basePath = stripLocale(Astro.url.pathname);
+const abs = (l: Locale) => new URL(localizePath(basePath, l), Astro.site).href;
+const ccDeed = `https://creativecommons.org/licenses/by-nc-sa/4.0/deed.${locale}`;
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang={LOCALES[locale].htmlLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -32,11 +39,22 @@ const cur = sections.find((s) => s.slug === current);
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
+    <meta property="og:locale" content={LOCALES[locale].ogLocale} />
+    {(Object.keys(LOCALES) as Locale[]).map((l) => <link rel="alternate" hreflang={LOCALES[l].htmlLang} href={abs(l)} />)}
+    <link rel="alternate" hreflang="x-default" href={abs(DEFAULT_LOCALE)} />
     <script is:inline src="https://trace.auv.lu/api/script.js?siteId=ab81ab67dbf4" defer></script>
     <script is:inline>
       // Hide the upgrade banner before first paint if the visitor dismissed it.
       try {
         if (localStorage.getItem('hh-upgrade-banner') === 'v1') document.documentElement.dataset.upgradeHidden = '1';
+      } catch (e) {}
+      // First visit with a Traditional Chinese browser: go to /zh-hant/ (unless a language was picked).
+      try {
+        var de = document.documentElement;
+        if (de.lang === 'zh-CN' && !localStorage.getItem('hh-lang')) {
+          var zh = (navigator.languages || [navigator.language]).find(function (l) { return /^zh\b/i.test(l); }) || '';
+          if (/^zh-(hant|tw|hk|mo)\b/i.test(zh)) location.replace('/zh-hant' + location.pathname + location.search + location.hash);
+        }
       } catch (e) {}
       // Apply the saved theme before first paint (auto = follow the system).
       try {
@@ -67,6 +85,17 @@ const cur = sections.find((s) => s.slug === current);
 
         <div class="bar-right">
           <span class="bar-date num" aria-label="演出日期">2027.07.13</span>
+          <a
+            class="lang-btn"
+            href={localizePath(basePath, altLocale)}
+            hreflang={LOCALES[altLocale].htmlLang}
+            lang={LOCALES[altLocale].htmlLang}
+            aria-label={altLocale === 'zh-hant' ? '繁體中文' : '简体中文'}
+            title={altLocale === 'zh-hant' ? '繁體中文' : '简体中文'}
+            data-lang-switch={altLocale}
+            data-no-i18n
+            data-astro-reload>{LOCALES[altLocale].label.slice(0, 1)}</a
+          >
           <button class="theme-btn" type="button" data-theme-btn aria-label="切换深色／浅色模式" title="切换深色／浅色模式">
             <svg class="ti ti-auto" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"></circle><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"></path></svg>
             <svg class="ti ti-light" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
@@ -176,11 +205,11 @@ const cur = sections.find((s) => s.slug === current);
           编写：<b>HIMEHINA 远征部</b>
         </p>
         <p class="foot-license">
-          <a class="cc" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank" rel="license noopener" aria-label="CC BY-NC-SA 4.0 许可协议">
+          <a class="cc" href={ccDeed} target="_blank" rel="license noopener" aria-label="CC BY-NC-SA 4.0 许可协议">
             <span class="cc-badge" aria-hidden="true"><b>cc</b><i>BY</i><i>NC</i><i>SA</i></span>
           </a>
           <span>
-            <b class="lic-1">本站内容采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank" rel="license noopener">CC BY-NC-SA 4.0</a> 许可</b>
+            <b class="lic-1">本站内容采用 <a href={ccDeed} target="_blank" rel="license noopener">CC BY-NC-SA 4.0</a> 许可</b>
           </span>
         </p>
       </div>
@@ -188,6 +217,7 @@ const cur = sections.find((s) => s.slug === current);
 
     <script>
       import { sections } from '../data/sections';
+      import { LANG_PREF_KEY, localizePath, stripLocale, type Locale } from '../i18n/locales';
 
       const menu = () => document.querySelector<HTMLElement>('[data-menu]');
       const btn = () => document.querySelector<HTMLButtonElement>('[data-menu-btn]');
@@ -216,6 +246,15 @@ const cur = sections.find((s) => s.slug === current);
         if (wired) return;
         wired = true;
         btn()?.addEventListener('click', () => openMenu(btn()?.getAttribute('aria-expanded') !== 'true'));
+        // Language switch: same page and section in the other script; remember the choice.
+        document.querySelector<HTMLAnchorElement>('[data-lang-switch]')?.addEventListener('click', (e) => {
+          const to = (e.currentTarget as HTMLElement).dataset.langSwitch as Locale;
+          e.preventDefault();
+          try {
+            localStorage.setItem(LANG_PREF_KEY, to);
+          } catch {}
+          location.href = localizePath(location.pathname, to) + location.search + location.hash;
+        });
         document.querySelectorAll('[data-menu-close]').forEach((el) => el.addEventListener('click', () => openMenu(false)));
         menu()?.addEventListener('click', (e) => {
           if ((e.target as HTMLElement).closest('a')) openMenu(false);
@@ -283,13 +322,13 @@ const cur = sections.find((s) => s.slug === current);
         openMenu(false);
 
         // Current chapter in the persisted header.
-        const slug = location.pathname.split('/').filter(Boolean)[0] ?? '';
+        const slug = stripLocale(location.pathname).split('/').filter(Boolean)[0] ?? '';
         const cur = sections.find((s) => s.slug === slug);
         const here = document.querySelector<HTMLAnchorElement>('[data-here]');
         if (here) {
           here.hidden = !cur;
           if (cur) {
-            here.href = `/${cur.slug}/`;
+            here.href = localizePath(`/${cur.slug}/`);
             here.querySelector('[data-here-no]')!.textContent = cur.no;
             here.querySelector('[data-here-title]')!.textContent = cur.title;
           }
@@ -508,6 +547,25 @@ const cur = sections.find((s) => s.slug === current);
       font-size: 0.8rem;
       padding: 4px 10px;
     }
+  }
+
+  .lang-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    flex: none;
+  }
+
+  .lang-btn:hover {
+    border-color: var(--pink);
   }
 
   .theme-btn {

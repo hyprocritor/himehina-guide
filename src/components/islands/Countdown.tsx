@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Glyph from './Glyph';
 import { CAL_EVENTS, googleUrl } from '../../data/calendar';
+import { localizePath } from '../../i18n/locales';
 
 type Milestone = { label: string; iso: string; note: string };
 
@@ -77,7 +78,7 @@ export default function Countdown() {
           <ul>
             {reminders.map((e) => (
               <li key={e.id}>
-                <a href={`/cal/${e.id}.ics`} download={`${e.id}.ics`} title={`${e.title}（手机／电脑日历）`}>
+                <a href={localizePath(`/cal/${e.id}.ics`)} download={`${e.id}.ics`} title={`${e.title}（手机／电脑日历）`}>
                   {e.short}
                 </a>
                 <a className="cd-cal-g" href={googleUrl(e)} target="_blank" rel="noopener" title="添加到 Google 日历">

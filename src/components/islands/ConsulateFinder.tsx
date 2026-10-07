@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import Glyph from './Glyph';
+import { localizePath } from '../../i18n/locales';
 
 type District = {
   id: string;
@@ -202,7 +203,7 @@ export default function ConsulateFinder() {
               查看官方指定旅行社名单 <Glyph name="external" />
             </a>
             <p className="cf-src">
-              来源 <a href={`/sources/#s${selD.ref}`}>[{selD.ref}]</a> · 看你实际住在哪，不看户口、起飞机场或店家在哪
+              来源 <a href={localizePath(`/sources/#s${selD.ref}`)}>[{selD.ref}]</a> · 看你实际住在哪，不看户口、起飞机场或店家在哪
             </p>
           </div>
         ) : (
